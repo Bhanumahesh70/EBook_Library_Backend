@@ -1,7 +1,7 @@
 <div class="container-fluid p-3">
  <div class="col-md-3">
- <a class="btn btn-success" href="#" role="button">Login</a>
- <a class="btn btn-primary" href="#" role="button">Register</a>
+ <a class="btn btn-success" href="LoginRegister/Login.jsp" role="button">Login</a>
+ <a class="btn btn-primary" href="LoginRegister/Register.jsp" role="button">Register</a>
  </div>
 </div>
 
