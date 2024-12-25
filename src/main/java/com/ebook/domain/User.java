@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.NonNull;
@@ -23,7 +24,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Min(value = 8, message = "Paswword Should be minium 8 characters")
+    @Size(min= 8, message = "Password Should be minimum 8 characters")
     @Column(name = "password", nullable = false)
     private String password;
 
