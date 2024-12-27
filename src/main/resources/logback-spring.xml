@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Console Appender to output logs to the console -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Custom pattern with color codes and styles -->
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- Add color to specific loggers or markers -->
+    <logger name="com.ebook.domain.UserJPATest" level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <pattern>
+            %d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%marker)%msg%n
+        </pattern>
+    </logger>
+
+    <!-- Colorize the logs based on log levels with styles -->
+    <configuration>
+        <layout class="ch.qos.logback.classic.pattern.PatternLayout">
+            <Pattern>%highlight(%msg){faint,blue}</Pattern>  <!-- Customize here -->
+        </layout>
+    </configuration>
+</configuration>
