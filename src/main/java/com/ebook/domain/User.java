@@ -12,7 +12,7 @@ import org.springframework.lang.NonNull;
 @Entity
 @Table(name = "User")
 @NamedQuery(name="User.findAll",query="select u from User u")
-public class User {
+public class User extends AbstractClass  {
 
 
     @NotBlank
