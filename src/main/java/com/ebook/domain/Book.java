@@ -53,10 +53,10 @@ public class Book extends AbstractClass{
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "books")
     private List<Category> categories;
 
-    @ManyToMany
+    @ManyToMany(mappedBy ="books" )
     private List<Author> authors;
 
     @ManyToOne
@@ -90,7 +90,56 @@ public class Book extends AbstractClass{
                 ", totalCopies=" + totalCopies +
                 ", availableCopies=" + availableCopies +
                 ", publicationYear=" + publicationYear +
+                ", borrowedBooks=" + borrowedBooks +
+                ", reservations=" + reservations +
+                ", categories=" + categories +
+                ", authors=" + authors +
+                ", publisher=" + publisher +
                 '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public List<BorrowedBook> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(List<BorrowedBook> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public String getTitle() {

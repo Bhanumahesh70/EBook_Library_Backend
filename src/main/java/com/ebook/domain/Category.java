@@ -1,12 +1,15 @@
 package com.ebook.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class Category {
+import java.util.List;
+
+@Entity
+@Table(name = "Category")
+@NamedQuery(name="Category.findAll",query="select c from Category c")
+public class Category extends AbstractClass{
 
     @Column(name = "category_name", nullable = false, unique = true)
     @NotBlank(message = "Category name is mandatory")
@@ -20,9 +23,12 @@ public class Category {
     /**
      * Entity RelationShips
      */
-    @ManyToOne
-    @JoinColumn(name = "bookId",nullable = false)
-    private Book book;
+    @ManyToMany
+    @JoinTable(name = "Category_Book",
+            joinColumns = @JoinColumn(name = "categoryId"),
+            inverseJoinColumns = @JoinColumn(name = "BookId")
+    )
+    private List<Book> books;
 
     public Category() {
     }
@@ -37,7 +43,21 @@ public class Category {
         return "Category{" +
                 "categoryName='" + categoryName + '\'' +
                 ", description='" + description + '\'' +
+                ", books=" + books +
                 '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public String getCategoryName() {

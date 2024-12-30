@@ -1,13 +1,24 @@
 package com.ebook.domain;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDateTime;
 
-public class Reservation {
+@Entity
+@Table(name = "Reservation")
+@NamedQuery(name="Reservation.findAll",query="select r from Reservation r")
+public class Reservation extends AbstractClass{
 
-    private LocalDateTime reservation_date;
+    @Column(name = "reservation_date", nullable = false)
+    @NotNull(message = "Reservation date is mandatory")
+    @PastOrPresent(message = "Reservation date must be in the past or present")
+    private LocalDateTime reservationDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    @NotNull(message = "Reservation status is mandatory")
     private ReservationStatus status;
 
     /**
@@ -24,17 +35,47 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(LocalDateTime reservation_date, ReservationStatus status) {
-        this.reservation_date = reservation_date;
+    public Reservation(LocalDateTime reservationDate, ReservationStatus status) {
+        this.reservationDate = reservationDate;
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservation_date=" + reservationDate +
+                ", status=" + status +
+                ", user=" + user +
+                ", book=" + book +
+                '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     public LocalDateTime getReservation_date() {
-        return reservation_date;
+        return reservationDate;
     }
 
     public void setReservation_date(LocalDateTime reservation_date) {
-        this.reservation_date = reservation_date;
+        this.reservationDate = reservation_date;
     }
 
     public ReservationStatus getStatus() {

@@ -72,7 +72,29 @@ public class User extends AbstractClass  {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", role=" + role +
+                ", borrowedBooks=" + borrowedBooks +
+                ", reservations=" + reservations +
                 '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public List<BorrowedBook> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(List<BorrowedBook> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     public String getName() {

@@ -1,13 +1,110 @@
 package com.ebook.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
+import java.util.List;
 
-public class Author {
+@Entity
+@Table(name = "Author")
+@NamedQuery(name="Author.findAll",query="select a from Author a")
+public class Author extends AbstractClass{
 
+    @Column(name = "name", nullable = false, length = 100)
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 100, message = "Name must not exceed 100 characters")
     private String name;
+
+    @Column(name = "bio", length = 1000)
+    @Size(max = 1000, message = "Bio must not exceed 1000 characters")
     private String bio;
-    private String Nationality;
+
+    @Column(name = "nationality", length = 50)
+    @Size(max = 50, message = "Nationality must not exceed 50 characters")
+    private String nationality;
+
+    @Column(name = "birth_date")
+    @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
+    /**
+     * Entity RelationShips
+     */
+    @ManyToMany
+    @JoinTable(name="Authors_Book",
+            joinColumns =@JoinColumn(name="AuthorId"),
+            inverseJoinColumns = @JoinColumn(name = "BookId")
+    )
+    private List<Book> books;
+
+    public Author() {
+    }
+
+    public Author(String name, String bio, String nationality, LocalDate birthDate, List<Book> books) {
+
+        this.name = name;
+        this.bio = bio;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.books = books;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "name='" + name + '\'' +
+                ", bio='" + bio + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", birthDate=" + birthDate +
+                ", books=" + books +
+                '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
 }

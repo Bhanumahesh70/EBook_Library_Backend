@@ -1,20 +1,32 @@
 package com.ebook.domain;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
-public class BorrowedBook {
+@Entity
+@Table(name = "BorrowedBook")
+@NamedQuery(name="BorrowedBook.findAll",query="select b from BorrowedBook b")
+public class BorrowedBook extends AbstractClass{
 
-    private LocalDate borrowDate;
-    private LocalDate returnDate;
-    private LocalDate returnedOn;
+    @Column(name = "borrow_date", nullable = false)
+    @NotNull(message = "Borrow date is mandatory")
+    private LocalDateTime borrowDate;
+
+    @Column(name = "return_date", nullable = false)
+    @NotNull(message = "Return date is mandatory")
+    @FutureOrPresent(message = "Return date must be today or in the future")
+    private LocalDateTime returnDate;
+
+    @Column(name = "returned_on")
+    private LocalDateTime returnedOn;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    @NotNull(message = "Borrow status is mandatory")
     private BorrowStatus status;
-    private BigDecimal fine;
 
     /**
      * Entity RelationShips
@@ -27,35 +39,82 @@ public class BorrowedBook {
     @JoinColumn(name = "bookId",nullable = false)
     private Book book;
 
-    public BorrowedBook(LocalDate borrowDate, LocalDate returnDate, LocalDate returnedOn, BorrowStatus status, BigDecimal fine) {
+    @OneToOne
+    @JoinColumn(name="fineId",nullable = false)
+    private Fine fine;
+
+    public BorrowedBook() {
+    }
+
+    public BorrowedBook(@NotNull(message = "Borrow date is mandatory") LocalDateTime borrowDate, @NotNull(message = "Return date is mandatory") @FutureOrPresent(message = "Return date must be today or in the future") LocalDateTime returnDate, LocalDateTime returnedOn, BorrowStatus status) {
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
         this.returnedOn = returnedOn;
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "BorrowedBook{" +
+                "borrowDate=" + borrowDate +
+                ", returnDate=" + returnDate +
+                ", returnedOn=" + returnedOn +
+                ", status=" + status +
+                ", user=" + user +
+                ", book=" + book +
+                ", fine=" + fine +
+                '}';
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public Fine getFine() {
+        return fine;
+    }
+
+    public void setFine(Fine fine) {
         this.fine = fine;
     }
 
-    public LocalDate getBorrowDate() {
+    public @NotNull(message = "Borrow date is mandatory") LocalDateTime getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(LocalDate borrowDate) {
+    public void setBorrowDate(@NotNull(message = "Borrow date is mandatory") LocalDateTime borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public LocalDate getReturnDate() {
+    public @NotNull(message = "Return date is mandatory") @FutureOrPresent(message = "Return date must be today or in the future") LocalDateTime getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(@NotNull(message = "Return date is mandatory") @FutureOrPresent(message = "Return date must be today or in the future") LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
-    public LocalDate getReturnedOn() {
+    public LocalDateTime getReturnedOn() {
         return returnedOn;
     }
 
-    public void setReturnedOn(LocalDate returnedOn) {
+    public void setReturnedOn(LocalDateTime returnedOn) {
         this.returnedOn = returnedOn;
     }
 
@@ -67,11 +126,4 @@ public class BorrowedBook {
         this.status = status;
     }
 
-    public BigDecimal getFine() {
-        return fine;
-    }
-
-    public void setFine(BigDecimal fine) {
-        this.fine = fine;
-    }
 }
