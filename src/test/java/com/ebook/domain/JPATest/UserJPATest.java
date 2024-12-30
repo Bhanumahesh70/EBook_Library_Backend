@@ -1,13 +1,13 @@
-package com.ebook.domain;
+package com.ebook.domain.JPATest;
 
+import com.ebook.domain.User;
+import com.ebook.domain.UserRole;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 

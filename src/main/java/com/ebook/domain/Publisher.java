@@ -38,12 +38,11 @@ public class Publisher extends AbstractClass {
     public Publisher() {
     }
 
-    public Publisher(String name, String address, String email, String phoneNumber, List<Book> books) {
+    public Publisher(String name, String address, String email, String phoneNumber) {
         this.name = name;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.books = books;
     }
 
     @Override

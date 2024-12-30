@@ -43,13 +43,12 @@ public class Author extends AbstractClass{
     public Author() {
     }
 
-    public Author(String name, String bio, String nationality, LocalDate birthDate, List<Book> books) {
+    public Author(String name, String bio, String nationality, LocalDate birthDate) {
 
         this.name = name;
         this.bio = bio;
         this.nationality = nationality;
         this.birthDate = birthDate;
-        this.books = books;
     }
 
     @Override

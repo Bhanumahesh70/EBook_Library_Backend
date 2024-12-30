@@ -4,6 +4,18 @@
     <persistence-unit name="ebooktestPU" transaction-type="RESOURCE_LOCAL">
     
         <class>com.ebook.domain.User</class>
+        <class>com.ebook.domain.BorrowedBook</class>
+        <class>com.ebook.domain.BorrowStatus</class>
+        <class>com.ebook.domain.Reservation</class>
+        <class>com.ebook.domain.ReservationStatus</class>
+        <class>com.ebook.domain.Book</class>
+        <class>com.ebook.domain.Author</class>
+        <class>com.ebook.domain.Category</class>
+        <class>com.ebook.domain.Fine</class>
+        <class>com.ebook.domain.FinePaidStatus</class>
+        <class>com.ebook.domain.Publisher</class>
+        <class>com.ebook.domain.UserRole</class>
+
 
       
     <properties>

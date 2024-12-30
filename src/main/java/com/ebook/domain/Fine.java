@@ -36,12 +36,10 @@ public class Fine extends AbstractClass{
     public Fine() {
     }
 
-    public Fine(double amount, FinePaidStatus status, LocalDateTime paidDate, BorrowedBook borrowedBook, User user) {
+    public Fine(double amount, FinePaidStatus status, LocalDateTime paidDate) {
         this.amount = amount;
         this.status = status;
         this.paidDate = paidDate;
-        this.borrowedBook = borrowedBook;
-        this.user = user;
     }
 
     @Override
