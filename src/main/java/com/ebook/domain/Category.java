@@ -1,6 +1,8 @@
 package com.ebook.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -14,6 +16,13 @@ public class Category {
     @Column(name = "description", columnDefinition = "TEXT")
     @Size(max = 2000, message = "Description must not exceed 2000 characters")
     private String description;
+
+    /**
+     * Entity RelationShips
+     */
+    @ManyToOne
+    @JoinColumn(name = "bookId",nullable = false)
+    private Book book;
 
     public Category() {
     }

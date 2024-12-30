@@ -1,13 +1,12 @@
 package com.ebook.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Book")
@@ -21,10 +20,6 @@ public class Book extends AbstractClass{
     @Column(name = "author", nullable = false)
     @NotBlank(message = "Author is mandatory")
     private String author;
-
-    @Column(name = "publisher", nullable = false)
-    @NotBlank(message = "Publisher is mandatory")
-    private String publisher;
 
     @Column(name = "isbn", nullable = false, unique = true)
     @NotBlank(message = "ISBN is mandatory")
@@ -48,17 +43,40 @@ public class Book extends AbstractClass{
     @Max(value = 2025, message = "Publication year must be a valid year")
     private int publicationYear;
 
+    /**
+     * Entity RelationShips
+     */
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<BorrowedBook> borrowedBooks;
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categories;
+
+    @ManyToMany
+    private List<Author> authors;
+
+    @ManyToOne
+    @JoinColumn(name = "publsiherId",nullable = false)
+    private Publisher publisher;
+
+
+
+
+
     public Book() {
     }
 
-    public Book(int publicationYear, int availableCopies, int totalCopies, String language, String title, String author, String publisher, String isbn) {
+    public Book(int publicationYear, int availableCopies, int totalCopies, String language, String title, String author, String isbn) {
         this.publicationYear = publicationYear;
         this.availableCopies = availableCopies;
         this.totalCopies = totalCopies;
         this.language = language;
         this.title = title;
         this.author = author;
-        this.publisher = publisher;
         this.isbn = isbn;
     }
 
@@ -67,7 +85,6 @@ public class Book extends AbstractClass{
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", language='" + language + '\'' +
                 ", totalCopies=" + totalCopies +
@@ -90,14 +107,6 @@ public class Book extends AbstractClass{
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     public String getIsbn() {

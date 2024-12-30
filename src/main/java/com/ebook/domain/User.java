@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "User")
 @NamedQuery(name="User.findAll",query="select u from User u")
@@ -39,6 +41,15 @@ public class User extends AbstractClass  {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private UserRole role;
+
+    /**
+     * Entity RelationShips
+     */
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<BorrowedBook> borrowedBooks;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Reservation> reservations;
 
     public User() {
     }
