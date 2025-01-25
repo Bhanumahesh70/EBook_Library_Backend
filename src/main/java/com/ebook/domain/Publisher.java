@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Publisher")
+@Table(name = "Publisher",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name"),
+                @UniqueConstraint(columnNames = "email")
+        }
+)
 @NamedQuery(name="Publisher.findAll",query="select p from Publisher p")
 public class Publisher extends AbstractClass {
 
