@@ -12,7 +12,12 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 
 @Entity
-@Table(name = "User")
+@Table(name = "User",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+                @UniqueConstraint(columnNames = "phoneNumber")
+        }
+)
 @NamedQuery(name="User.findAll",query="select u from User u")
 public class User extends AbstractClass  {
 

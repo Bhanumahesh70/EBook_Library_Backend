@@ -9,7 +9,12 @@ import jakarta.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
-@Table(name = "Book")
+@Table(name = "Book",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "title"),
+                @UniqueConstraint(columnNames = "isbn")
+        }
+)
 @NamedQuery(name="Book.findAll",query="select b from Book b")
 public class Book extends AbstractClass{
 

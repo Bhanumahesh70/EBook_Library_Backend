@@ -13,7 +13,8 @@ import java.util.List;
 @Table(name = "Publisher",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name"),
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(columnNames = "email"),
+                @UniqueConstraint(columnNames = "phoneNumber")
         }
 )
 @NamedQuery(name="Publisher.findAll",query="select p from Publisher p")

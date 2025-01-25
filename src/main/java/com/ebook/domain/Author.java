@@ -9,7 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Author")
+@Table(name = "Author",
+        uniqueConstraints = @UniqueConstraint(columnNames = "name")
+)
 @NamedQuery(name="Author.findAll",query="select a from Author a")
 public class Author extends AbstractClass{
 
