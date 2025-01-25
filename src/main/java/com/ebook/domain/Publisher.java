@@ -47,11 +47,18 @@ public class Publisher extends AbstractClass {
     }
 
     public void addBook(Book book){
-        if(this.getBooks()==null){
-            books = new ArrayList<Book>();
+        if(this.books==null){
+            this.books = new ArrayList<Book>();
         }
-        books.add(book);
-        this.setBooks(books);
+        this.books.add(book);
+        book.setPublisher(this);
+    }
+
+    public void removeBook(Book book){
+        if(this.books != null){
+            this.books.remove(book);
+            book.setPublisher(null);
+        }
     }
     @Override
     public String toString() {
@@ -106,6 +113,21 @@ public class Publisher extends AbstractClass {
     }
 
     public void setBooks(List<Book> books) {
+        //remove existing books relationship to the publisher
+        if(this.books!=null){
+            for(Book book : this.books){
+                book.setPublisher(null);
+            }
+        }
+
+        // Add new book relationships to the publisher
+        if(books!=null)
+        {
+            for(Book book: books){
+                book.setPublisher(this);
+            }
+        }
+
         this.books = books;
     }
 }
