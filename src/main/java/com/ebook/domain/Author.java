@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,6 +54,19 @@ public class Author extends AbstractClass{
         this.birthDate = birthDate;
     }
 
+    public void addBook(Book book){
+        if(this.books==null){
+            this.books = new ArrayList<Book>();
+        }
+        this.books.add(book);
+        book.addAuthor(this);
+    }
+    public void removeBook(Book book) {
+        if (this.books != null) {
+            this.books.remove(book);
+            book.removeAuthor(this);
+        }
+    }
     @Override
     public String toString() {
         return "Author{" +

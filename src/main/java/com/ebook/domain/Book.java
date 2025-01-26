@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -85,6 +87,18 @@ public class Book extends AbstractClass{
         this.isbn = isbn;
     }
 
+    public void addAuthor(Author author2){
+        if(this.authors==null){
+            this.authors = new ArrayList<Author>();
+        }
+        this.authors.add(author2);
+    }
+
+    public void removeAuthor(Author author2){
+        if(this.authors!=null){
+            this.authors.remove(author2);
+        }
+    }
     @Override
     public String toString() {
         return "Book{" +
