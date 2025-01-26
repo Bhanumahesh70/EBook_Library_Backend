@@ -88,15 +88,31 @@ public class Book extends AbstractClass{
     }
 
     public void addAuthor(Author author2){
+
+       //ensure bidirectional methods
+        //so we can either use book.addAuthor() or author.book()
+        if(author2==null){
+            return;
+        }
         if(this.authors==null){
             this.authors = new ArrayList<Author>();
         }
-        this.authors.add(author2);
+
+        //check if contians author or not
+        if(!this.authors.contains(author2)){
+            this.authors.add(author2);
+            author2.addBook(this);
+        }
+
     }
 
     public void removeAuthor(Author author2){
-        if(this.authors!=null){
+        if(author2==null || this.authors==null){
+            return;
+        }
+        if(this.authors.contains(author2)){
             this.authors.remove(author2);
+            author2.removeBook(this);
         }
     }
     @Override
@@ -150,6 +166,19 @@ public class Book extends AbstractClass{
     }
 
     public void setAuthors(List<Author> authors) {
+        if(this.authors==authors){
+            return;
+        }
+        if(this.authors!=null){
+            for(Author author: this.authors){
+                author.removeBook(this);
+            }
+        }
+        if(authors!=null){
+            for(Author author:authors){
+                author.addBook(this);
+            }
+        }
         this.authors = authors;
     }
 

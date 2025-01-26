@@ -55,14 +55,23 @@ public class Author extends AbstractClass{
     }
 
     public void addBook(Book book){
+        if(book==null){
+            return;
+        }
         if(this.books==null){
             this.books = new ArrayList<Book>();
         }
-        this.books.add(book);
-        book.addAuthor(this);
+        if(!this.books.contains(book)){
+            this.books.add(book);
+            book.addAuthor(this);
+        }
+
     }
     public void removeBook(Book book) {
-        if (this.books != null) {
+        if(book==null || this.books ==null){
+            return;
+        }
+        if (this.books.contains(book)) {
             this.books.remove(book);
             book.removeAuthor(this);
         }
@@ -119,6 +128,19 @@ public class Author extends AbstractClass{
     }
 
     public void setBooks(List<Book> books) {
+        if(this.books == books){
+            return;
+        }
+        if(this.books!=null){
+            for(Book book: this.books){
+                book.removeAuthor(this);
+            }
+        }
+        if(books!=null){
+            for(Book book:books){
+                book.addAuthor(this);
+            }
+        }
         this.books = books;
     }
 
