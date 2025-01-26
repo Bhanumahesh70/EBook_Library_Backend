@@ -87,6 +87,9 @@ public class Book extends AbstractClass{
         this.isbn = isbn;
     }
 
+    /**
+     * Entity RelationShips methods
+     */
     public void addAuthor(Author author2){
 
        //ensure bidirectional methods
@@ -113,6 +116,34 @@ public class Book extends AbstractClass{
         if(this.authors.contains(author2)){
             this.authors.remove(author2);
             author2.removeBook(this);
+        }
+    }
+
+    public void addCategory(Category category){
+
+        //ensure bidirectional methods
+        if(category==null){
+            return;
+        }
+        if(this.categories==null){
+            this.categories = new ArrayList<>();
+        }
+
+        //check if contians category or not
+        if(!this.categories.contains(category)){
+            this.categories.add(category);
+            category.addBook(this);
+        }
+
+    }
+
+    public void removeCategory(Category category){
+        if(category==null || this.categories==null){
+            return;
+        }
+        if(this.categories.contains(category)){
+            this.categories.remove(category);
+            category.removeBook(this);
         }
     }
     @Override
@@ -158,6 +189,19 @@ public class Book extends AbstractClass{
     }
 
     public void setCategories(List<Category> categories) {
+        if(this.categories==categories){
+            return;
+        }
+        if(this.categories!=null){
+            for(Category category: this.categories){
+                category.removeBook(this);
+            }
+        }
+        if(categories!=null){
+            for(Category category:categories){
+                category.addBook(this);
+            }
+        }
         this.categories = categories;
     }
 

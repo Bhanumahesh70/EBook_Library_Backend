@@ -54,6 +54,9 @@ public class Author extends AbstractClass{
         this.birthDate = birthDate;
     }
 
+    /**
+     * Entity RelationShips methods
+     */
     public void addBook(Book book){
         if(book==null){
             return;
@@ -76,6 +79,7 @@ public class Author extends AbstractClass{
             book.removeAuthor(this);
         }
     }
+
     @Override
     public String toString() {
         return "Author{" +

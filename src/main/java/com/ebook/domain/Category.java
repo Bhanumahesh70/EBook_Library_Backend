@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,33 @@ public class Category extends AbstractClass{
         this.description = description;
     }
 
+    /**
+     * Entity RelationShips methods
+     */
+    public void addBook(Book book){
+        if(book==null){
+            return;
+        }
+        if(this.books==null){
+            this.books = new ArrayList<Book>();
+        }
+        if(!this.books.contains(book)){
+            this.books.add(book);
+            book.addCategory(this);
+        }
+
+    }
+    public void removeBook(Book book) {
+        if(book==null || this.books ==null){
+            return;
+        }
+        if (this.books.contains(book)) {
+            this.books.remove(book);
+            book.removeCategory(this);
+        }
+    }
+
+
     @Override
     public String toString() {
         return "Category{" +
@@ -57,6 +85,19 @@ public class Category extends AbstractClass{
     }
 
     public void setBooks(List<Book> books) {
+        if(this.books == books){
+            return;
+        }
+        if(this.books!=null){
+            for(Book book: this.books){
+                book.removeCategory(this);
+            }
+        }
+        if(books!=null){
+            for(Book book:books){
+                book.addCategory(this);
+            }
+        }
         this.books = books;
     }
 
