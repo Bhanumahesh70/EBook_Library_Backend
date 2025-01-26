@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PublisherJPATest extends AbstractJPATest{
 
     private static final Logger logger = LoggerFactory.getLogger(PublisherJPATest.class);
-    
+
     @Test
     public void createTest() {
         logger.info("Running createTest...");
