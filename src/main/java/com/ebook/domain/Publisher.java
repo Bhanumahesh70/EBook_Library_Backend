@@ -52,6 +52,9 @@ public class Publisher extends AbstractClass {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Entity RelationShips methods
+     */
     public void addBook(Book book){
         if(this.books==null){
             this.books = new ArrayList<Book>();
@@ -73,7 +76,7 @@ public class Publisher extends AbstractClass {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", books=" + books +
+                ", booksCount=" + (books==null?0:books.size()) +
                 '}';
     }
 
