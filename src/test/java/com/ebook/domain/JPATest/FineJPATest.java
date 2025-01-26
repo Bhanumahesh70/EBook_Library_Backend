@@ -47,7 +47,7 @@ public class FineJPATest extends AbstractJPATest {
         fine = new Fine(100, FinePaidStatus.PAID, LocalDateTime.now());
         fine.setUser(user);
         persistEntity(fine);
-        
+
         borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
