@@ -33,6 +33,7 @@ public class BookJPATest extends AbstractJPATest{
                 .setParameter("publisherId",publisher.getId())
                 .getResultList();
 
+        
         for(Book book:books){
             removeEntity(book);
         }
