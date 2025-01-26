@@ -171,6 +171,31 @@ public class Book extends AbstractClass{
             reservation.setBook(null);
         }
     }
+
+    // Add a borrowed book
+    public void addBorrowedBook(BorrowedBook borrowedBook) {
+        if (borrowedBook == null) {
+            return;
+        }
+        if (this.borrowedBooks == null) {
+            this.borrowedBooks = new ArrayList<>();
+        }
+        if (!this.borrowedBooks.contains(borrowedBook)) {
+            this.borrowedBooks.add(borrowedBook);
+            borrowedBook.setBook(this);
+        }
+    }
+
+    // Remove a borrowed book
+    public void removeBorrowedBook(BorrowedBook borrowedBook) {
+        if (borrowedBook == null || this.borrowedBooks == null) {
+            return;
+        }
+        if (this.borrowedBooks.contains(borrowedBook)) {
+            this.borrowedBooks.remove(borrowedBook);
+            borrowedBook.setBook(null);
+        }
+    }
     @Override
     public String toString() {
         return "Book{" +
