@@ -35,7 +35,7 @@ public class Publisher extends AbstractClass {
     @Size(max = 100, message = "Email must not exceed 100 characters")
     private String email;
 
-    @Column(name = "phone_number", length = 15)
+    @Column(name = "phoneNumber", length = 15)
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits and can optionally start with a '+'")
     private String phoneNumber;
 

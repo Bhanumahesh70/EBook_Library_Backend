@@ -36,7 +36,7 @@ public class User extends AbstractClass  {
     private String password;
 
 
-    @Column(name = "phone_number")
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
     @NotNull
