@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -56,6 +57,11 @@ public class User extends AbstractClass  {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     List<Reservation> reservations;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Fine> fines;
+
+
+
     public User() {
     }
 
@@ -66,6 +72,82 @@ public class User extends AbstractClass  {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = role;
+    }
+
+    /**
+     * Entity RelationShips methods
+     */
+    public void addFine(Fine fine){
+        if(fine==null){
+            return;
+        }
+        if(this.fines==null){
+            this.fines = new ArrayList<Fine>();
+        }
+        if(!this.fines.contains(fine)){
+            this.fines.add(fine);
+            fine.setUser(this);
+        }
+
+    }
+    public void removeFine(Fine fine) {
+        if(fine==null || this.fines ==null){
+            return;
+        }
+        if (this.fines.contains(fine)) {
+            this.fines.remove(fine);
+            fine.setUser(null);
+        }
+    }
+
+    // Add a reservation
+    public void addReservation(Reservation reservation) {
+        if (reservation == null) {
+            return;
+        }
+        if (this.reservations == null) {
+            this.reservations = new ArrayList<>();
+        }
+        if (!this.reservations.contains(reservation)) {
+            this.reservations.add(reservation);
+            reservation.setUser(this);
+        }
+    }
+
+    // Remove a reservation
+    public void removeReservation(Reservation reservation) {
+        if (reservation == null || this.reservations == null) {
+            return;
+        }
+        if (this.reservations.contains(reservation)) {
+            this.reservations.remove(reservation);
+            reservation.setUser(null);
+        }
+    }
+
+    // Add a borrowed book
+    public void addBorrowedBook(BorrowedBook borrowedBook) {
+        if (borrowedBook == null) {
+            return;
+        }
+        if (this.borrowedBooks == null) {
+            this.borrowedBooks = new ArrayList<>();
+        }
+        if (!this.borrowedBooks.contains(borrowedBook)) {
+            this.borrowedBooks.add(borrowedBook);
+            borrowedBook.setUser(this);
+        }
+    }
+
+    // Remove a borrowed book
+    public void removeBorrowedBook(BorrowedBook borrowedBook) {
+        if (borrowedBook == null || this.borrowedBooks == null) {
+            return;
+        }
+        if (this.borrowedBooks.contains(borrowedBook)) {
+            this.borrowedBooks.remove(borrowedBook);
+            borrowedBook.setUser(null);
+        }
     }
 
     @Override
@@ -148,5 +230,12 @@ public class User extends AbstractClass  {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+    public List<Fine> getFines() {
+        return fines;
+    }
+
+    public void setFines(List<Fine> fines) {
+        this.fines = fines;
     }
 }

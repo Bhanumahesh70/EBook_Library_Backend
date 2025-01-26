@@ -42,6 +42,8 @@ public class Fine extends AbstractClass{
         this.paidDate = paidDate;
     }
 
+
+
     @Override
     public String toString() {
         return "Fine{" +
