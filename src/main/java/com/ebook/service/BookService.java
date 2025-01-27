@@ -5,7 +5,7 @@ import com.ebook.domain.Book;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookService extends AbstractCRUDService{
+public class BookService extends AbstractCRUDService<Book,Long>{
 
     private final BookRepository bookRepository;
 
