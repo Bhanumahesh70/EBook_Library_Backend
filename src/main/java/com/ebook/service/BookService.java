@@ -4,40 +4,21 @@ import Repository.BookRepository;
 import com.ebook.domain.Book;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class BookService {
+public class BookService extends AbstractCRUDService{
 
     private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository){
+        super(bookRepository);
         this.bookRepository=bookRepository;
-    }
-
-    public void create(Book book){
-        bookRepository.save(book);
-    }
-
-    public void delete(Long id){
-        if(!bookRepository.existsById(id)){
-            throw new RuntimeException("Cannot find Book with id:"+id);
-        }
-        bookRepository.deleteById(id);
-    }
-
-    public Book findById(Long id){
-        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot find Book with id:"+id));
-    }
-
-    public List<Book> findAll(){
-        return bookRepository.findAll();
     }
 
     public Book findByTitle(String title){
         return bookRepository.findByName(title);
     }
 
+    @Override
     public void update(Long id, Book updatedBook) {
         // Retrieve the existing book from the repository
         Book book = bookRepository.findById(id).orElseThrow(() ->
