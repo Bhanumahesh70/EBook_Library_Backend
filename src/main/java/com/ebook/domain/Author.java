@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.List;
         uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 @NamedQuery(name="Author.findAll",query="select a from Author a")
+@NamedQuery(name = "Author.findByName", query ="select a from Author a where a.name=: aname")
 public class Author extends AbstractClass{
 
     @Column(name = "name", nullable = false, length = 100)
