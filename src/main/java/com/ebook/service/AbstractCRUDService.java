@@ -32,12 +32,13 @@ public abstract class AbstractCRUDService<T, ID> {
         repository.deleteById(id);
     }
 
-    public T update(ID id, T updatedEntity) {
+    public void update(ID id, T updatedEntity) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Entity not found with id: " + id);
         }
-        return repository.save(updatedEntity);
+        repository.save(updatedEntity);
+
     }
 
-    public abstract void update(Long id, Book updatedBook);
+
 }
