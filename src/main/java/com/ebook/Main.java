@@ -1,13 +1,22 @@
 package com.ebook;
 
+import org.slf4j.bridge.SLF4JBridgeHandler;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.logging.LogManager;
+
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Hello, World!");
-
-                for(int i=0;i<4;i++){
-                    System.out.println(i);
-        }
+        LogManager.getLogManager().reset();
+        SLF4JBridgeHandler.install();
+        SpringApplication.run(Main.class,args);
 
     }
 }
+
+
+
+
