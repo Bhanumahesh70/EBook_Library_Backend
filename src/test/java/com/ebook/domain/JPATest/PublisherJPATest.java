@@ -24,6 +24,7 @@ public class PublisherJPATest extends AbstractJPATest{
         Book book = new Book(1999,2,100,"english","JungleBook","harry","2000000000000");
         publisher.addBook(book); // Associate book with publisher
 
+
         // Persist publisher (and book will be persisted due to cascade)
         persistEntity(publisher);
         logger.info("Publisher successfully persisted in createTest.");

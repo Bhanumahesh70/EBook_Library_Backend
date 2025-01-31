@@ -1,3 +1,0 @@
-DROP DATABASE IF EXISTS ebook;
-CREATE DATABASE ebook;
-USE ebook;
