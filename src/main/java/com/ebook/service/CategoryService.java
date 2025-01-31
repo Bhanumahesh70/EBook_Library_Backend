@@ -1,9 +1,7 @@
 package com.ebook.service;
 
-import Repository.CategoryRepository;
-import com.ebook.domain.BorrowedBook;
+import com.ebook.Repository.CategoryRepository;
 import com.ebook.domain.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

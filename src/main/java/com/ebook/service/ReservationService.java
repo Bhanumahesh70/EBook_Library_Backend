@@ -1,6 +1,6 @@
 package com.ebook.service;
 
-import Repository.ReservationRepository;
+import com.ebook.Repository.ReservationRepository;
 import com.ebook.domain.Reservation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package Repository;
+package com.ebook.Repository;
 
 import com.ebook.domain.Author;
 import org.springframework.data.jpa.repository.JpaRepository;

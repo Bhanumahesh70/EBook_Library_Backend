@@ -1,6 +1,6 @@
 package com.ebook.service;
 
-import Repository.UserRepository;
+import com.ebook.Repository.UserRepository;
 import com.ebook.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;

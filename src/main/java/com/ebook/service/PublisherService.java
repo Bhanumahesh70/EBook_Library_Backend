@@ -1,6 +1,6 @@
 package com.ebook.service;
 
-import Repository.PublisherRepository;
+import com.ebook.Repository.PublisherRepository;
 import com.ebook.domain.Publisher;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
 package com.ebook.service;
 
-import Repository.FineRepository;
+import com.ebook.Repository.FineRepository;
 import com.ebook.domain.Fine;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

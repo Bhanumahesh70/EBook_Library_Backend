@@ -1,8 +1,6 @@
 package com.ebook.service;
 
-import Repository.BookRepository;
-import Repository.BorrowedBookRepository;
-import com.ebook.domain.Book;
+import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.domain.BorrowedBook;
 import org.springframework.stereotype.Service;
 
