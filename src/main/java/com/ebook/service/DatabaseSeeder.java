@@ -32,23 +32,25 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Create Author
-        Author author = new Author("Jane Austen", "Classic Novelist", "British", LocalDate.of(1775, 12, 16));
-        authorRepository.save(author);
-
-        // Create Category
-        Category category = new Category("Fiction", "A category for fictional books");
-        categoryRepository.save(category);
-
         // Create Publisher
         Publisher publisher = new Publisher("O'Reilly Media", "1005 Gravenstein Highway", "contact@oreilly.com", "+14155552671");
         publisherRepository.save(publisher);
+
+        // Create Author
+        Author author = new Author("Jane Austen", "Classic Novelist", "British", LocalDate.of(1775, 12, 16));
+
+        // Create Category
+        Category category = new Category("Fiction", "A category for fictional books");
 
         // Create Book
         Book book = new Book(1999, 2, 100, "English", "Jungle Book", "Harry", "2000000000000");
         book.addAuthor(author);
         book.addCategory(category);
+        //book.setPublisher has bidirectional method to add a book to publisher
         book.setPublisher(publisher);
+        //publisher.addBook(book);
+
+        // persisting book will also persist author, category as cascadeType.persist and merge were enabled
         bookRepository.save(book);
 
         // Create User

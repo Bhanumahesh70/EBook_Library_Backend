@@ -39,7 +39,7 @@ public class Publisher extends AbstractClass {
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits and can optionally start with a '+'")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "publisher",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "publisher",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Book> books;
 
     public Publisher() {
@@ -59,8 +59,10 @@ public class Publisher extends AbstractClass {
         if(this.books==null){
             this.books = new ArrayList<Book>();
         }
-        this.books.add(book);
-        book.setPublisher(this);
+        if(!this.books.contains(book)){
+            this.books.add(book);
+            book.setPublisher(this);
+        }
     }
 
     public void removeBook(Book book){

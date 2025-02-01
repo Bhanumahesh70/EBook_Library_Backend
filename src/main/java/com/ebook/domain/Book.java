@@ -60,10 +60,10 @@ public class Book extends AbstractClass{
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(mappedBy = "books",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Category> categories;
 
-    @ManyToMany(mappedBy ="books" )
+    @ManyToMany(mappedBy ="books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Author> authors;
 
     @ManyToOne
@@ -281,7 +281,11 @@ public class Book extends AbstractClass{
     }
 
     public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
+        if(this.publisher==null || this.publisher!=publisher){
+            this.publisher = publisher;
+            this.publisher.addBook(this);
+        }
+
     }
 
     public String getTitle() {

@@ -39,7 +39,7 @@ public class Author extends AbstractClass{
     /**
      * Entity RelationShips
      */
-    @ManyToMany
+   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name="Authors_Book",
             joinColumns =@JoinColumn(name="AuthorId"),
             inverseJoinColumns = @JoinColumn(name = "BookId")
