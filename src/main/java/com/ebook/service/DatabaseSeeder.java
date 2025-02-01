@@ -4,11 +4,12 @@ import com.ebook.Repository.*;
 import com.ebook.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
@@ -30,12 +31,24 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    private final JdbcTemplate jdbcTemplate;
+
+    public DatabaseSeeder(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Transactional
     @Override
     public void run(String... args) throws Exception {
+
+        System.out.println("Database Seeder in run");
+
+
         // Create Publisher
         Publisher publisher = new Publisher("O'Reilly Media", "1005 Gravenstein Highway", "contact@oreilly.com", "+14155552671");
+        System.out.println("creted publisher");
         publisherRepository.save(publisher);
-
+        System.out.println("saved publisher");
         // Create Author
         Author author = new Author("Jane Austen", "Classic Novelist", "British", LocalDate.of(1775, 12, 16));
 
