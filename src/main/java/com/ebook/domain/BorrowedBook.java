@@ -1,5 +1,9 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -33,14 +37,17 @@ public class BorrowedBook extends AbstractClass{
      */
    @ManyToOne
    @JoinColumn(name = "userId",nullable = false)
+   @JsonBackReference("user-borrowedBooks")
    private User user;
 
     @ManyToOne
     @JoinColumn(name = "bookId",nullable = false)
+    @JsonBackReference("book-borrowedBooks")
     private Book book;
 
     @OneToOne
     @JoinColumn(name="fineId",nullable = false)
+    @JsonManagedReference("borrowedBook-fine")
     private Fine fine;
 
     public BorrowedBook() {

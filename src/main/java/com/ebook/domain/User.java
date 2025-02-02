@@ -1,5 +1,7 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
@@ -52,12 +54,15 @@ public class User extends AbstractClass  {
      * Entity RelationShips
      */
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-borrowedBooks")
     List<BorrowedBook> borrowedBooks;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-reservations")
     List<Reservation> reservations;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-fines")
     List<Fine> fines;
 
 

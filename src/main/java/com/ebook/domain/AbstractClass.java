@@ -11,7 +11,7 @@ public class AbstractClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -39,11 +39,11 @@ public class AbstractClass {
         return Objects.hashCode(id);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

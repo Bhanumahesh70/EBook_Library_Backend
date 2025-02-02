@@ -1,5 +1,6 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -26,11 +27,16 @@ public class Fine extends AbstractClass{
     @PastOrPresent(message = "Paid date must be in the past or present")
     private LocalDateTime paidDate;
 
+    /**
+     * Entity RelationShips
+     */
     @OneToOne(mappedBy ="fine" )
+    @JsonBackReference("borrowedBook-fine")
     private BorrowedBook borrowedBook;
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
+    @JsonBackReference("user-fines")
     private User user;
 
     public Fine() {

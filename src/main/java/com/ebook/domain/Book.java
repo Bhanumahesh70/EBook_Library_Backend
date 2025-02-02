@@ -1,15 +1,18 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.stereotype.Component;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @Entity
 @Table(name = "Book",
         uniqueConstraints = {
@@ -55,19 +58,27 @@ public class Book extends AbstractClass{
      */
 
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("book-borrowedBooks")
    private List<BorrowedBook> borrowedBooks;
 
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("book-reservations")
     private List<Reservation> reservations;
 
     @ManyToMany(mappedBy = "books",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+   // @JsonManagedReference("book-categories")
+    @JsonIgnore
     private List<Category> categories;
 
     @ManyToMany(mappedBy ="books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JsonManagedReference("book-authors")
+    @JsonIgnore
     private List<Author> authors;
 
     @ManyToOne
-    @JoinColumn(name = "publsiherId",nullable = false)
+    @JsonBackReference("book-publisher")
+    //@JsonIgnore
+    @JoinColumn(name = "publsiherId")
     private Publisher publisher;
 
 
@@ -199,18 +210,18 @@ public class Book extends AbstractClass{
     @Override
     public String toString() {
         return "Book{" +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                "titles='" + title + '\'' +
+                ", authors='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", language='" + language + '\'' +
                 ", totalCopies=" + totalCopies +
                 ", availableCopies=" + availableCopies +
                 ", publicationYear=" + publicationYear +
-                ", borrowedBooks=" + borrowedBooks +
-                ", reservations=" + reservations +
-                ", categories=" + categories +
-                ", authors=" + authors +
-                ", publisher=" + publisher +
+//                ", borrowedBooks=" + borrowedBooks +
+//                ", reservations=" + reservations.toString() +
+//                ", categories=" + categories.toString() +
+//                ", authors=" + authors.toString() +
+//                ", publisher=" + publisher.toString() +
                 '}';
     }
 

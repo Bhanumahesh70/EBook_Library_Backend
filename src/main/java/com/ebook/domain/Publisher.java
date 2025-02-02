@@ -1,5 +1,6 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,7 +42,12 @@ public class Publisher extends AbstractClass {
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits and can optionally start with a '+'")
     private String phoneNumber;
 
+    /**
+     * Entity RelationShips
+     */
     @OneToMany(mappedBy = "publisher",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+   @JsonManagedReference("book-publisher")
+   // @JsonIgnore
     private List<Book> books;
 
     public Publisher() {

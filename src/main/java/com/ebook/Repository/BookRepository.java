@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Book,Long> {
 
     @Query("select b from Book b where b.title=:bname")
-    public Book findByName(@Param("bname") String BookName);
+    public Book findByName(@Param("bname") String bName);
 
 }

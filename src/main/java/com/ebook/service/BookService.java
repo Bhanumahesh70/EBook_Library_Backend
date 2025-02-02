@@ -2,6 +2,7 @@ package com.ebook.service;
 
 import com.ebook.Repository.BookRepository;
 import com.ebook.domain.Book;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,6 +10,7 @@ public class BookService extends AbstractCRUDService<Book,Long>{
 
     private final BookRepository bookRepository;
 
+    @Autowired
     public BookService(BookRepository bookRepository){
         super(bookRepository);
         this.bookRepository=bookRepository;
@@ -32,9 +34,9 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         book.setTotalCopies(updatedBook.getTotalCopies());
         book.setAvailableCopies(updatedBook.getAvailableCopies());
         book.setPublicationYear(updatedBook.getPublicationYear());
-        book.setAuthors(updatedBook.getAuthors());  // Assuming authors are updated via the setter method
-        book.setCategories(updatedBook.getCategories());  // Assuming categories are updated via the setter method
-        book.setPublisher(updatedBook.getPublisher());  // Assuming publisher is updated via the setter method
+//        book.setAuthors(updatedBook.getAuthors());  // Assuming authors are updated via the setter method
+//        book.setCategories(updatedBook.getCategories());  // Assuming categories are updated via the setter method
+//        book.setPublisher(updatedBook.getPublisher());  // Assuming publisher is updated via the setter method
 
         // Save the updated book to the repository
         bookRepository.save(book);

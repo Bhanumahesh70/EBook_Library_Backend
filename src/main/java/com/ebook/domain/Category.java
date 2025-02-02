@@ -1,5 +1,9 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,6 +33,8 @@ public class Category extends AbstractClass{
             joinColumns = @JoinColumn(name = "categoryId"),
             inverseJoinColumns = @JoinColumn(name = "BookId")
     )
+   // @JsonBackReference("book-categories")
+    @JsonIgnore
     private List<Book> books;
 
     public Category() {

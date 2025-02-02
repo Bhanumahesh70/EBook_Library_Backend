@@ -1,5 +1,9 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -44,6 +48,8 @@ public class Author extends AbstractClass{
             joinColumns =@JoinColumn(name="AuthorId"),
             inverseJoinColumns = @JoinColumn(name = "BookId")
     )
+  // @JsonBackReference("book-authors")
+   @JsonIgnore
     private List<Book> books;
 
     public Author() {

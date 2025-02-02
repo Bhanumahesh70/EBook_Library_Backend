@@ -1,5 +1,9 @@
 package com.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -26,10 +30,12 @@ public class Reservation extends AbstractClass{
      */
     @ManyToOne
     @JoinColumn(name = "userId",nullable = false)
+    @JsonBackReference("user-reservations")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "bookId",nullable = false)
+    @JsonBackReference("book-reservations")
     private Book book;
 
     public Reservation() {
@@ -45,8 +51,8 @@ public class Reservation extends AbstractClass{
         return "Reservation{" +
                 "reservation_date=" + reservationDate +
                 ", status=" + status +
-                ", user=" + user +
-                ", book=" + book +
+//                ", user=" + user +
+//                ", book=" + book +
                 '}';
     }
 
