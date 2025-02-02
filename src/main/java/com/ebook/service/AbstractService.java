@@ -2,6 +2,7 @@ package com.ebook.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public abstract class AbstractService<T> {
         em.merge(entity);
    }
 
+   @Transactional
    public void delete(T entity){
         em.remove(em.merge(entity));
    }

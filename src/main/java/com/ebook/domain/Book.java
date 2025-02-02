@@ -190,6 +190,7 @@ public class Book extends AbstractClass{
         }
         if (this.borrowedBooks == null) {
             this.borrowedBooks = new ArrayList<>();
+            this.setBorrowedBooks(borrowedBooks);
         }
         if (!this.borrowedBooks.contains(borrowedBook)) {
             this.borrowedBooks.add(borrowedBook);

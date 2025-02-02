@@ -1,14 +1,23 @@
 package com.ebook.service;
 
 import com.ebook.Repository.BookRepository;
+import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.domain.Book;
+import com.ebook.domain.BorrowedBook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookService extends AbstractCRUDService<Book,Long>{
 
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
+    @Autowired
+    private BorrowedBookRepository borrowedBookRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository){
@@ -41,4 +50,21 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         // Save the updated book to the repository
         bookRepository.save(book);
     }
+
+//    @Override
+//    public void delete(Long id){
+//        Book book = bookRepository.findById(id).orElseThrow(() ->
+//                new RuntimeException("Cannot find Book with id:" + id));
+////        List<BorrowedBook> borrowedBookList = book.getBorrowedBooks();
+////        for(BorrowedBook b: borrowedBookList){
+////            //book.removeBorrowedBook(b);
+////            b.setBook(null);
+////            logger.info("BorroweBook: "+b);
+////            logger.info("saved above borrowedBook");
+////            borrowedBookRepository.delete(b);
+////        }
+//        logger.info("setting  book.setBorrowedBooks(null) ");
+//        book.setBorrowedBooks(null);
+//        bookRepository.deleteById(id);
+//    }
 }

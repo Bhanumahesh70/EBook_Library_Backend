@@ -41,7 +41,7 @@ public class BorrowedBook extends AbstractClass{
    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "bookId",nullable = false)
+    @JoinColumn(name = "bookId")
     @JsonBackReference("book-borrowedBooks")
     private Book book;
 
@@ -67,9 +67,9 @@ public class BorrowedBook extends AbstractClass{
                 ", returnDate=" + returnDate +
                 ", returnedOn=" + returnedOn +
                 ", status=" + status +
-                ", user=" + user +
-                ", book=" + book +
-                ", fine=" + fine +
+//                ", user=" + user +
+//                ", book=" + book +
+//                ", fine=" + fine +
                 '}';
     }
 
