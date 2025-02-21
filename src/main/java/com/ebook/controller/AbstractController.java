@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 public abstract class AbstractController<T, ID> {
@@ -43,9 +45,25 @@ public abstract class AbstractController<T, ID> {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<T> updateEntity(@PathVariable ID id, @RequestBody T entity) {
+    public ResponseEntity<T> updateEntity(@PathVariable ID id, @RequestBody Map<String, Object> updatedData) {
         logger.info("Updating {} with id: {}", getEntityName(), id);
-        abstractService.update(id, entity);
+        T existingEntity = abstractService.findById(id);
+        if(existingEntity==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        updatedData.forEach((field,value)->{
+
+                try {
+                    Field declaredField  = entityClass.getDeclaredField(field);
+                    declaredField.setAccessible(true);
+                    declaredField.set(existingEntity,value);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    logger.warn("Skipping field {}: {}", field, e.getMessage());
+                    throw new RuntimeException(e);
+                }
+
+        });
+        abstractService.update(id,existingEntity);
         return new ResponseEntity<>(abstractService.findById(id), HttpStatus.OK);
     }
 
