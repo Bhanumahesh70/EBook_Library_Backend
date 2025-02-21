@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 public abstract class AbstractController<T, ID> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractController.class);
