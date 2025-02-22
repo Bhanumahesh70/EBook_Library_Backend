@@ -7,6 +7,7 @@ import java.util.List;
 
 public class UserDTO {
 
+    private Long id;
     @NotBlank(message = "Name is mandatory")
     private String name;
 
@@ -114,5 +115,13 @@ public class UserDTO {
 
     public void setFineIds(List<Long> fineIds) {
         this.fineIds = fineIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

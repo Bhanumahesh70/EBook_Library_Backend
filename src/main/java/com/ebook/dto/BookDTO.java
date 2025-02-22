@@ -8,6 +8,8 @@ import java.util.List;
 
 public class BookDTO {
 
+    private Long id;
+
     @NotBlank(message = "Title is mandatory")
     private String title;
 
@@ -130,5 +132,13 @@ public class BookDTO {
 
     public void setCategoryIds(List<Long> categoryIds) {
         this.categoryIds = categoryIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

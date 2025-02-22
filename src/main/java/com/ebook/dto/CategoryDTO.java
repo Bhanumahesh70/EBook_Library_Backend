@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CategoryDTO {
 
+    private Long id;
     @NotBlank(message = "Category name is mandatory")
     @Size(max = 255, message = "Category name must not exceed 255 characters")
     private String categoryName;
@@ -48,5 +49,13 @@ public class CategoryDTO {
 
     public void setBookIds(List<Long> bookIds) {
         this.bookIds = bookIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

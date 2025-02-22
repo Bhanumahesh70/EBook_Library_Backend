@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class BorrowedBookDTO {
 
+    private Long id;
     @NotNull(message = "Borrow date is mandatory")
     private LocalDateTime borrowDate;
 
@@ -92,5 +93,13 @@ public class BorrowedBookDTO {
 
     public void setFineId(Long fineId) {
         this.fineId = fineId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

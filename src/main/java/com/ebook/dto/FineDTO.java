@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class FineDTO {
 
+    private Long id;
     @NotNull(message = "Amount is mandatory")
     @Positive(message = "Amount must be positive")
     private double amount;
@@ -71,5 +72,13 @@ public class FineDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

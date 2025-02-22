@@ -8,6 +8,7 @@ import java.util.List;
 
 public class AuthorDTO {
 
+    private Long id;
     @NotBlank(message = "Name is mandatory")
     @Size(max = 100, message = "Name must not exceed 100 characters")
     private String name;
@@ -73,5 +74,13 @@ public class AuthorDTO {
 
     public void setBookIds(List<Long> bookIds) {
         this.bookIds = bookIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

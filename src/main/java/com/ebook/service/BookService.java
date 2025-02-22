@@ -44,6 +44,7 @@ public class BookService extends AbstractCRUDService<Book,Long>{
 
     public BookDTO convertToDTO(Book book){
         BookDTO dto = new BookDTO();
+        dto.setId(book.getId());
         dto.setTitle(book.getTitle());
         dto.setAuthor(book.getAuthor());
         dto.setIsbn(book.getIsbn());

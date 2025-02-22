@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class ReservationDTO {
 
+    private Long id;
     @NotNull(message = "Reservation date is mandatory")
     @PastOrPresent(message = "Reservation date must be in the past or present")
     private LocalDateTime reservationDate;
@@ -57,5 +58,13 @@ public class ReservationDTO {
 
     public void setBookId(Long bookId) {
         this.bookId = bookId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
