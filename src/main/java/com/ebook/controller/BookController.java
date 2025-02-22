@@ -20,8 +20,8 @@ public class BookController extends AbstractController<Book,Long> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, @RequestBody BookDTO bookDTO) {
-        Book updatedBook =  bookService.updatePartialBook(id, bookDTO);
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, @RequestBody BookDTO updatedBookDTO) {
+        Book updatedBook =  bookService.updatePartialBook(id, updatedBookDTO);
         return new ResponseEntity<>(bookService.convertToDTO(updatedBook), HttpStatus.OK);
     }
 }

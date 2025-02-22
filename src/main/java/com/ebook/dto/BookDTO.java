@@ -1,19 +1,57 @@
 package com.ebook.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import java.util.List;
 
 public class BookDTO {
-    private String title;
-    private String author;
-    private String isbn;
-    private String language;
-    private int totalCopies;
-    private int availableCopies;
-    private int publicationYear;
-    private List<Long> categoryIds;  // Sending only category IDs
-    private List<Long> authorIds;    // Sending only author IDs
-    private Long publisherId;
 
+    @NotBlank(message = "Title is mandatory")
+    private String title;
+
+    @NotBlank(message = "Author is mandatory")
+    private String author;
+
+    @NotBlank(message = "ISBN is mandatory")
+    @Pattern(regexp = "\\d{13}", message = "ISBN must be a 13-digit number")
+    private String isbn;
+
+    @NotBlank(message = "Language is mandatory")
+    private String language;
+
+    @Min(value = 1, message = "Total copies must be at least 1")
+    private int totalCopies;
+
+    @Min(value = 0, message = "Available copies cannot be negative")
+    private int availableCopies;
+
+    @Min(value = 1000, message = "Publication year must be a valid year")
+    @Max(value = 2025, message = "Publication year must be a valid year")
+    private int publicationYear;
+
+    private List<Long> authorIds;  // List of author IDs for the book
+    private Long publisherId;      // Publisher ID for the book
+    private List<Long> categoryIds; // List of category IDs associated with the book
+
+    public BookDTO() {
+    }
+
+    public BookDTO(String title, String author, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<Long> authorIds, Long publisherId, List<Long> categoryIds) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.language = language;
+        this.totalCopies = totalCopies;
+        this.availableCopies = availableCopies;
+        this.publicationYear = publicationYear;
+        this.authorIds = authorIds;
+        this.publisherId = publisherId;
+        this.categoryIds = categoryIds;
+    }
+
+    // Getters and Setters
     public String getTitle() {
         return title;
     }
@@ -70,14 +108,6 @@ public class BookDTO {
         this.publicationYear = publicationYear;
     }
 
-    public List<Long> getCategoryIds() {
-        return categoryIds;
-    }
-
-    public void setCategoryIds(List<Long> categoryIds) {
-        this.categoryIds = categoryIds;
-    }
-
     public List<Long> getAuthorIds() {
         return authorIds;
     }
@@ -92,5 +122,13 @@ public class BookDTO {
 
     public void setPublisherId(Long publisherId) {
         this.publisherId = publisherId;
+    }
+
+    public List<Long> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(List<Long> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 }
