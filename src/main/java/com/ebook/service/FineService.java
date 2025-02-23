@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class FineService extends AbstractCRUDService<Fine,Long>{
+public class FineService extends AbstractCRUDService<Fine,FineDTO,Long>{
 
     private static final Logger logger = Logger.getLogger(FineService.class.getName());
 
@@ -32,6 +32,7 @@ public class FineService extends AbstractCRUDService<Fine,Long>{
     }
 
     // Partial Update (Patch)
+    @Override
     public Fine patchUpdate(Long id, FineDTO updatedFineDTO) {
         logger.info("Running FineService.patchUpdate()");
 
@@ -60,6 +61,7 @@ public class FineService extends AbstractCRUDService<Fine,Long>{
     }
 
     // Convert Fine entity to FineDTO
+    @Override
     public FineDTO convertToDTO(Fine fine) {
         logger.info("Converting Fine entity to FineDTO");
 
@@ -75,6 +77,7 @@ public class FineService extends AbstractCRUDService<Fine,Long>{
     }
 
     // Convert FineDTO to Fine entity
+    @Override
     public Fine convertToEntity(FineDTO fineDTO) {
         logger.info("Converting FineDTO to Fine entity");
 
@@ -100,7 +103,7 @@ public class FineService extends AbstractCRUDService<Fine,Long>{
     }
 
         @Override
-        public void update(Long id, Fine updatedFine) {
+        public Fine update(Long id, Fine updatedFine) {
             Optional<Fine> existingFineOpt = fineRepository.findById(id);
 
             if (existingFineOpt.isPresent()) {
@@ -114,7 +117,7 @@ public class FineService extends AbstractCRUDService<Fine,Long>{
                 existingFine.setUser(updatedFine.getUser());
 
                 // Save updated entity
-                fineRepository.save(existingFine);
+                return fineRepository.save(existingFine);
             } else {
                 throw new IllegalArgumentException("Fine with ID " + id + " not found");
             }

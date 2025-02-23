@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
-public class CategoryService extends AbstractCRUDService<Category,Long>{
+public class CategoryService extends AbstractCRUDService<Category,CategoryDTO,Long>{
 
     private static final Logger logger = Logger.getLogger(CategoryService.class.getName());
     private final CategoryRepository categoryRepository;
@@ -26,6 +26,7 @@ public class CategoryService extends AbstractCRUDService<Category,Long>{
         this.bookRepository = bookRepository;
     }
     // Partial Update (Patch)
+    @Override
     public Category patchUpdate(Long id, CategoryDTO updatedCategoryDTO) {
         logger.info("Running CategoryService.patchUpdate()");
 
@@ -46,6 +47,7 @@ public class CategoryService extends AbstractCRUDService<Category,Long>{
     }
 
     // Convert Category entity to CategoryDTO
+    @Override
     public CategoryDTO convertToDTO(Category category) {
         logger.info("Converting Category entity to CategoryDTO");
 
@@ -63,6 +65,7 @@ public class CategoryService extends AbstractCRUDService<Category,Long>{
     }
 
     // Convert CategoryDTO to Category entity
+    @Override
     public Category convertToEntity(CategoryDTO categoryDTO) {
         logger.info("Converting CategoryDTO to Category entity");
 
@@ -79,7 +82,7 @@ public class CategoryService extends AbstractCRUDService<Category,Long>{
         return category;
     }
     @Override
-    public void update(Long id, Category updatedCategory) {
+    public Category update(Long id, Category updatedCategory) {
         Optional<Category> existingCategoryOpt = categoryRepository.findById(id);
 
         if (existingCategoryOpt.isPresent()) {
@@ -91,7 +94,7 @@ public class CategoryService extends AbstractCRUDService<Category,Long>{
             existingCategory.setBooks(updatedCategory.getBooks());
 
             // Save updated entity
-            categoryRepository.save(existingCategory);
+           return categoryRepository.save(existingCategory);
         } else {
             throw new IllegalArgumentException("Category with ID " + id + " not found");
         }

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class UserService extends AbstractCRUDService<User,Long>{
+public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
 
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
     private final UserRepository userRepository;
@@ -37,6 +37,7 @@ public class UserService extends AbstractCRUDService<User,Long>{
         this.fineRepository = fineRepository;
     }
     // Partial Update (PATCH)
+    @Override
     public User patchUpdate(Long id, UserDTO updatedUserDTO) {
         logger.info("Running UserService.patchUpdate()");
 
@@ -69,6 +70,7 @@ public class UserService extends AbstractCRUDService<User,Long>{
     }
 
     // Convert User entity to UserDTO
+    @Override
     public UserDTO convertToDTO(User user) {
         logger.info("Converting User entity to UserDTO");
 
@@ -106,6 +108,7 @@ public class UserService extends AbstractCRUDService<User,Long>{
     }
 
     // Convert UserDTO to User entity
+    @Override
     public User convertToEntity(UserDTO userDTO) {
         logger.info("Converting UserDTO to User entity");
 

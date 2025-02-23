@@ -3,17 +3,14 @@ package com.ebook.service;
 import com.ebook.Repository.BookRepository;
 import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.domain.Book;
-import com.ebook.domain.BorrowedBook;
 import com.ebook.dto.BookDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class BookService extends AbstractCRUDService<Book,Long>{
+public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
@@ -30,7 +27,8 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         return bookRepository.findByName(title);
     }
 
-    public Book updatePartialBook(Long id, BookDTO bookDTO){
+    @Override
+    public Book patchUpdate(Long id, BookDTO bookDTO){
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Cannot find Book with id:" + id));
         if (bookDTO.getTitle() != null) book.setTitle(bookDTO.getTitle());
@@ -42,6 +40,7 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         return bookRepository.save(book);
     }
 
+    @Override
     public BookDTO convertToDTO(Book book){
         BookDTO dto = new BookDTO();
         dto.setId(book.getId());
@@ -55,6 +54,7 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         return dto;
     }
 
+    @Override
     public Book convertToEntity(BookDTO bookDTO){
         Book book = new Book();
         book.setTitle(bookDTO.getTitle());
@@ -66,8 +66,9 @@ public class BookService extends AbstractCRUDService<Book,Long>{
         book.setPublicationYear(bookDTO.getPublicationYear());
         return book;
     }
+
     @Override
-    public void update(Long id, Book updatedBook) {
+    public Book update(Long id, Book updatedBook) {
         // Retrieve the existing book from the repository
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Cannot find Book with id:" + id));
@@ -85,7 +86,7 @@ public class BookService extends AbstractCRUDService<Book,Long>{
 //        book.setPublisher(updatedBook.getPublisher());  // Assuming publisher is updated via the setter method
 
         // Save the updated book to the repository
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
 //    @Override

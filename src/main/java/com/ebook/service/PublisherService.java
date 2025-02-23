@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PublisherService extends AbstractCRUDService<Publisher,Long>{
+public class PublisherService extends AbstractCRUDService<Publisher,PublisherDTO,Long>{
 
     private static final Logger logger = Logger.getLogger(PublisherService.class.getName());
 
@@ -32,6 +32,7 @@ public class PublisherService extends AbstractCRUDService<Publisher,Long>{
 
 
     // Partial Update (Patch)
+    @Override
     public Publisher patchUpdate(Long id, PublisherDTO updatedPublisherDTO) {
         logger.info("Running PublisherService.patchUpdate()");
 
@@ -57,6 +58,7 @@ public class PublisherService extends AbstractCRUDService<Publisher,Long>{
     }
 
     // Convert Publisher entity to PublisherDTO
+    @Override
     public PublisherDTO convertToDTO(Publisher publisher) {
         logger.info("Converting Publisher entity to PublisherDTO");
 
@@ -76,6 +78,7 @@ public class PublisherService extends AbstractCRUDService<Publisher,Long>{
     }
 
     // Convert PublisherDTO to Publisher entity
+    @Override
     public Publisher convertToEntity(PublisherDTO publisherDTO) {
         logger.info("Converting PublisherDTO to Publisher entity");
 

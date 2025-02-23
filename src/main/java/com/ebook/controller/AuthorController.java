@@ -30,7 +30,7 @@ public class AuthorController {
     public ResponseEntity<List<AuthorDTO>> displayAllAuthors() {
         logger.info("Displaying all authors");
         List<Author> authors = authorService.findAll();
-        List<AuthorDTO> authorDTOS = authors.stream().map(author -> authorService.convertToDTO(author)).toList();
+        List<AuthorDTO> authorDTOS = authors.stream().map(authorService::convertToDTO).toList();
         return new ResponseEntity<>(authorDTOS, HttpStatus.OK);
     }
 

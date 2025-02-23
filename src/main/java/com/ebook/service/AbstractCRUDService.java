@@ -1,26 +1,27 @@
 package com.ebook.service;
 
 import com.ebook.domain.Book;
+import com.ebook.dto.BookDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-public abstract class AbstractCRUDService<T, ID> {
+public abstract class AbstractCRUDService<Entity,EntityDTO, ID> {
 
-    private final JpaRepository<T, ID> repository;
+    private final JpaRepository<Entity, ID> repository;
 
-    public AbstractCRUDService(JpaRepository<T, ID> repository) {
+    public AbstractCRUDService(JpaRepository<Entity, ID> repository) {
         this.repository = repository;
     }
 
-    public T create(T entity) {
+    public Entity create(Entity entity) {
         return repository.save(entity);
     }
 
-    public List<T> findAll() {
+    public List<Entity> findAll() {
         return repository.findAll();
     }
 
-    public T findById(ID id) {
+    public Entity findById(ID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Entity not found with id: " + id));
     }
@@ -32,13 +33,17 @@ public abstract class AbstractCRUDService<T, ID> {
         repository.deleteById(id);
     }
 
-    public void update(ID id, T updatedEntity) {
+    public Entity update(ID id, Entity updatedEntity) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Entity not found with id: " + id);
         }
-        repository.save(updatedEntity);
+        return repository.save(updatedEntity);
 
     }
 
+    public abstract Entity patchUpdate(ID id, EntityDTO updatedEntityDTO);
 
+    public abstract EntityDTO convertToDTO(Entity entity);
+
+    public abstract Entity convertToEntity(EntityDTO entityDTO);
 }

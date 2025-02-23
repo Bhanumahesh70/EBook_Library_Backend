@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/books")
-public class BookController extends AbstractController<Book,Long> {
+public class BookController extends AbstractController<Book,BookDTO,Long> {
     private final BookService bookService;
 
     @Autowired
@@ -18,10 +18,5 @@ public class BookController extends AbstractController<Book,Long> {
       super(bookService,Book.class);
       this.bookService = bookService;
     }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<BookDTO> patchUpdateBook(@PathVariable Long id, @RequestBody BookDTO updatedBookDTO) {
-        Book updatedBook =  bookService.updatePartialBook(id, updatedBookDTO);
-        return new ResponseEntity<>(bookService.convertToDTO(updatedBook), HttpStatus.OK);
-    }
+    
 }

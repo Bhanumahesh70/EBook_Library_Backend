@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
 
 @Service
-public class ReservationService extends AbstractCRUDService<Reservation,Long>{
+public class ReservationService extends AbstractCRUDService<Reservation,ReservationDTO,Long>{
 
     private static final Logger logger = Logger.getLogger(ReservationService.class.getName());
     private final ReservationRepository reservationRepository;
@@ -32,6 +32,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Long>{
         this.bookRepository = bookRepository;
     }
     // Partial Update (PATCH)
+    @Override
     public Reservation patchUpdate(Long id, ReservationDTO updatedReservationDTO) {
         logger.info("Running ReservationService.patchUpdate()");
 
@@ -40,7 +41,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Long>{
 
         // Update only provided fields
         if (updatedReservationDTO.getReservationDate() != null) reservation.setReservation_date(updatedReservationDTO.getReservationDate());
-        if (updatedReservationDTO.getStatus() != null) reservation.setStatus(updatedReservationDTO.getStatus());
+        if (updatedReservationDTO.getStatus() != null) reservation.setStatus(ReservationStatus.valueOf(updatedReservationDTO.getStatus()));
 
         // Handle User relationship
         if (updatedReservationDTO.getUserId() != null) {
@@ -60,6 +61,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Long>{
     }
 
     // Convert Reservation entity to ReservationDTO
+    @Override
     public ReservationDTO convertToDTO(Reservation reservation) {
         logger.info("Converting Reservation entity to ReservationDTO");
 
@@ -80,6 +82,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Long>{
     }
 
     // Convert ReservationDTO to Reservation entity
+    @Override
     public Reservation convertToEntity(ReservationDTO reservationDTO) {
         logger.info("Converting ReservationDTO to Reservation entity");
 

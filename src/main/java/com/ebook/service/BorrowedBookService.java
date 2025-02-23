@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import java.util.Optional;
 
 @Service
-public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> {
+public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,BorrowedBookDTO,Long> {
 
     private static final Logger logger = Logger.getLogger(BorrowedBookService.class.getName());
     private final BorrowedBookRepository borrowedBookRepository;
@@ -31,6 +31,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> 
         this.fineRepository = fineRepository;
     }
 
+    @Override
     // Partial Update (Patch)
     public BorrowedBook patchUpdate(Long id, BorrowedBookDTO updatedBorrowedBookDTO) {
         logger.info("Running BorrowedBookService.patchUpdate()");
@@ -69,6 +70,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> 
         return borrowedBookRepository.save(borrowedBook);
     }
 
+    @Override
     // Convert BorrowedBook entity to BorrowedBookDTO
     public BorrowedBookDTO convertToDTO(BorrowedBook borrowedBook) {
         logger.info("Converting BorrowedBook entity to BorrowedBookDTO");
@@ -88,6 +90,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> 
         return dto;
     }
 
+    @Override
     // Convert BorrowedBookDTO to BorrowedBook entity
     public BorrowedBook convertToEntity(BorrowedBookDTO borrowedBookDTO) {
         logger.info("Converting BorrowedBookDTO to BorrowedBook entity");
@@ -121,6 +124,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> 
 
         return borrowedBook;
     }
+    /**
     @Override
     public void update(Long id, BorrowedBook updatedBorrowedBook) {
         Optional<BorrowedBook> existingBorrowedBookOpt = borrowedBookRepository.findById(id);
@@ -143,4 +147,5 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Long> 
             throw new IllegalArgumentException("BorrowedBook with ID " + id + " not found");
         }
     }
+    **/
 }
