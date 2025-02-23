@@ -2,12 +2,16 @@ package com.ebook.service;
 
 import com.ebook.Repository.BookRepository;
 import com.ebook.Repository.BorrowedBookRepository;
+import com.ebook.domain.Author;
 import com.ebook.domain.Book;
+import com.ebook.domain.Category;
 import com.ebook.dto.BookDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
@@ -51,6 +55,9 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         dto.setTotalCopies(book.getTotalCopies());
         dto.setAvailableCopies(book.getAvailableCopies());
         dto.setPublicationYear(book.getPublicationYear());
+        dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
+        dto.setPublisherId(book.getPublisher().getId());
+        dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
         return dto;
     }
 
