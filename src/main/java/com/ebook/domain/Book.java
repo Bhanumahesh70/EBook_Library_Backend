@@ -1,11 +1,14 @@
 package com.ebook.domain;
 
+import com.ebook.controller.AbstractController;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.AbstractList;
@@ -23,6 +26,7 @@ import java.util.List;
 @NamedQuery(name="Book.findAll",query="select b from Book b")
 public class Book extends AbstractClass{
 
+    private static final Logger logger = LoggerFactory.getLogger(Book.class);
     @Column(name = "title", nullable = false)
     @NotBlank(message = "Title is mandatory")
     private String title;
@@ -70,7 +74,7 @@ public class Book extends AbstractClass{
     @JsonIgnore
     private List<Category> categories;
 
-    @ManyToMany(mappedBy ="books", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy ="books", cascade = {CascadeType.ALL})
 //    @JsonManagedReference("book-authors")
     @JsonIgnore
     private List<Author> authors;
@@ -102,20 +106,31 @@ public class Book extends AbstractClass{
      * Entity RelationShips methods
      */
     public void addAuthor(Author author2){
-
+        logger.info("Inside Book.addAuthor()");
        //ensure bidirectional methods
         //so we can either use book.addAuthor() or author.book()
         if(author2==null){
+            logger.info("author is null. Returning null");
             return;
         }
         if(this.authors==null){
+            logger.info("Creating new author arrayList");
             this.authors = new ArrayList<Author>();
         }
 
         //check if contians author or not
+        logger.info("Checking if the the author is present in list");
         if(!this.authors.contains(author2)){
+            logger.info("No");
+            logger.info("book.authors.add({})",author2.getId());
             this.authors.add(author2);
+            logger.info("Now book.authors:{}",this.authors.stream().map(Author::getId).toList());
+            logger.info("->>Go To Authors to add book");
             author2.addBook(this);
+//            if (!author2.getBooks().contains(this)) {
+//                logger.info("author doesnt contain this book. so adding author to book. author.addBook()");
+//                author2.addBook(this); // Ensure bidirectional consistency
+//            }
         }
 
     }
@@ -211,6 +226,7 @@ public class Book extends AbstractClass{
     @Override
     public String toString() {
         return "Book{" +
+                "ID='" + id + '\'' +
                 "titles='" + title + '\'' +
                 ", authors='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
@@ -272,20 +288,25 @@ public class Book extends AbstractClass{
     }
 
     public void setAuthors(List<Author> authors) {
+        logger.info("Inside book.setAuthors()");
         if(this.authors==authors){
+            logger.info("Already authors exits");
             return;
         }
         if(this.authors!=null){
+            logger.info("New Author List. Removing Old author list");
             for(Author author: this.authors){
                 author.removeBook(this);
             }
         }
         if(authors!=null){
+            logger.info("Adding this book to each individual author for new List");
             for(Author author:authors){
                 author.addBook(this);
             }
         }
         this.authors = authors;
+        logger.info("Authors is set:",this.authors.stream().map(Author::getId).toList().toString());
     }
 
     public Publisher getPublisher() {

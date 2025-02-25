@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @NamedQuery(name = "Author.findByName", query ="select a from Author a where a.name=: aname")
 public class Author extends AbstractClass{
 
+    private static final Logger logger = LoggerFactory.getLogger(Author.class);
     @Column(name = "name", nullable = false, length = 100)
     @NotBlank(message = "Name is mandatory")
     @Size(max = 100, message = "Name must not exceed 100 characters")
@@ -43,7 +46,7 @@ public class Author extends AbstractClass{
     /**
      * Entity RelationShips
      */
-   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+   @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="Authors_Book",
             joinColumns =@JoinColumn(name="AuthorId"),
             inverseJoinColumns = @JoinColumn(name = "BookId")
@@ -67,16 +70,31 @@ public class Author extends AbstractClass{
      * Entity RelationShips methods
      */
     public void addBook(Book book){
+        logger.info("Inside Author.addBook():");
         if(book==null){
+            logger.info("Book is null so returning");
             return;
         }
         if(this.books==null){
+            logger.info("creating new Book List");
             this.books = new ArrayList<Book>();
         }
+
+        logger.info("Checking if book {} is present in list",book.getId());
+        logger.info("Book:{}",book);
         if(!this.books.contains(book)){
+            logger.info("No");
+            logger.info("Author.books.add({})",book.getId());
             this.books.add(book);
+            logger.info("now author.books:{}",this.books.stream().map(Book::getId).toList());
             book.addAuthor(this);
+//            if (!book.getAuthors().contains(this)) {
+//                logger.info("Book doesnt contain this author. book.addAuthor() ");
+//                book.addAuthor(this); // Ensure bidirectional consistency
+//            }
         }
+        logger.info("Books Present in the Author.getBook():{}",this.getBooks().stream().map(Book::getId).toList());
+        logger.info("Books: {}",this.getBooks());
 
     }
     public void removeBook(Book book) {
@@ -141,20 +159,25 @@ public class Author extends AbstractClass{
     }
 
     public void setBooks(List<Book> books) {
+        logger.info("author.setBooks()");
         if(this.books == books){
+            logger.info("Books list are already existing. So returning");
             return;
         }
         if(this.books!=null){
+            logger.info("A new book List. Removing old books from list");
             for(Book book: this.books){
                 book.removeAuthor(this);
             }
         }
         if(books!=null){
+            logger.info("adding this author to new books list");
             for(Book book:books){
                 book.addAuthor(this);
             }
         }
         this.books = books;
+        logger.info("set Method-Author.Books()",this.books.stream().map(Book::getId).toList().toString());
     }
 
 }
