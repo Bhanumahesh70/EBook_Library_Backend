@@ -6,6 +6,7 @@ import com.ebook.domain.Author;
 import com.ebook.domain.Book;
 import com.ebook.domain.Category;
 import com.ebook.dto.BookDTO;
+import com.ebook.dto.CategoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,14 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
-    @Autowired
     private BorrowedBookRepository borrowedBookRepository;
+    private CategoryService categoryService;
 
     @Autowired
-    public BookService(BookRepository bookRepository){
+    public BookService(BookRepository bookRepository, CategoryService categoryService){
         super(bookRepository);
         this.bookRepository=bookRepository;
+        this.categoryService=categoryService;
     }
 
     public Book findByTitle(String title){
@@ -57,7 +59,8 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         dto.setPublicationYear(book.getPublicationYear());
         dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
         dto.setPublisherId(book.getPublisher().getId());
-        dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
+        //dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
+        dto.setCategoriesDTO(book.getCategories().stream().map(category -> categoryService.convertToDTO(category)).toList());
         return dto;
     }
 
