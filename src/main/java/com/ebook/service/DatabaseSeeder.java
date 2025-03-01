@@ -152,16 +152,6 @@ public class DatabaseSeeder implements CommandLineRunner {
         categoryRepository.save(fantasy);
         categoryRepository.save(classic);
 
-//       // Author authorb1 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 2"));
-//        Author authorb2 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 3"));
-//        Author authorb3 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
-//        Author authorb4 = authorRepository.findById(Long.valueOf(4)).orElseThrow(() -> new RuntimeException("Entity not found with id: 5"));
-//        Author authorb5 = authorRepository.findById(Long.valueOf(5)).orElseThrow(() -> new RuntimeException("Entity not found with id: 6"));
-//        Author authorb6 = authorRepository.findById(Long.valueOf(6)).orElseThrow(() -> new RuntimeException("Entity not found with id: 7"));
-//        Author authorb7 = authorRepository.findById(Long.valueOf(7)).orElseThrow(() -> new RuntimeException("Entity not found with id: 8"));
-//        Author authorb8 = authorRepository.findById(Long.valueOf(8)).orElseThrow(() -> new RuntimeException("Entity not found with id: 9"));
-//        Author authorb9 = authorRepository.findById(Long.valueOf(9)).orElseThrow(() -> new RuntimeException("Entity not found with id: 10"));
-
         // Create Books
         logger.info("creating Book1");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
@@ -300,45 +290,93 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("Book1 is created");
         logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
-        // Save Books to the database
-//        bookRepository.save(book1);
-//        bookRepository.save(book2);
-//        bookRepository.save(book3);
-//        bookRepository.save(book4);
-//        bookRepository.save(book5);
-//        bookRepository.save(book6);
-//        bookRepository.save(book7);
-//        bookRepository.save(book8);
-//        bookRepository.save(book9);
-//        bookRepository.save(book10);
+        // Creating users
+        User user1 = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.USER);
+        userRepository.save(user1);
+        User user2 = new User("John Smith", "john.smith@email.com", "password123", "987654321", "123 Maple St", UserRole.USER);
+        userRepository.save(user2);
+        User user3 = new User("Alice Johnson", "alice.johnson@email.com", "alicePass", "987654322", "789 Pine St", UserRole.USER);
+        userRepository.save(user3);
+        User user4 = new User("Bob Brown", "bob.brown@email.com", "bobPasswd", "987654323", "567 Elm St", UserRole.LIBRARIAN);
+        userRepository.save(user4);
+        User user5 = new User("Charlie White", "charlie.white@email.com", "charliePass", "987654324", "321 Birch St", UserRole.LIBRARIAN);
+        userRepository.save(user5);
+        User user6 = new User("Emily Davis", "emily.davis@email.com", "emilyPass", "987654325", "654 Cedar St", UserRole.LIBRARIAN);
+        userRepository.save(user6);
+
+
+
+        // Creating fines
+        Fine fine1 = new Fine(20.0, FinePaidStatus.UNPAID, null);
+        fine1.setUser(user1);
+        fineRepository.save(fine1);
+
+        Fine fine2 = new Fine(15.0, FinePaidStatus.PAID, LocalDateTime.now());
+        fine2.setUser(user2);
+        fineRepository.save(fine2);
+        Fine fine3 = new Fine(30.0, FinePaidStatus.UNPAID, null);
+        fine3.setUser(user3);
+        fineRepository.save(fine3);
+
+        // Creating borrowed books
+        BorrowedBook borrowedBook1 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        borrowedBook1.setUser(user1);
+        borrowedBook1.setBook(book1); // book1
+        borrowedBook1.setFine(fine1);
+        borrowedBookRepository.save(borrowedBook1);
+
+        BorrowedBook borrowedBook2 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        borrowedBook2.setUser(user2);
+        borrowedBook2.setBook(book2); // book2
+        borrowedBook2.setFine(fine2);
+        borrowedBookRepository.save(borrowedBook2);
+
+        BorrowedBook borrowedBook3 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(10), null, BorrowStatus.BORROWED);
+        borrowedBook3.setUser(user3);
+        borrowedBook3.setBook(book3); // book3
+        borrowedBook3.setFine(fine3);
+        borrowedBookRepository.save(borrowedBook3);
+
+
+
+        // Creating reservations
+        Reservation reservation1 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation1.setUser(user1);
+        reservation1.setBook(book4); // book4
+        reservationRepository.save(reservation1);
+
+        Reservation reservation2 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation2.setUser(user1);
+        reservation2.setBook(book5); // book5
+        reservationRepository.save(reservation2);
+
+        Reservation reservation3 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation3.setUser(user2);
+        reservation3.setBook(book6); // book6
+        reservationRepository.save(reservation3);
+
+        Reservation reservation4 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation4.setUser(user3);
+        reservation4.setBook(book7); // book7
+        reservationRepository.save(reservation4);
+
+        Reservation reservation5 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation5.setUser(user3);
+        reservation5.setBook(book8); // book8
+        reservationRepository.save(reservation5);
+
+        Reservation reservation6 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation6.setUser(user4);
+        reservation6.setBook(book9); // book9
+        reservationRepository.save(reservation6);
+
+        Reservation reservation7 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        reservation7.setUser(user5);
+        reservation7.setBook(book10); // book10
+        reservationRepository.save(reservation7);
 
         System.out.println("Sample second data for books and other data inserted into the database.");
-        logger.info("Books created:");
-        logger.info("Book1:{}",book1);
 
-        logger.info("Book2:{}",book2);
-
-        logger.info("Book3:{}",book3);
-
-        logger.info("Book4:{}",book4);
-
-
-        logger.info("checking if authors are present to books");
-        logger.info("book1.getAuthors()={} ", book1.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book2.getAuthors()={} ", book2.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book3.getAuthors()={} ", book3.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book4.getAuthors()={} ", book4.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book5.getAuthors()={} ", book5.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book6.getAuthors()={} ", book6.getAuthors().stream().map(Author::getId).toList());
-        logger.info("book7.getAuthors()={} ", book7.getAuthors().stream().map(Author::getId).toList());
-
-        logger.info("----Checking if books are present in author---");
-        logger.info("author1.getBooks()={}", author1.getBooks().stream().map(Book::getId).toList());
-        logger.info("author2.getBooks()={}", author2.getBooks().stream().map(Book::getId).toList());
-        logger.info("author3.getBooks()={}", author3.getBooks().stream().map(Book::getId).toList());
-        logger.info("author4.getBooks()={}", author4.getBooks().stream().map(Book::getId).toList());
-        logger.info("author5.getBooks()={}", author5.getBooks().stream().map(Book::getId).toList());
-        logger.info("author6.getBooks()={}", author6.getBooks().stream().map(Book::getId).toList());
 
     }
 }
