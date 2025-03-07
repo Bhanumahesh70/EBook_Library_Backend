@@ -118,7 +118,7 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
         user.setPassword(userDTO.getPassword());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAddress(userDTO.getAddress());
-        user.setRole(UserRole.valueOf(userDTO.getRole()));
+        user.setRole(UserRole.valueOf(userDTO.getRole().toUpperCase()));
 
         // Set BorrowedBooks, Reservations, and Fines by IDs
         if (userDTO.getBorrowedBookIds() != null) {
