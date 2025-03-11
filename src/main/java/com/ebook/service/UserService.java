@@ -7,6 +7,8 @@ import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
 import com.ebook.dto.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
 
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
     private final UserRepository userRepository;
 
@@ -35,6 +38,21 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
         this.borrowedBookRepository = borrowedBookRepository;
         this.reservationRepository = reservationRepository;
         this.fineRepository = fineRepository;
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    //Check if the user enters correct email and password for login authorization
+    public boolean authenticateUser(String email, String rawPassword){
+      User  user = findByEmail(email);
+      if(user ==null){
+          return false;
+      }
+
+      //check if password matches with databases
+     return passwordEncoder.matches(user.getPassword(),rawPassword);
     }
     // Partial Update (PATCH)
     @Override
@@ -115,6 +133,7 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
         User user = new User();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
+        //Encode the password instead of storing plain raw password in the database
         user.setPassword(userDTO.getPassword());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAddress(userDTO.getAddress());

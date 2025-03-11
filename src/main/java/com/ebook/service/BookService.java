@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
 
+
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
     private BorrowedBookRepository borrowedBookRepository;

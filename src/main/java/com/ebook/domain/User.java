@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.List;
 @NamedQuery(name="User.findAll",query="select u from User u")
 public class User extends AbstractClass  {
 
+    //Encode the password feild instead of storing plain raw password
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @NotBlank
     @Column(name = "name", nullable = false)
@@ -36,6 +40,7 @@ public class User extends AbstractClass  {
 
     @Size(min= 8, message = "Password Should be minimum 8 characters")
     @Column(name = "password", nullable = false)
+    @JsonIgnore // ignore the field to display in api response
     private String password;
 
 
@@ -169,6 +174,7 @@ public class User extends AbstractClass  {
                 '}';
     }
 
+
     /**
      * Getters and Setters
      * @return
@@ -210,8 +216,8 @@ public class User extends AbstractClass  {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
+
+        this.password = passwordEncoder.encode(password);}
 
     public String getPhoneNumber() {
         return phoneNumber;
