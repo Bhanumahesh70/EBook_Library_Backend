@@ -303,6 +303,12 @@ public class DatabaseSeeder implements CommandLineRunner {
         userRepository.save(user5);
         User user6 = new User("Emily Davis", "emily.davis@email.com", "emilyPass", "987654325", "654 Cedar St", UserRole.LIBRARIAN);
         userRepository.save(user6);
+        User user7 = new User("admin", "admin@email.com", "adminadmin", "934654325", "654 Cedar St", UserRole.ADMIN);
+        userRepository.save(user7);
+        User user8 = new User("user", "user@email.com", "user", "987123325", "354 Cedar St", UserRole.USER);
+        userRepository.save(user8);
+        User user9 = new User("librarian", "librarian@email.com", "librarian", "677123325", "4564 Cedar St", UserRole.LIBRARIAN);
+        userRepository.save(user9);
 
 
 
