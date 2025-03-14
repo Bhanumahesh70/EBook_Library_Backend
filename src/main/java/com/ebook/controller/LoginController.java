@@ -28,7 +28,7 @@ public class LoginController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){
+    public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authenticationRequest){
         logger.info("Inside logincontroller->login");
         User user = userService.findByEmail(authenticationRequest.getEmail());
         if(user==null){
