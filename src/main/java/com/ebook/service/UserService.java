@@ -52,7 +52,7 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
       }
 
       //check if password matches with databases
-     return passwordEncoder.matches(user.getPassword(),rawPassword);
+     return passwordEncoder.matches(rawPassword, user.getPassword());
     }
     // Partial Update (PATCH)
     @Override

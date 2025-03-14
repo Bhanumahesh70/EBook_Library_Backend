@@ -11,10 +11,11 @@ import java.util.Date;
 @Service
 public class JWTService {
 
-    private static final String SECRET_KEY = "A@456789$#rtyuiop";
+    //private static final String SECRET_KEY = "A@456789$#rtyuiop";
+    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final long Expiration_time = 86400000;
 
-    private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+   // private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     public String generateToken(User user){
 
         return Jwts.builder()

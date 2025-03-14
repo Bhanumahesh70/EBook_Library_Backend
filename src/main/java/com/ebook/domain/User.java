@@ -78,7 +78,7 @@ public class User extends AbstractClass  {
     public User(String name, String email, String password, String phoneNumber, String address, UserRole role) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = role;

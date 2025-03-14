@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 public abstract class AbstractController<Entity, EntityDTO, IdType> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractController.class);
@@ -41,14 +40,20 @@ public abstract class AbstractController<Entity, EntityDTO, IdType> {
         return new ResponseEntity<>(entityDTO, HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityDTO> createEntity(@RequestBody EntityDTO entityDTO) {
-        logger.info("Creating a new {}", getEntityName());
-        Entity entity = abstractService.convertToEntity(entityDTO);
-        Entity createdEntity = abstractService.create(entity);
-        return new ResponseEntity<>(abstractService.convertToDTO(createdEntity), HttpStatus.CREATED);
-    }
-
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<EntityDTO> createEntity(@RequestBody EntityDTO entityDTO) {
+//        logger.info("Creating a new {}", getEntityName());
+//        Entity entity = abstractService.convertToEntity(entityDTO);
+//        Entity createdEntity = abstractService.create(entity);
+//        return new ResponseEntity<>(abstractService.convertToDTO(createdEntity), HttpStatus.CREATED);
+//    }
+@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Entity> createEntity(@RequestBody EntityDTO entityDTO) {
+    logger.info("Creating a new {}", getEntityName());
+    Entity entity = abstractService.convertToEntity(entityDTO);
+    Entity createdEntity = abstractService.create(entity);
+    return new ResponseEntity<>(createdEntity, HttpStatus.CREATED);
+}
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Entity> updateEntity(@PathVariable IdType id, @RequestBody Entity entity) {
         logger.info("Updating {} with id: {}",getEntityName(),id);
