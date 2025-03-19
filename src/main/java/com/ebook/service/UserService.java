@@ -47,13 +47,13 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
     //Check if the user enters correct email and password for login authorization
     public boolean authenticateUser(String email, String rawPassword){
       User  user = findByEmail(email);
-      if(user ==null){
+      if(user ==null) {
           return false;
       }
-
       //check if password matches with databases
      return passwordEncoder.matches(rawPassword, user.getPassword());
     }
+
     // Partial Update (PATCH)
     @Override
     public User patchUpdate(Long id, UserDTO updatedUserDTO) {
