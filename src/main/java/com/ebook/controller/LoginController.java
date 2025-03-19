@@ -5,6 +5,7 @@ import com.ebook.dto.AuthenticationRequest;
 import com.ebook.dto.AuthenticationResponse;
 import com.ebook.security.JWTService;
 import com.ebook.service.UserService;
+import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/authorization")
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -27,7 +28,7 @@ public class LoginController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authenticationRequest){
         logger.info("Inside logincontroller->login");
         User user = userService.findByEmail(authenticationRequest.getEmail());
@@ -42,6 +43,22 @@ public class LoginController {
         }
         logger.info("Invalid credentials. User authentication is failed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+    }
+
+    @PostMapping(value = "/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void validateToken(@RequestHeader("Authorization") String token){
+        try{
+            if(token.startsWith("Bearer ")){
+                token = token.substring(7);
+            }
+
+            Claims claims = jwtService.validateToken(token);
+            logger.info("User is validated");
+            logger.info("claim.subject {}",claims.getSubject());
+            logger.info("claims.getRole {}", claims.get("role",String.class));
+        }catch (Exception e){
+            logger.info("invalid token. Error:"+ e.getMessage());
+        }
     }
 }
 
