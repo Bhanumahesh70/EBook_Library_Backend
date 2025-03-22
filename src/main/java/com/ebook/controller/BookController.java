@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/ebook/books")
 public class BookController extends AbstractController<Book,BookDTO,Long> {
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private final BookService bookService;

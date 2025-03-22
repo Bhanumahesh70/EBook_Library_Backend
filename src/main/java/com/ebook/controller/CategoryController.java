@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/ebook/categories")
 public class CategoryController extends AbstractController<Category, CategoryDTO, Long> {
 
     private CategoryService categoryService;

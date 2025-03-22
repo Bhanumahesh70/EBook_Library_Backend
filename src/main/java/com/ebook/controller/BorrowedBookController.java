@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/borrowedBooks")
+@RequestMapping("/ebook/borrowedBooks")
 public class BorrowedBookController extends AbstractController<BorrowedBook, BorrowedBookDTO,Long> {
 
     @Autowired

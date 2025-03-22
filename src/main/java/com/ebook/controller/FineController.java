@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/fines")
+@RequestMapping("/ebook/fines")
 public class FineController extends AbstractController<Fine, FineDTO,Long> {
 
     @Autowired

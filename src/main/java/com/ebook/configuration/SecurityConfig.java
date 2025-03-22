@@ -1,8 +1,11 @@
 package com.ebook.configuration;
 
 import com.ebook.controller.LoginController;
+import com.ebook.security.JWTAuthenticationFilter;
+import com.ebook.security.JWTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +19,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+    private final JWTService jwtService;
+
+    @Autowired
+    public SecurityConfig(JWTService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Bean
@@ -36,8 +47,10 @@ public class SecurityConfig {
                     return corsConfig;
         }))
                 .csrf(csrf-> csrf.disable())
-                .authorizeHttpRequests(auth->auth.anyRequest().authenticated()
-                ).httpBasic(Customizer.withDefaults());
+                .authorizeHttpRequests(auth->auth
+                        .requestMatchers("/ebook/authorization/login").permitAll()
+                        .anyRequest().authenticated()
+                ).addFilterBefore(new JWTAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }

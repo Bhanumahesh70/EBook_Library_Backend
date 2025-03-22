@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/publishers")
+@RequestMapping("/ebook/publishers")
 public class PublisherController extends AbstractController<Publisher, PublisherDTO,Long> {
 
     @Autowired

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/ebook/users")
 public class UserController extends AbstractController<User, UserDTO,Long> {
 
     @Autowired
