@@ -7,6 +7,9 @@ import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
 import com.ebook.dto.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
+public class UserService extends AbstractCRUDService<User,UserDTO,Long> implements UserDetailsService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
@@ -54,6 +57,17 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long>{
      return passwordEncoder.matches(rawPassword, user.getPassword());
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+        logger.info("loadUserByUsername");
+        logger.info("Finding user with email:"+ email);
+        User user = findByEmail(email);
+        if(user==null){
+            logger.warning("User is not found");
+            throw new UsernameNotFoundException("User is not found with email: "+email);
+        }
+        return user;
+    }
     // Partial Update (PATCH)
     @Override
     public User patchUpdate(Long id, UserDTO updatedUserDTO) {

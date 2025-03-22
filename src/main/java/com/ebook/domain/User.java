@@ -10,10 +10,14 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -24,7 +28,7 @@ import java.util.List;
         }
 )
 @NamedQuery(name="User.findAll",query="select u from User u")
-public class User extends AbstractClass  {
+public class User extends AbstractClass implements UserDetails {
 
     //Encode the password feild instead of storing plain raw password
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -211,8 +215,18 @@ public class User extends AbstractClass  {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(() -> "ROLE_" + role);
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
     }
 
     public void setPassword(String password) {

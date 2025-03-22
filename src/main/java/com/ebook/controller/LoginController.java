@@ -46,7 +46,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void validateToken(@RequestHeader("Authorization") String token){
+    public String validateToken(@RequestHeader("Authorization") String token){
         try{
             if(token.startsWith("Bearer ")){
                 token = token.substring(7);
@@ -56,8 +56,10 @@ public class LoginController {
             logger.info("User is validated");
             logger.info("claim.subject {}",claims.getSubject());
             logger.info("claims.getRole {}", claims.get("role",String.class));
+            return  claims.getSubject();
         }catch (Exception e){
             logger.info("invalid token. Error:"+ e.getMessage());
+            return "Invalid Token";
         }
     }
 }
