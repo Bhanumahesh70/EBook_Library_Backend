@@ -2,8 +2,8 @@ package com.ebook.domain;
 
 public enum UserRole {
 
-    LIBRARIAN,
-    USER,
-    ADMIN;
+    ROLE_LIBRARIAN,
+    ROLE_USER,
+    ROLE_ADMIN;
 
 }

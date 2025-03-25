@@ -29,7 +29,7 @@ public class BorrowedBookJPATest extends AbstractJPATest {
         // Generate unique values for user, publisher, and book fields
         String uniqueUserEmail = Integer.toString(secureRandom.nextInt()) + "@gmail.com";
         String uniqueUserPhone = "9785" + Integer.toString(100000 + secureRandom.nextInt(999999));
-        user = new User("Jane Doe", uniqueUserEmail, "password456", uniqueUserPhone, "456 Oak St", UserRole.LIBRARIAN);
+        user = new User("Jane Doe", uniqueUserEmail, "password456", uniqueUserPhone, "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
 
         String uniquePublisherName = "publisher"+Integer.toString(secureRandom.nextInt());

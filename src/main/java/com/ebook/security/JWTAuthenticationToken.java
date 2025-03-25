@@ -3,8 +3,10 @@ package com.ebook.security;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
+import java.util.List;
 
 public class JWTAuthenticationToken extends AbstractAuthenticationToken{
 
@@ -12,7 +14,7 @@ public class JWTAuthenticationToken extends AbstractAuthenticationToken{
     private final Claims claims;
 
     public JWTAuthenticationToken( String username, Claims claims) {
-        super(null);
+        super(List.of(new SimpleGrantedAuthority(claims.get("role",String.class))));
         this.username = username;
         this.claims = claims;
         setAuthenticated(true);

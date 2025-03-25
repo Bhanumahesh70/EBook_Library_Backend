@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AuthorDTO>> displayAllAuthors() {
         logger.info("Displaying all authors");
@@ -34,6 +36,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorDTOS, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorDTO> displayAuthor(@PathVariable("id") Long id) {
         logger.info("Displaying author with id: " + id);
@@ -42,6 +45,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorDTO, HttpStatus.OK);
     }
     // Create a new Author (Accepting AuthorDTO)
+    @PreAuthorize("hasRole('ROLE_ADMIN')" )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
         logger.info("Creating a new author");
@@ -50,6 +54,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.convertToDTO(createdAuthor), HttpStatus.CREATED);
     }
     // Full Update Author (Accepting AuthorDTO)
+    @PreAuthorize("hasRole('ROLE_ADMIN')" )
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
         logger.info("Updating author with id: " + id);
@@ -57,6 +62,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.findById(id), HttpStatus.OK);
     }
     // Partial Update Author (Accepting AuthorDTO)
+    @PreAuthorize("hasRole('ROLE_ADMIN')" )
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorDTO> patchUpdateAuthor(@PathVariable Long id, @RequestBody AuthorDTO authorDTO) {
         logger.info("Patch Request Updating author with id: " + id);
@@ -64,6 +70,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.convertToDTO(updatedAuthor), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')" )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         logger.info("Deleting author with id: " + id);

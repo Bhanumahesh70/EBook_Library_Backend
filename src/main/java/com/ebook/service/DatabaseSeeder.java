@@ -291,23 +291,23 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
         // Creating users
-        User user1 = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.USER);
+        User user1 = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.ROLE_USER);
         userRepository.save(user1);
-        User user2 = new User("John Smith", "john.smith@email.com", "password123", "987654321", "123 Maple St", UserRole.USER);
+        User user2 = new User("John Smith", "john.smith@email.com", "password123", "987654321", "123 Maple St", UserRole.ROLE_LIBRARIAN);
         userRepository.save(user2);
-        User user3 = new User("Alice Johnson", "alice.johnson@email.com", "alicePass", "987654322", "789 Pine St", UserRole.USER);
+        User user3 = new User("Alice Johnson", "alice.johnson@email.com", "alicePass", "987654322", "789 Pine St", UserRole.ROLE_USER);
         userRepository.save(user3);
-        User user4 = new User("Bob Brown", "bob.brown@email.com", "bobPasswd", "987654323", "567 Elm St", UserRole.LIBRARIAN);
+        User user4 = new User("Bob Brown", "bob.brown@email.com", "bobPasswd", "987654323", "567 Elm St", UserRole.ROLE_LIBRARIAN);
         userRepository.save(user4);
-        User user5 = new User("Charlie White", "charlie.white@email.com", "charliePass", "987654324", "321 Birch St", UserRole.LIBRARIAN);
+        User user5 = new User("Charlie White", "charlie.white@email.com", "charliePass", "987654324", "321 Birch St", UserRole.ROLE_USER);
         userRepository.save(user5);
-        User user6 = new User("Emily Davis", "emily.davis@email.com", "emilyPass", "987654325", "654 Cedar St", UserRole.LIBRARIAN);
+        User user6 = new User("Emily Davis", "emily.davis@email.com", "emilyPass", "987654325", "654 Cedar St", UserRole.ROLE_USER);
         userRepository.save(user6);
-        User user7 = new User("admin", "admin@email.com", "adminadmin", "934654325", "654 Cedar St", UserRole.ADMIN);
+        User user7 = new User("admin", "admin@email.com", "adminadmin", "934654325", "654 Cedar St", UserRole.ROLE_ADMIN);
         userRepository.save(user7);
-        User user8 = new User("user", "user@email.com", "user", "987123325", "354 Cedar St", UserRole.USER);
+        User user8 = new User("user", "user@email.com", "user", "987123325", "354 Cedar St", UserRole.ROLE_USER);
         userRepository.save(user8);
-        User user9 = new User("librarian", "librarian@email.com", "librarian", "677123325", "4564 Cedar St", UserRole.LIBRARIAN);
+        User user9 = new User("librarian", "librarian@email.com", "librarian", "677123325", "4564 Cedar St", UserRole.ROLE_LIBRARIAN);
         userRepository.save(user9);
 
 
