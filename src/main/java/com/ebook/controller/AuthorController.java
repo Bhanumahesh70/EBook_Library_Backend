@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/authors")
+@RequestMapping("/ebook/authors")
 public class AuthorController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthorController.class);
@@ -38,9 +38,9 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorDTO> displayAuthor(@PathVariable("id") Long id) {
+    public ResponseEntity<AuthorDTO> displayAuthor(@PathVariable("id") String id) {
         logger.info("Displaying author with id: " + id);
-        Author author = authorService.findById(id);
+        Author author = authorService.findById(Long.parseLong(id));
         AuthorDTO authorDTO = authorService.convertToDTO(author);
         return new ResponseEntity<>(authorDTO, HttpStatus.OK);
     }

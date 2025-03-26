@@ -85,6 +85,7 @@ public class AuthorService{
     public AuthorDTO convertToDTO(Author author) {
         logger.info("Converting author entity to author DTO");
         AuthorDTO dto = new AuthorDTO();
+        dto.setId(author.getId());
         dto.setName(author.getName());
         dto.setBio(author.getBio());
         dto.setNationality(author.getNationality());
