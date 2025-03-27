@@ -36,13 +36,13 @@ public class BookDTO {
 
     private List<Long> authorIds;  // List of author IDs for the book
     private Long publisherId;      // Publisher ID for the book
-   // private List<Long> categoryIds; // List of category IDs associated with the book
-    private List<CategoryDTO> categoriesDTO;
+    private List<Long> categoryIds; // List of category IDs associated with the book
+   // private List<CategoryDTO> categoriesDTO;
 
     public BookDTO() {
     }
 
-    public BookDTO(String title, String author, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<Long> authorIds, Long publisherId, List<CategoryDTO>categoriesDTOs) {
+    public BookDTO(String title, String author, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<Long> authorIds, Long publisherId,List<Long> categoryIds) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -52,8 +52,8 @@ public class BookDTO {
         this.publicationYear = publicationYear;
         this.authorIds = authorIds;
         this.publisherId = publisherId;
-        //this.categoryIds = categoryIds;
-        this.categoriesDTO = categoriesDTOs;
+        this.categoryIds = categoryIds;
+        //this.categoriesDTO = categoriesDTOs;
     }
 
     // Getters and Setters
@@ -129,21 +129,21 @@ public class BookDTO {
         this.publisherId = publisherId;
     }
 
-//    public List<Long> getCategoryIds() {
-//        return categoryIds;
+    public List<Long> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(List<Long> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+//    public List<CategoryDTO> getCategoriesDTO() {
+//        return categoriesDTO;
 //    }
 //
-//    public void setCategoryIds(List<Long> categoryIds) {
-//        this.categoryIds = categoryIds;
+//    public void setCategoriesDTO(List<CategoryDTO> categoriesDTO) {
+//        this.categoriesDTO = categoriesDTO;
 //    }
-
-    public List<CategoryDTO> getCategoriesDTO() {
-        return categoriesDTO;
-    }
-
-    public void setCategoriesDTO(List<CategoryDTO> categoriesDTO) {
-        this.categoriesDTO = categoriesDTO;
-    }
 
     public Long getId() {
         return id;

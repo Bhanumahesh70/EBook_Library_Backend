@@ -57,10 +57,10 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         dto.setLanguage(book.getLanguage());
         dto.setTotalCopies(book.getTotalCopies());
         dto.setAvailableCopies(book.getAvailableCopies());
-       // dto.setPublicationYear(book.getPublicationYear());
+        dto.setPublicationYear(book.getPublicationYear());
        // dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
-      // dto.setPublisherId(book.getPublisher().getId());
-       //dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
+      dto.setPublisherId(book.getPublisher().getId());
+       dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
        //dto.setCategoriesDTO(book.getCategories().stream().map(category -> categoryService.convertToDTO(category)).toList());
         return dto;
     }

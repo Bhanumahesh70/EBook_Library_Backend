@@ -1,8 +1,11 @@
 package com.ebook.controller;
 
 import com.ebook.domain.Author;
+import com.ebook.domain.Book;
 import com.ebook.dto.AuthorDTO;
+import com.ebook.dto.BookDTO;
 import com.ebook.service.AuthorService;
+import com.ebook.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,12 @@ public class AuthorController {
     private static final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     private final AuthorService authorService;
+    private BookService bookService;
 
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(AuthorService authorService,BookService bookService) {
         this.authorService = authorService;
+        this.bookService = bookService;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
@@ -43,6 +48,14 @@ public class AuthorController {
         Author author = authorService.findById(Long.parseLong(id));
         AuthorDTO authorDTO = authorService.convertToDTO(author);
         return new ResponseEntity<>(authorDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/books", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+    public ResponseEntity<List<BookDTO>>getBooks(@PathVariable("id") Long id){
+        List<Book> books = authorService.findById(id).getBooks();
+        List<BookDTO> booksDTOs = books.stream().map((book)-> bookService.convertToDTO(book)).toList();
+        return new ResponseEntity<>(booksDTOs, HttpStatus.OK);
     }
     // Create a new Author (Accepting AuthorDTO)
     @PreAuthorize("hasRole('ROLE_ADMIN')" )
