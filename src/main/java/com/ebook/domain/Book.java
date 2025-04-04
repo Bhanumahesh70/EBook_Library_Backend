@@ -31,9 +31,9 @@ public class Book extends AbstractClass{
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @Column(name = "author", nullable = false)
-    @NotBlank(message = "Author is mandatory")
-    private String author;
+//    @Column(name = "author", nullable = false)
+//    @NotBlank(message = "Author is mandatory")
+//    private String author;
 
     @Column(name = "isbn", nullable = false, unique = true)
     @NotBlank(message = "ISBN is mandatory")
@@ -92,13 +92,13 @@ public class Book extends AbstractClass{
     public Book() {
     }
 
-    public Book(int publicationYear, int availableCopies, int totalCopies, String language, String title, String author, String isbn) {
+    public Book(int publicationYear, int availableCopies, int totalCopies, String language, String title, String isbn) {
         this.publicationYear = publicationYear;
         this.availableCopies = availableCopies;
         this.totalCopies = totalCopies;
         this.language = language;
         this.title = title;
-        this.author = author;
+//        this.author = author;
         this.isbn = isbn;
     }
 
@@ -228,7 +228,7 @@ public class Book extends AbstractClass{
         return "Book{" +
                 "ID='" + id + '\'' +
                 "titles='" + title + '\'' +
-                ", authors='" + author + '\'' +
+//
                 ", isbn='" + isbn + '\'' +
                 ", language='" + language + '\'' +
                 ", totalCopies=" + totalCopies +
@@ -329,13 +329,13 @@ public class Book extends AbstractClass{
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+//    public String getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(String author) {
+//        this.author = author;
+//    }
 
     public String getIsbn() {
         return isbn;

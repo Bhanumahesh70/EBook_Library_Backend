@@ -34,7 +34,10 @@ public class AuthorDTO {
         this.birthDate = birthDate;
         this.bookIds = bookIds;
     }
-
+public AuthorDTO(Long id, String name){
+        this.id = id;
+        this.name = name;
+}
     // Getters and Setters
     public String getName() {
         return name;

@@ -157,7 +157,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book1 = new Book(1960, 1, 281, "English", "To Kill a Mockingbird", "Harper Lee", "9780061120084");
+        Book book1 = new Book(1960, 1, 281, "English", "To Kill a Mockingbird", "9780061120084");
         Author authorb11 = authorRepository.findById(Long.valueOf(1)).orElseThrow(() -> new RuntimeException("Entity not found with id: 2"));
         Author authorb12 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 3"));
         Author authorb13 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
@@ -178,7 +178,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book2 = new Book(1949, 1, 328, "English", "1984", "George Orwell", "9780451524935");
+        Book book2 = new Book(1949, 1, 328, "English", "1984", "9780451524935");
         Author authorb21 = authorRepository.findById(Long.valueOf(1)).orElseThrow(() -> new RuntimeException("Entity not found with id: 2"));
         Author authorb22 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 3"));
         Author authorb23 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
@@ -195,7 +195,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book3 = new Book(1813, 1, 279, "English", "Pride and Prejudice", "Jane Austen", "9781503290563");
+        Book book3 = new Book(1813, 1, 279, "English", "Pride and Prejudice", "9781503290563");
         Author authorb33 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
         book3.addAuthor(authorb33);
         book3.addCategory(romance);
@@ -209,7 +209,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book4 = new Book(1925, 1, 180, "English", "The Great Gatsby", "F. Scott Fitzgerald", "9780743273565");
+        Book book4 = new Book(1925, 1, 180, "English", "The Great Gatsby",  "9780743273565");
         book4.addAuthor(author4);
         book4.addCategory(classic);
         book4.setPublisher(publisher4);
@@ -222,7 +222,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book5 = new Book(1851, 1, 635, "English", "Moby Dick", "Herman Melville", "9781503280786");
+        Book book5 = new Book(1851, 1, 635, "English", "Moby Dick","9781503280786");
         book5.addAuthor(author5);
         book5.addCategory(fiction);
         book5.setPublisher(publisher5);
@@ -234,7 +234,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book6 = new Book(1951, 1, 277, "English", "The Catcher in the Rye", "J.D. Salinger", "9780316769488");
+        Book book6 = new Book(1951, 1, 277, "English", "The Catcher in the Rye",  "9780316769488");
         book6.addAuthor(author6);
         book6.addCategory(classic);
         book6.setPublisher(publisher6);
@@ -246,7 +246,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book7 = new Book(1937, 1, 310, "English", "The Hobbit", "J.R.R. Tolkien", "9780618968633");
+        Book book7 = new Book(1937, 1, 310, "English", "The Hobbit",  "9780618968633");
         book7.addAuthor(author7);
         book7.addCategory(fantasy);
         book7.setPublisher(publisher7);
@@ -258,7 +258,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book8 = new Book(1954, 1, 423, "English", "The Fellowship of the Ring", "J.R.R. Tolkien", "9780618574940");
+        Book book8 = new Book(1954, 1, 423, "English", "The Fellowship of the Ring",  "9780618574940");
         book8.addAuthor(author7);
         book8.addCategory(fantasy);
         book8.setPublisher(publisher7);
@@ -270,7 +270,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book9 = new Book(1988, 1, 208, "English", "The Alchemist", "Paulo Coelho", "9780061122415");
+        Book book9 = new Book(1988, 1, 208, "English", "The Alchemist",  "9780061122415");
         book9.addAuthor(author8);
         book9.addCategory(fiction);
         book9.setPublisher(publisher8);
@@ -282,7 +282,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book10 = new Book(1932, 1, 268, "English", "Brave New World", "Aldous Huxley", "9780060850524");
+        Book book10 = new Book(1932, 1, 268, "English", "Brave New World", "9780060850524");
         book10.addAuthor(author9);
         book10.addCategory(dystopian);
         book10.setPublisher(publisher9);

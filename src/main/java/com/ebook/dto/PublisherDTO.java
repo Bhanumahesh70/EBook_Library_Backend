@@ -36,6 +36,10 @@ public class PublisherDTO {
         this.phoneNumber = phoneNumber;
         this.bookIds = bookIds;
     }
+    public PublisherDTO(Long id, String name){
+        this.name = name;
+        this.id = id;
+    }
 
     // Getters and Setters
     public String getName() {

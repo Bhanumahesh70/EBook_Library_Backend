@@ -24,7 +24,10 @@ public class CategoryDTO {
         this.description = description;
         this.bookIds = bookIds;
     }
-
+    public CategoryDTO(Long id, String categoryName){
+        this.categoryName = categoryName;
+        this.id = id;
+    }
     // Getters and setters
 
     public String getCategoryName() {

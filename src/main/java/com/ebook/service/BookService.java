@@ -5,14 +5,17 @@ import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.domain.Author;
 import com.ebook.domain.Book;
 import com.ebook.domain.Category;
+import com.ebook.domain.Publisher;
+import com.ebook.dto.AuthorDTO;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.CategoryDTO;
+import com.ebook.dto.PublisherDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
@@ -22,12 +25,16 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
     private final BookRepository bookRepository;
     private BorrowedBookRepository borrowedBookRepository;
     private CategoryService categoryService;
+    private AuthorService authorService;
+    private PublisherService publisherService;
 
     @Autowired
-    public BookService(BookRepository bookRepository, CategoryService categoryService){
+    public BookService(BookRepository bookRepository, CategoryService categoryService, AuthorService authorService, PublisherService publisherService){
         super(bookRepository);
         this.bookRepository=bookRepository;
         this.categoryService=categoryService;
+        this.publisherService = publisherService;
+        this.authorService = authorService;
     }
 
     public Book findByTitle(String title){
@@ -39,7 +46,7 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Cannot find Book with id:" + id));
         if (bookDTO.getTitle() != null) book.setTitle(bookDTO.getTitle());
-        if (bookDTO.getAuthor() != null) book.setAuthor(bookDTO.getAuthor());
+      //  if (bookDTO.getAuthor() != null) book.setAuthor(bookDTO.getAuthor());
         if(bookDTO.getIsbn()!=null) book.setIsbn(bookDTO.getIsbn());
         if(bookDTO.getLanguage()!=null) book.setLanguage(bookDTO.getLanguage());
         if (bookDTO.getTotalCopies() > 0) book.setTotalCopies(bookDTO.getTotalCopies());
@@ -52,15 +59,18 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         BookDTO dto = new BookDTO();
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
-        dto.setAuthor(book.getAuthor());
+      //  dto.setAuthor(book.getAuthor());
         dto.setIsbn(book.getIsbn());
         dto.setLanguage(book.getLanguage());
         dto.setTotalCopies(book.getTotalCopies());
         dto.setAvailableCopies(book.getAvailableCopies());
         dto.setPublicationYear(book.getPublicationYear());
-       // dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
-      dto.setPublisherId(book.getPublisher().getId());
-       dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
+        //dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
+        dto.setAuthorsDetails(book.getAuthors().stream().map(author -> new AuthorDTO(author.getId(), author.getName())).toList());
+        dto.setCategoriesDetails(book.getCategories().stream().map(category -> new CategoryDTO(category.getId(),category.getCategoryName())).toList());
+        dto.setPublisherDetails(new PublisherDTO(book.getPublisher().getId(),book.getPublisher().getName()));
+       // dto.setPublisherId(book.getPublisher().getId());
+       //dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
        //dto.setCategoriesDTO(book.getCategories().stream().map(category -> categoryService.convertToDTO(category)).toList());
         return dto;
     }
@@ -69,12 +79,17 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
     public Book convertToEntity(BookDTO bookDTO){
         Book book = new Book();
         book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
         book.setIsbn(bookDTO.getIsbn());
         book.setLanguage(bookDTO.getLanguage());
         book.setTotalCopies(bookDTO.getTotalCopies());
         book.setAvailableCopies(bookDTO.getAvailableCopies());
         book.setPublicationYear(bookDTO.getPublicationYear());
+        Publisher publisher = publisherService.findById(bookDTO.getPublisherDetails().getId());
+        List<Author> authors = bookDTO.getAuthorsDetails().stream().map(authorDetail-> authorService.findById(authorDetail.getId())).toList();
+        List<Category> categories = bookDTO.getCategoriesDetails().stream().map(categoryDetail->categoryService.findById(categoryDetail.getId())).toList();
+        book.setPublisher(publisher);
+        book.setAuthors(authors);
+        book.setCategories(categories);
         return book;
     }
 
@@ -86,7 +101,7 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
 
         // Update the fields of the existing book
         book.setTitle(updatedBook.getTitle());
-        book.setAuthor(updatedBook.getAuthor());
+       // book.setAuthor(updatedBook.getAuthor());
         book.setIsbn(updatedBook.getIsbn());
         book.setLanguage(updatedBook.getLanguage());
         book.setTotalCopies(updatedBook.getTotalCopies());

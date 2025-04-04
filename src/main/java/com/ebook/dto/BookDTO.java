@@ -1,6 +1,5 @@
 package com.ebook.dto;
 
-import com.ebook.domain.Category;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -14,8 +13,8 @@ public class BookDTO {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NotBlank(message = "Author is mandatory")
-    private String author;
+//    @NotBlank(message = "Author is mandatory")
+//    private String author;
 
     @NotBlank(message = "ISBN is mandatory")
     @Pattern(regexp = "\\d{13}", message = "ISBN must be a 13-digit number")
@@ -34,24 +33,31 @@ public class BookDTO {
     @Max(value = 2025, message = "Publication year must be a valid year")
     private int publicationYear;
 
-    private List<Long> authorIds;  // List of author IDs for the book
-    private Long publisherId;      // Publisher ID for the book
+
+    //private List<Long> authorIds;  // List of author IDs for the book
+    private List<AuthorDTO> authorsDetails;
+
+    //private Long publisherId;      // Publisher ID for the book
+    private PublisherDTO publisherDetails;
+
     private List<Long> categoryIds; // List of category IDs associated with the book
-   // private List<CategoryDTO> categoriesDTO;
+    private List<CategoryDTO> categoriesDetails;
 
     public BookDTO() {
     }
 
-    public BookDTO(String title, String author, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<Long> authorIds, Long publisherId,List<Long> categoryIds) {
+    public BookDTO(String title, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<AuthorDTO> authorsDetails, PublisherDTO publisherDetails, List<Long> categoryIds) {
         this.title = title;
-        this.author = author;
+//        this.author = author;
         this.isbn = isbn;
         this.language = language;
         this.totalCopies = totalCopies;
         this.availableCopies = availableCopies;
         this.publicationYear = publicationYear;
-        this.authorIds = authorIds;
-        this.publisherId = publisherId;
+        //this.authorIds = authorIds;
+        this.authorsDetails = authorsDetails;
+        //this.publisherId = publisherId;
+        this.publisherDetails = publisherDetails;
         this.categoryIds = categoryIds;
         //this.categoriesDTO = categoriesDTOs;
     }
@@ -65,13 +71,13 @@ public class BookDTO {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+//    public String getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(String author) {
+//        this.author = author;
+//    }
 
     public String getIsbn() {
         return isbn;
@@ -113,20 +119,35 @@ public class BookDTO {
         this.publicationYear = publicationYear;
     }
 
-    public List<Long> getAuthorIds() {
-        return authorIds;
+//    public List<Long> getAuthorIds() {
+//        return authorIds;
+//    }
+//
+//    public void setAuthorIds(List<Long> authorIds) {
+//        this.authorIds = authorIds;
+//    }
+public List<AuthorDTO> getAuthorsDetails() {
+    return authorsDetails;
+}
+
+    public void setAuthorsDetails(List<AuthorDTO> authorsDetails) {
+        this.authorsDetails = authorsDetails;
     }
 
-    public void setAuthorIds(List<Long> authorIds) {
-        this.authorIds = authorIds;
+//    public Long getPublisherId() {
+//        return publisherId;
+//    }
+//
+//    public void setPublisherId(Long publisherId) {
+//        this.publisherId = publisherId;
+//    }
+
+    public PublisherDTO getPublisherDetails() {
+        return publisherDetails;
     }
 
-    public Long getPublisherId() {
-        return publisherId;
-    }
-
-    public void setPublisherId(Long publisherId) {
-        this.publisherId = publisherId;
+    public void setPublisherDetails(PublisherDTO publisherDetails) {
+        this.publisherDetails = publisherDetails;
     }
 
     public List<Long> getCategoryIds() {
@@ -137,13 +158,13 @@ public class BookDTO {
         this.categoryIds = categoryIds;
     }
 
-//    public List<CategoryDTO> getCategoriesDTO() {
-//        return categoriesDTO;
-//    }
-//
-//    public void setCategoriesDTO(List<CategoryDTO> categoriesDTO) {
-//        this.categoriesDTO = categoriesDTO;
-//    }
+    public List<CategoryDTO> getCategoriesDetails() {
+        return categoriesDetails;
+    }
+
+    public void setCategoriesDetails(List<CategoryDTO> categoriesDetails) {
+        this.categoriesDetails = categoriesDetails;
+    }
 
     public Long getId() {
         return id;
