@@ -62,6 +62,22 @@ public class BookDTO {
         //this.categoriesDTO = categoriesDTOs;
     }
 
+    @Override
+    public String toString() {
+        return "BookDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", language='" + language + '\'' +
+                ", totalCopies=" + totalCopies +
+                ", availableCopies=" + availableCopies +
+                ", publicationYear=" + publicationYear +
+                ", authorsDetails=" + (authorsDetails != null ? authorsDetails.toString() : "null") +
+                ", publisherDetails=" + (publisherDetails != null ? publisherDetails.toString() : "null") +
+                ", categoryIds=" + (categoryIds != null ? categoryIds.toString() : "null") +
+                ", categoriesDetails=" + (categoriesDetails != null ? categoriesDetails.toString() : "null") +
+                '}';
+    }
     // Getters and Setters
     public String getTitle() {
         return title;

@@ -136,13 +136,18 @@ public class Book extends AbstractClass{
     }
 
     public void removeAuthor(Author author2){
+        logger.info("Inside Book.removeAuthor()");
         if(author2==null || this.authors==null){
+            logger.info("author is null. Returning null");
             return;
         }
         if(this.authors.contains(author2)){
+            logger.info("Removing author {}",author2);
             this.authors.remove(author2);
+            logger.info("After removal. Book.authors: {}",this.authors.toString());
             author2.removeBook(this);
         }
+        logger.info("This book doesntContain the author:{}",author2);
     }
 
     public void addCategory(Category category){

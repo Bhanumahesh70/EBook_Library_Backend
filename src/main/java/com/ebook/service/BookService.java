@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -41,8 +43,31 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         return bookRepository.findByName(title);
     }
 
+    protected <T, D> void syncAssociations(
+            List<T> currentList,
+            List<D> updatedDetails,
+            java.util.function.Function<D, T> findByIdFn,
+            java.util.function.Consumer<T> addFn,
+            java.util.function.Consumer<T> removeFn
+    ) {
+        List<T> updatedEntities = updatedDetails.stream().map(findByIdFn).toList();
+        List<T> toRemove = new ArrayList<>();
+        for (T current : currentList) {
+            if (!updatedEntities.contains(current)) {
+                toRemove.add(current);
+            }
+        }
+        toRemove.forEach(removeFn);
+
+        for (T updated : updatedEntities) {
+            if (!currentList.contains(updated)) {
+                addFn.accept(updated);
+            }
+        }
+    }
     @Override
     public Book patchUpdate(Long id, BookDTO bookDTO){
+        logger.info("BookDTO: {}",bookDTO.toString());
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Cannot find Book with id:" + id));
         if (bookDTO.getTitle() != null) book.setTitle(bookDTO.getTitle());
@@ -50,7 +75,31 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         if(bookDTO.getIsbn()!=null) book.setIsbn(bookDTO.getIsbn());
         if(bookDTO.getLanguage()!=null) book.setLanguage(bookDTO.getLanguage());
         if (bookDTO.getTotalCopies() > 0) book.setTotalCopies(bookDTO.getTotalCopies());
+        if(bookDTO.getAvailableCopies()>0) book.setAvailableCopies(bookDTO.getAvailableCopies());
         if(bookDTO.getPublicationYear()>0) book.setPublicationYear(bookDTO.getPublicationYear());
+        if(bookDTO.getPublisherDetails()!=null){
+            Publisher publisher = publisherService.findById(bookDTO.getPublisherDetails().getId());
+            book.setPublisher(publisher);
+        }
+        if (bookDTO.getAuthorsDetails() != null) {
+            syncAssociations(
+                    book.getAuthors(),
+                    bookDTO.getAuthorsDetails(),
+                    authorDTO -> authorService.findById(authorDTO.getId()),
+                    book::addAuthor,
+                    book::removeAuthor
+            );
+        }
+
+        if (bookDTO.getCategoriesDetails() != null) {
+            syncAssociations(
+                    book.getCategories(),
+                    bookDTO.getCategoriesDetails(),
+                    categoryDTO -> categoryService.findById(categoryDTO.getId()),
+                    book::addCategory,
+                    book::removeCategory
+            );
+        }
         return bookRepository.save(book);
     }
 
@@ -59,13 +108,11 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         BookDTO dto = new BookDTO();
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
-      //  dto.setAuthor(book.getAuthor());
         dto.setIsbn(book.getIsbn());
         dto.setLanguage(book.getLanguage());
         dto.setTotalCopies(book.getTotalCopies());
         dto.setAvailableCopies(book.getAvailableCopies());
         dto.setPublicationYear(book.getPublicationYear());
-        //dto.setAuthorIds(book.getAuthors().stream().map(Author::getId).toList());
         dto.setAuthorsDetails(book.getAuthors().stream().map(author -> new AuthorDTO(author.getId(), author.getName())).toList());
         dto.setCategoriesDetails(book.getCategories().stream().map(category -> new CategoryDTO(category.getId(),category.getCategoryName())).toList());
         dto.setPublisherDetails(new PublisherDTO(book.getPublisher().getId(),book.getPublisher().getName()));
