@@ -46,6 +46,10 @@ public class BookDTO {
     public BookDTO() {
     }
 
+    public BookDTO(Long id, String name){
+        this.id = id;
+        this.title = name;
+    }
     public BookDTO(String title, String isbn, String language, int totalCopies, int availableCopies, int publicationYear, List<AuthorDTO> authorsDetails, PublisherDTO publisherDetails, List<Long> categoryIds) {
         this.title = title;
 //        this.author = author;

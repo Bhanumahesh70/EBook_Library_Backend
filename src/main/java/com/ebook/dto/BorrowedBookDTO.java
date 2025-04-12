@@ -8,7 +8,7 @@ public class BorrowedBookDTO {
 
     private Long id;
     @NotNull(message = "Borrow date is mandatory")
-    private LocalDateTime borrowDate;
+    private LocalDateTime borrowedDate;
 
     @NotNull(message = "Return date is mandatory")
     @FutureOrPresent(message = "Return date must be today or in the future")
@@ -21,30 +21,31 @@ public class BorrowedBookDTO {
 
     private Long userId; // Referring to user ID, not the full User object
 
-    private Long bookId; // Referring to book ID, not the full Book object
+    //private Long bookId; // Referring to book ID, not the full Book object
+    private BookDTO bookDetails;
 
     private Long fineId; // Referring to fine ID, not the full Fine object
 
     public BorrowedBookDTO() {
     }
 
-    public BorrowedBookDTO(LocalDateTime borrowDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, Long bookId, Long fineId) {
-        this.borrowDate = borrowDate;
+    public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Long fineId) {
+        this.borrowedDate = borrowedDate;
         this.returnDate = returnDate;
         this.returnedOn = returnedOn;
         this.status = status;
         this.userId = userId;
-        this.bookId = bookId;
+        this.bookDetails = bookDetails;
         this.fineId = fineId;
     }
 
     // Getters and setters
-    public LocalDateTime getBorrowDate() {
-        return borrowDate;
+    public LocalDateTime getBorrowedDate() {
+        return borrowedDate;
     }
 
-    public void setBorrowDate(LocalDateTime borrowDate) {
-        this.borrowDate = borrowDate;
+    public void setBorrowedDate(LocalDateTime borrowedDate) {
+        this.borrowedDate = borrowedDate;
     }
 
     public LocalDateTime getReturnDate() {
@@ -79,13 +80,20 @@ public class BorrowedBookDTO {
         this.userId = userId;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public BookDTO getBookDetails() {
+        return bookDetails;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBookDetails(BookDTO bookDetails) {
+        this.bookDetails = bookDetails;
     }
+//    public Long getBookId() {
+//        return bookId;
+//    }
+//
+//    public void setBookId(Long bookId) {
+//        this.bookId = bookId;
+//    }
 
     public Long getFineId() {
         return fineId;

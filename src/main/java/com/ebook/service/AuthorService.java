@@ -4,6 +4,7 @@ import com.ebook.Repository.AuthorRepository;
 import com.ebook.controller.AuthorController;
 import com.ebook.domain.Author;
 import com.ebook.dto.AuthorDTO;
+import com.ebook.dto.BookDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,7 @@ public class AuthorService{
         dto.setBio(author.getBio());
         dto.setNationality(author.getNationality());
         dto.setBirthDate(author.getBirthDate());
+        dto.setBookDetails(author.getBooks().stream().map(book -> new BookDTO(book.getId(), book.getTitle())).toList());
         // If needed, set the list of book IDs
         // dto.setBookIds(author.getBooks() != null ? author.getBooks().stream().map(Book::getId).collect(Collectors.toList()) : null);
         return dto;

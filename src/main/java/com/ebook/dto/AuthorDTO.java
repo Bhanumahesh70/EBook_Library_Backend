@@ -22,17 +22,18 @@ public class AuthorDTO {
     @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
-    private List<Long> bookIds; // List of book IDs authored by the author
+   // private List<Long> bookIds; // List of book IDs authored by the author
+    private List<BookDTO> bookDetails;
 
     public AuthorDTO() {
     }
 
-    public AuthorDTO(String name, String bio, String nationality, LocalDate birthDate, List<Long> bookIds) {
+    public AuthorDTO(String name, String bio, String nationality, LocalDate birthDate,List<BookDTO> bookDetails) {
         this.name = name;
         this.bio = bio;
         this.nationality = nationality;
         this.birthDate = birthDate;
-        this.bookIds = bookIds;
+        this.bookDetails = bookDetails;
     }
 public AuthorDTO(Long id, String name){
         this.id = id;
@@ -71,13 +72,21 @@ public AuthorDTO(Long id, String name){
         this.birthDate = birthDate;
     }
 
-    public List<Long> getBookIds() {
-        return bookIds;
+    public List<BookDTO> getBookDetails() {
+        return bookDetails;
     }
 
-    public void setBookIds(List<Long> bookIds) {
-        this.bookIds = bookIds;
+    public void setBookDetails(List<BookDTO> bookDetails) {
+        this.bookDetails = bookDetails;
     }
+
+//    public List<Long> getBookIds() {
+//        return bookIds;
+//    }
+//
+//    public void setBookIds(List<Long> bookIds) {
+//        this.bookIds = bookIds;
+//    }
 
     public Long getId() {
         return id;

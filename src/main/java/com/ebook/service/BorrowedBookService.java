@@ -5,11 +5,11 @@ import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.Repository.FineRepository;
 import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
+import com.ebook.dto.BookDTO;
 import com.ebook.dto.BorrowedBookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
-import java.util.Optional;
 
 @Service
 public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,BorrowedBookDTO,Long> {
@@ -40,7 +40,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
                 .orElseThrow(() -> new RuntimeException("Borrowed Book not found with id: " + id));
 
         // Update only provided fields
-        if (updatedBorrowedBookDTO.getBorrowDate() != null) borrowedBook.setBorrowDate(updatedBorrowedBookDTO.getBorrowDate());
+        if (updatedBorrowedBookDTO.getBorrowedDate() != null) borrowedBook.setBorrowDate(updatedBorrowedBookDTO.getBorrowedDate());
         if (updatedBorrowedBookDTO.getReturnDate() != null) borrowedBook.setReturnDate(updatedBorrowedBookDTO.getReturnDate());
         if (updatedBorrowedBookDTO.getReturnedOn() != null) borrowedBook.setReturnedOn(updatedBorrowedBookDTO.getReturnedOn());
         if (updatedBorrowedBookDTO.getStatus() != null) borrowedBook.setStatus(BorrowStatus.valueOf(updatedBorrowedBookDTO.getStatus()));
@@ -77,15 +77,20 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
 
         BorrowedBookDTO dto = new BorrowedBookDTO();
         dto.setId(borrowedBook.getId());
-        dto.setBorrowDate(borrowedBook.getBorrowDate());
+        dto.setBorrowedDate(borrowedBook.getBorrowDate());
         dto.setReturnDate(borrowedBook.getReturnDate());
         dto.setReturnedOn(borrowedBook.getReturnedOn());
         dto.setStatus(borrowedBook.getStatus().name());
 
         // Set only IDs for related entities
         if (borrowedBook.getUser() != null) dto.setUserId(borrowedBook.getUser().getId());
-        if (borrowedBook.getBook() != null) dto.setBookId(borrowedBook.getBook().getId());
         if (borrowedBook.getFine() != null) dto.setFineId(borrowedBook.getFine().getId());
+        //  if (borrowedBook.getBook() != null) dto.setBookId(borrowedBook.getBook().getId());
+
+          if (borrowedBook.getBook() != null) {
+              BookDTO booDetails = new BookDTO(borrowedBook.getBook().getId(),borrowedBook.getBook().getTitle());
+              dto.setBookDetails(booDetails);
+          };
 
         return dto;
     }
@@ -96,7 +101,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
         logger.info("Converting BorrowedBookDTO to BorrowedBook entity");
 
         BorrowedBook borrowedBook = new BorrowedBook();
-        borrowedBook.setBorrowDate(borrowedBookDTO.getBorrowDate());
+        borrowedBook.setBorrowDate(borrowedBookDTO.getBorrowedDate());
         borrowedBook.setReturnDate(borrowedBookDTO.getReturnDate());
         borrowedBook.setReturnedOn(borrowedBookDTO.getReturnedOn());
         borrowedBook.setStatus(BorrowStatus.valueOf(borrowedBookDTO.getStatus()));

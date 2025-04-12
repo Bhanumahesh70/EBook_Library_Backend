@@ -85,18 +85,18 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long> implemen
         if (updatedUserDTO.getRole() != null) user.setRole(UserRole.valueOf(updatedUserDTO.getRole()));
 
         // Handle Borrowed Books, Reservations, and Fines by IDs
-        if (updatedUserDTO.getBorrowedBookIds() != null) {
-            List<BorrowedBook> borrowedBooks = borrowedBookRepository.findAllById(updatedUserDTO.getBorrowedBookIds());
-            user.setBorrowedBooks(borrowedBooks);
-        }
-        if (updatedUserDTO.getReservationIds() != null) {
-            List<Reservation> reservations = reservationRepository.findAllById(updatedUserDTO.getReservationIds());
-            user.setReservations(reservations);
-        }
-        if (updatedUserDTO.getFineIds() != null) {
-            List<Fine> fines = fineRepository.findAllById(updatedUserDTO.getFineIds());
-            user.setFines(fines);
-        }
+//        if (updatedUserDTO.getBorrowedBookIds() != null) {
+//            List<BorrowedBook> borrowedBooks = borrowedBookRepository.findAllById(updatedUserDTO.getBorrowedBookIds());
+//            user.setBorrowedBooks(borrowedBooks);
+//        }
+//        if (updatedUserDTO.getReservationIds() != null) {
+//            List<Reservation> reservations = reservationRepository.findAllById(updatedUserDTO.getReservationIds());
+//            user.setReservations(reservations);
+//        }
+//        if (updatedUserDTO.getFineIds() != null) {
+//            List<Fine> fines = fineRepository.findAllById(updatedUserDTO.getFineIds());
+//            user.setFines(fines);
+//        }
 
         return userRepository.save(user);
     }

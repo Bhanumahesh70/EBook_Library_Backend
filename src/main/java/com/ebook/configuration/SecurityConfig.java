@@ -23,6 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.List;
+
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity
@@ -43,7 +45,14 @@ public class SecurityConfig {
                 .cors(cors-> cors.configurationSource(request -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOrigin("http://localhost:5176"); // Allow frontend
+                    corsConfig.setAllowedOrigins(List.of(
+                            "http://localhost:5176",           // Vite dev server
+                            "http://localhost:5173",
+                            "http://localhost:5174",
+                            "http://localhost:5175",
+                            "http://localhost:3000",           // React default dev server
+                            "http://127.0.0.1:5176"       // Alternative loopback address
+                    )); // Allow frontend
                     corsConfig.addAllowedHeader("*");
                     corsConfig.addAllowedMethod("*");
                     return corsConfig;
