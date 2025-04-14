@@ -11,20 +11,27 @@ public class ReservationDTO {
     @PastOrPresent(message = "Reservation date must be in the past or present")
     private LocalDateTime reservationDate;
 
+    @NotNull(message = "No of Reservation days is mandatory")
+    private int numberOfDays;
     @NotNull(message = "Reservation status is mandatory")
     private String status; // ReservationStatus as a String (can be changed to an Enum if needed)
 
-    private Long userId; // User ID instead of full User object
-    private Long bookId; // Book ID instead of full Book object
+    //private Long userId;
+    private UserDTO userDetails;
+   // private Long bookId;
+    private BookDTO bookDetails;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(LocalDateTime reservationDate, String status, Long userId, Long bookId) {
+    public ReservationDTO(LocalDateTime reservationDate, String status,UserDTO userDetails, BookDTO bookDetails , int numberOfDays) {
         this.reservationDate = reservationDate;
         this.status = status;
-        this.userId = userId;
-        this.bookId = bookId;
+        //this.userId = userId;
+       // this.bookId = bookId;
+        this.userDetails = userDetails;
+        this.bookDetails = bookDetails;
+        this.numberOfDays = numberOfDays;
     }
 
     // Getters and Setters
@@ -44,20 +51,36 @@ public class ReservationDTO {
         this.status = status;
     }
 
-    public Long getUserId() {
-        return userId;
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Long getBookId() {
+//        return bookId;
+//    }
+//
+//    public void setBookId(Long bookId) {
+//        this.bookId = bookId;
+//    }
+
+    public UserDTO getUserDetails() {
+        return userDetails;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserDetails(UserDTO userDetails) {
+        this.userDetails = userDetails;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public BookDTO getBookDetails() {
+        return bookDetails;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBookDetails(BookDTO bookDetails) {
+        this.bookDetails = bookDetails;
     }
 
     public Long getId() {
@@ -66,5 +89,13 @@ public class ReservationDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public @NotNull(message = "No of Reservation days is mandatory") int getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public void setNumberOfDays(@NotNull(message = "No of Reservation days is mandatory") int numberOfDays) {
+        this.numberOfDays = numberOfDays;
     }
 }

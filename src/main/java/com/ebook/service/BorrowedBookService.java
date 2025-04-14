@@ -41,7 +41,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
 
         // Update only provided fields
         if (updatedBorrowedBookDTO.getBorrowedDate() != null) borrowedBook.setBorrowDate(updatedBorrowedBookDTO.getBorrowedDate());
-        if (updatedBorrowedBookDTO.getReturnDate() != null) borrowedBook.setReturnDate(updatedBorrowedBookDTO.getReturnDate());
+        if (updatedBorrowedBookDTO.getReturnDate() != null) borrowedBook.setExpectedReturnDate(updatedBorrowedBookDTO.getReturnDate());
         if (updatedBorrowedBookDTO.getReturnedOn() != null) borrowedBook.setReturnedOn(updatedBorrowedBookDTO.getReturnedOn());
         if (updatedBorrowedBookDTO.getStatus() != null) borrowedBook.setStatus(BorrowStatus.valueOf(updatedBorrowedBookDTO.getStatus()));
 
@@ -78,7 +78,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
         BorrowedBookDTO dto = new BorrowedBookDTO();
         dto.setId(borrowedBook.getId());
         dto.setBorrowedDate(borrowedBook.getBorrowDate());
-        dto.setReturnDate(borrowedBook.getReturnDate());
+        dto.setReturnDate(borrowedBook.getExpectedReturnDate());
         dto.setReturnedOn(borrowedBook.getReturnedOn());
         dto.setStatus(borrowedBook.getStatus().name());
 
@@ -102,7 +102,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
 
         BorrowedBook borrowedBook = new BorrowedBook();
         borrowedBook.setBorrowDate(borrowedBookDTO.getBorrowedDate());
-        borrowedBook.setReturnDate(borrowedBookDTO.getReturnDate());
+        borrowedBook.setExpectedReturnDate(borrowedBookDTO.getReturnDate());
         borrowedBook.setReturnedOn(borrowedBookDTO.getReturnedOn());
         borrowedBook.setStatus(BorrowStatus.valueOf(borrowedBookDTO.getStatus()));
 

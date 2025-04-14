@@ -325,19 +325,19 @@ public class DatabaseSeeder implements CommandLineRunner {
         fineRepository.save(fine3);
 
         // Creating borrowed books
-        BorrowedBook borrowedBook1 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook1 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED,0.0);
         borrowedBook1.setUser(user1);
         borrowedBook1.setBook(book1); // book1
         borrowedBook1.setFine(fine1);
         borrowedBookRepository.save(borrowedBook1);
 
-        BorrowedBook borrowedBook2 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook2 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED,0.0);
         borrowedBook2.setUser(user2);
         borrowedBook2.setBook(book2); // book2
         borrowedBook2.setFine(fine2);
         borrowedBookRepository.save(borrowedBook2);
 
-        BorrowedBook borrowedBook3 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(10), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook3 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(10), null, BorrowStatus.BORROWED,0.0);
         borrowedBook3.setUser(user3);
         borrowedBook3.setBook(book3); // book3
         borrowedBook3.setFine(fine3);
@@ -346,37 +346,37 @@ public class DatabaseSeeder implements CommandLineRunner {
 
 
         // Creating reservations
-        Reservation reservation1 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation1 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
         reservation1.setUser(user1);
         reservation1.setBook(book4); // book4
         reservationRepository.save(reservation1);
 
-        Reservation reservation2 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation2 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
         reservation2.setUser(user1);
         reservation2.setBook(book5); // book5
         reservationRepository.save(reservation2);
 
-        Reservation reservation3 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation3 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
         reservation3.setUser(user2);
         reservation3.setBook(book6); // book6
         reservationRepository.save(reservation3);
 
-        Reservation reservation4 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation4 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
         reservation4.setUser(user3);
         reservation4.setBook(book7); // book7
         reservationRepository.save(reservation4);
 
-        Reservation reservation5 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation5 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
         reservation5.setUser(user3);
         reservation5.setBook(book8); // book8
         reservationRepository.save(reservation5);
 
-        Reservation reservation6 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation6 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
         reservation6.setUser(user4);
         reservation6.setBook(book9); // book9
         reservationRepository.save(reservation6);
 
-        Reservation reservation7 = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation7 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
         reservation7.setUser(user5);
         reservation7.setBook(book10); // book10
         reservationRepository.save(reservation7);

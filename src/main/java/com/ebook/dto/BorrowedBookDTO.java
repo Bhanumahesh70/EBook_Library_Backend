@@ -19,6 +19,8 @@ public class BorrowedBookDTO {
     @NotNull(message = "Borrow status is mandatory")
     private String status; // BorrowStatus enum will be converted to a String in the DTO
 
+    @NotNull(message = "Cost is mandatory")
+    private Double totalCost;
     private Long userId; // Referring to user ID, not the full User object
 
     //private Long bookId; // Referring to book ID, not the full Book object
@@ -29,11 +31,12 @@ public class BorrowedBookDTO {
     public BorrowedBookDTO() {
     }
 
-    public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Long fineId) {
+    public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Double totalCost, Long fineId) {
         this.borrowedDate = borrowedDate;
         this.returnDate = returnDate;
         this.returnedOn = returnedOn;
         this.status = status;
+        this.totalCost = totalCost;
         this.userId = userId;
         this.bookDetails = bookDetails;
         this.fineId = fineId;
@@ -109,5 +112,13 @@ public class BorrowedBookDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public @NotNull(message = "Cost is mandatory") Double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(@NotNull(message = "Cost is mandatory") Double totalCost) {
+        this.totalCost = totalCost;
     }
 }

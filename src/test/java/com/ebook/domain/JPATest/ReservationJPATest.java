@@ -28,7 +28,7 @@ public class ReservationJPATest extends AbstractJPATest {
         // Generate unique values for user, publisher, and book fields
         String uniqueUserEmail = Integer.toString(secureRandom.nextInt()) + "@gmail.com";
         String uniqueUserPhone = "9785" + Integer.toString(100000 + secureRandom.nextInt(999999));
-        user = new User("John Doe", uniqueUserEmail, "password123", uniqueUserPhone, "123 Maple St", UserRole.USER);
+        user = new User("John Doe", uniqueUserEmail, "password123", uniqueUserPhone, "123 Maple St", UserRole.ROLE_USER);
         persistEntity(user);
 
         String uniquePublisherName = "Publisher" + Integer.toString(secureRandom.nextInt());
@@ -39,7 +39,7 @@ public class ReservationJPATest extends AbstractJPATest {
 
         String uniqueBookTitle = "Book" + Integer.toString(secureRandom.nextInt());
         String uniqueBookIsbn = "1000000" + Integer.toString(100000 + secureRandom.nextInt(99999));
-        book = new Book(2023, 1, 300, "English", uniqueBookTitle, "Author Name", uniqueBookIsbn);
+        book = new Book(2023, 1, 300, "English", uniqueBookTitle, uniqueBookIsbn);
         book.setPublisher(publisher);
         persistEntity(book);
 
@@ -50,7 +50,7 @@ public class ReservationJPATest extends AbstractJPATest {
     public void createTest() {
         logger.info("Running createTest...");
 
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
         reservation.setUser(user);
         reservation.setBook(book);
         persistEntity(reservation);
@@ -65,7 +65,7 @@ public class ReservationJPATest extends AbstractJPATest {
     public void readTest() {
         logger.info("Running readTest...");
 
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.CANCELLED);
+        Reservation reservation = new Reservation(LocalDateTime.now(), 7, ReservationStatus.CANCELLED);
         reservation.setUser(user);
         reservation.setBook(book);
         persistEntity(reservation);
@@ -83,7 +83,7 @@ public class ReservationJPATest extends AbstractJPATest {
     public void updateTest() {
         logger.info("Running updateTest...");
 
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
         reservation.setUser(user);
         reservation.setBook(book);
         persistEntity(reservation);
@@ -105,7 +105,7 @@ public class ReservationJPATest extends AbstractJPATest {
     public void deleteTest() {
         logger.info("Running deleteTest...");
 
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
+        Reservation reservation = new Reservation(LocalDateTime.now(), 7, ReservationStatus.ACTIVE);
         reservation.setUser(user);
         reservation.setBook(book);
         persistEntity(reservation);

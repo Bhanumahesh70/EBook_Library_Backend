@@ -7,7 +7,9 @@ import com.ebook.domain.Book;
 import com.ebook.domain.Reservation;
 import com.ebook.domain.ReservationStatus;
 import com.ebook.domain.User;
+import com.ebook.dto.BookDTO;
 import com.ebook.dto.ReservationDTO;
+import com.ebook.dto.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,9 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
 
         // Update only provided fields
-        if (updatedReservationDTO.getReservationDate() != null) reservation.setReservation_date(updatedReservationDTO.getReservationDate());
+        if (updatedReservationDTO.getReservationDate() != null) reservation.setReservationDate(updatedReservationDTO.getReservationDate());
         if (updatedReservationDTO.getStatus() != null) reservation.setStatus(ReservationStatus.valueOf(updatedReservationDTO.getStatus()));
-
+/*
         // Handle User relationship
         if (updatedReservationDTO.getUserId() != null) {
             User user = userRepository.findById(updatedReservationDTO.getUserId())
@@ -56,7 +58,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
                     .orElseThrow(() -> new RuntimeException("Book not found with id: " + updatedReservationDTO.getBookId()));
             reservation.setBook(book);
         }
-
+*/
         return reservationRepository.save(reservation);
     }
 
@@ -67,15 +69,17 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
 
         ReservationDTO dto = new ReservationDTO();
         dto.setId(reservation.getId());
-        dto.setReservationDate(reservation.getReservation_date());
+        dto.setReservationDate(reservation.getReservationDate());
         dto.setStatus(reservation.getStatus().toString());
 
         // Only store User ID and Book ID
         if (reservation.getUser() != null) {
-            dto.setUserId(reservation.getUser().getId());
+           // dto.setUserId(reservation.getUser().getId());
+            dto.setUserDetails(new UserDTO(reservation.getUser().getId(), reservation.getUser().getName()));
         }
         if (reservation.getBook() != null) {
-            dto.setBookId(reservation.getBook().getId());
+            //dto.setBookId(reservation.getBook().getId());
+            dto.setBookDetails(new BookDTO(reservation.getBook().getId(), reservation.getBook().getTitle()));
         }
 
         return dto;
@@ -87,20 +91,20 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         logger.info("Converting ReservationDTO to Reservation entity");
 
         Reservation reservation = new Reservation();
-        reservation.setReservation_date(reservationDTO.getReservationDate());
+        reservation.setReservationDate(reservationDTO.getReservationDate());
         reservation.setStatus(ReservationStatus.valueOf(reservationDTO.getStatus()));
 
         // Set User if ID is provided
-        if (reservationDTO.getUserId() != null) {
-            User user = userRepository.findById(reservationDTO.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + reservationDTO.getUserId()));
+        if (reservationDTO.getUserDetails().getId() != null) {
+            User user = userRepository.findById(reservationDTO.getUserDetails().getId())
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + reservationDTO.getUserDetails().getId()));
             reservation.setUser(user);
         }
 
         // Set Book if ID is provided
-        if (reservationDTO.getBookId() != null) {
-            Book book = bookRepository.findById(reservationDTO.getBookId())
-                    .orElseThrow(() -> new RuntimeException("Book not found with id: " + reservationDTO.getBookId()));
+        if (reservationDTO.getBookDetails().getId() != null) {
+            Book book = bookRepository.findById(reservationDTO.getBookDetails().getId())
+                    .orElseThrow(() -> new RuntimeException("Book not found with id: " + reservationDTO.getBookDetails().getId()));
             reservation.setBook(book);
         }
 
@@ -115,7 +119,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
             Reservation existingReservation = existingReservationOptional.get();
 
             // Update fields
-            existingReservation.setReservation_date(updatedReservation.getReservation_date());
+            existingReservation.setReservationDate(updatedReservation.getReservationDate());
             existingReservation.setStatus(updatedReservation.getStatus());
 
             // Update relationships

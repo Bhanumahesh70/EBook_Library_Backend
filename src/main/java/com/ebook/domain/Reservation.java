@@ -20,6 +20,10 @@ public class Reservation extends AbstractClass{
     @PastOrPresent(message = "Reservation date must be in the past or present")
     private LocalDateTime reservationDate;
 
+    @Column(name = "number_of_days", nullable = false)
+    @NotNull(message = "No of Reservation days is mandatory")
+    private int numberOfDays;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     @NotNull(message = "Reservation status is mandatory")
@@ -41,9 +45,10 @@ public class Reservation extends AbstractClass{
     public Reservation() {
     }
 
-    public Reservation(LocalDateTime reservationDate, ReservationStatus status) {
+    public Reservation(LocalDateTime reservationDate, int numberOfDays, ReservationStatus status ) {
         this.reservationDate = reservationDate;
         this.status = status;
+        this.numberOfDays = numberOfDays;
     }
 
     @Override
@@ -76,19 +81,27 @@ public class Reservation extends AbstractClass{
         this.book = book;
     }
 
-    public LocalDateTime getReservation_date() {
-        return reservationDate;
-    }
-
-    public void setReservation_date(LocalDateTime reservation_date) {
-        this.reservationDate = reservation_date;
-    }
-
     public ReservationStatus getStatus() {
         return status;
     }
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
+    }
+
+    public @NotNull(message = "No of Reservation days is mandatory") int getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public void setNumberOfDays(@NotNull(message = "No of Reservation days is mandatory") int numberOfDays) {
+        this.numberOfDays = numberOfDays;
+    }
+
+    public @NotNull(message = "Reservation date is mandatory") @PastOrPresent(message = "Reservation date must be in the past or present") LocalDateTime getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(@NotNull(message = "Reservation date is mandatory") @PastOrPresent(message = "Reservation date must be in the past or present") LocalDateTime reservationDate) {
+        this.reservationDate = reservationDate;
     }
 }

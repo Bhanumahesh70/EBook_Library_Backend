@@ -79,8 +79,8 @@ public class AuthorJPATest extends AbstractJPATest {
     public void addAndRemoveBooksTest() {
         logger.info("Running addAndRemoveBooksTest...");
         Author author = new Author("J.K. Rowling", "Author of Harry Potter", "British", LocalDate.of(1965, 7, 31));
-        Book book1 = new Book(1999,2,100,"english","JungleBook","harry","2000000000000");
-        Book book2 = new Book(1990, 20, 200, "english", "HarryPotter", "jhon", "3000000000000");
+        Book book1 = new Book(1999,2,100,"english","JungleBook","2000000000000");
+        Book book2 = new Book(1990, 20, 200, "english", "HarryPotter", "3000000000000");
 
         Publisher publisher1 = new Publisher("publisher","address","publisher@gmail.com","1234567890");
         persistEntity(publisher1);

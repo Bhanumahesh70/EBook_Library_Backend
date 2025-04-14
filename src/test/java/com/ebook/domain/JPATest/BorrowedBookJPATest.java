@@ -1,7 +1,6 @@
 package com.ebook.domain.JPATest;
 
 import com.ebook.domain.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class BorrowedBookJPATest extends AbstractJPATest {
 
         String uniqueBookTitle = "Book"+Integer.toString(secureRandom.nextInt());
         String uniqueBookIsbn = "1000000" + Integer.toString(100000 + secureRandom.nextInt(99999));
-        book = new Book(1999, 2, 100, "English", uniqueBookTitle, "Author", uniqueBookIsbn);
+        book = new Book(1999, 2, 100, "English", uniqueBookTitle, uniqueBookIsbn);
         book.setPublisher(publisher);
         persistEntity(book);
 
@@ -54,7 +53,7 @@ public class BorrowedBookJPATest extends AbstractJPATest {
     @Test
     public void createTest() {
         logger.info("Running createTest...");
-        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED, 0.0);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
         borrowedBook.setFine(fine);
@@ -70,7 +69,7 @@ public class BorrowedBookJPATest extends AbstractJPATest {
     @Test
     public void readTest() {
         logger.info("Running readTest...");
-        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED, 0.0);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
         borrowedBook.setFine(fine);
@@ -89,7 +88,7 @@ public class BorrowedBookJPATest extends AbstractJPATest {
     @Test
     public void updateTest() {
         logger.info("Running updateTest...");
-        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED, 0.0);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
         borrowedBook.setFine(fine);
@@ -100,20 +99,20 @@ public class BorrowedBookJPATest extends AbstractJPATest {
 
         tx.begin();
         LocalDateTime returnDate = LocalDateTime.now().plusDays(5);
-        findBorrowedBook.setReturnDate(returnDate);
+        findBorrowedBook.setExpectedReturnDate(returnDate);
         em.merge(findBorrowedBook);
         tx.commit();
 
         BorrowedBook updatedBorrowedBook = findEntity(BorrowedBook.class, borrowedBook.getId());
-        assertNotNull(updatedBorrowedBook.getReturnDate());
-        assertEquals(returnDate,updatedBorrowedBook.getReturnDate());
+        assertNotNull(updatedBorrowedBook.getExpectedReturnDate());
+        assertEquals(returnDate,updatedBorrowedBook.getExpectedReturnDate());
         logger.info("updateTest completed successfully.");
     }
 
     @Test
     public void deleteTest() {
         logger.info("Running deleteTest...");
-        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED, 0.0);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
         borrowedBook.setFine(fine);

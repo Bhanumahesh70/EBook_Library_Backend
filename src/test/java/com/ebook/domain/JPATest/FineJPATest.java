@@ -29,7 +29,7 @@ public class FineJPATest extends AbstractJPATest {
         // Generate unique values for user, publisher, and book fields
         String uniqueUserEmail = Integer.toString(secureRandom.nextInt()) + "@gmail.com";
         String uniqueUserPhone = "9785" + Integer.toString(100000 + secureRandom.nextInt(999999));
-        user = new User("Jane Doe", uniqueUserEmail, "password456", uniqueUserPhone, "456 Oak St", UserRole.LIBRARIAN);
+        user = new User("Jane Doe", uniqueUserEmail, "password456", uniqueUserPhone, "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
 
         String uniquePublisherName = "publisher"+Integer.toString(secureRandom.nextInt());
@@ -40,7 +40,7 @@ public class FineJPATest extends AbstractJPATest {
 
         String uniqueBookTitle = "Book"+Integer.toString(secureRandom.nextInt());
         String uniqueBookIsbn = "1000000" + Integer.toString(100000 + secureRandom.nextInt(99999));
-        book = new Book(1999, 2, 100, "English", uniqueBookTitle, "Author", uniqueBookIsbn);
+        book = new Book(1999, 2, 100, "English", uniqueBookTitle, uniqueBookIsbn);
         book.setPublisher(publisher);
         persistEntity(book);
 
@@ -48,7 +48,7 @@ public class FineJPATest extends AbstractJPATest {
         fine.setUser(user);
         persistEntity(fine);
 
-        borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
+        borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED,0.0);
         borrowedBook.setUser(user);
         borrowedBook.setBook(book);
         borrowedBook.setFine(fine);

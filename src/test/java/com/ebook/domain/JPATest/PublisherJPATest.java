@@ -21,7 +21,7 @@ public class PublisherJPATest extends AbstractJPATest{
         Publisher publisher = new Publisher("O'Reilly Media", "1005 Gravenstein Highway", "contact@oreilly.com", "+14155552671");
 
         // Create a book and associate it with the publisher
-        Book book = new Book(1999,2,100,"english","JungleBook","harry","2000000000000");
+        Book book = new Book(1999,2,100,"english","JungleBook","2000000000000");
         publisher.addBook(book); // Associate book with publisher
 
 
@@ -43,7 +43,7 @@ public class PublisherJPATest extends AbstractJPATest{
 
         // Create and persist a publisher
         Publisher publisher = new Publisher("Packt Publishing", "2000 Town Center, Suite 300", "support@packtpub.com", "+18005553333");
-        Book book = new Book(1999,2,100,"english","HarryPotter","JK","3000000000000");
+        Book book = new Book(1999,2,100,"english","HarryPotter","3000000000000");
         publisher.addBook(book);
         persistEntity(publisher);
         logger.info("Publisher successfully persisted in ReadTest.");

@@ -71,7 +71,7 @@ public class CategoryJPATest extends AbstractJPATest {
     public void addBookTest() {
         logger.info("Running addBookTest...");
         Category category = new Category("Mystery", "Books about mysteries");
-        Book book = new Book(2020, 5, 5, "English", "The Mystery Book", "John Doe", "1234567890123");
+        Book book = new Book(2020, 5, 5, "English", "The Mystery Book", "1234567890123");
         Publisher publisher1 = new Publisher("publisher","address","publisher@gmail.com","1234567890");
 
         persistEntity(publisher1);
@@ -93,7 +93,7 @@ public class CategoryJPATest extends AbstractJPATest {
     public void removeBookTest() {
         logger.info("Running removeBookTest...");
         Category category = new Category("Thriller", "Books full of thrill and suspense");
-        Book book = new Book(2019, 10, 10, "English", "The Thriller Book", "Jane Doe", "9876543210987");
+        Book book = new Book(2019, 10, 10, "English", "The Thriller Book",  "9876543210987");
         Publisher publisher2 = new Publisher("publisher2","address3","publisher3@gmail.com","12345678903");
 
         persistEntity(publisher2);

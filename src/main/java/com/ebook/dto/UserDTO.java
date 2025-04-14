@@ -28,9 +28,14 @@ public class UserDTO {
     private List<Long> reservationIds;   // List of reservation IDs
     private List<Long> fineIds;          // List of fine IDs
 
-    public UserDTO() {
+    public UserDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
+    public UserDTO(){
+
+    }
     public UserDTO(String name, String email, String password, String phoneNumber, String address, String role,
                    List<Long> borrowedBookIds, List<Long> reservationIds, List<Long> fineIds) {
         this.name = name;

@@ -15,7 +15,7 @@ public class UserJPATest extends AbstractJPATest {
     @Test
     public void createTest() {
         logger.info("Running createTest...");
-        User user = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.LIBRARIAN);
+        User user = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
         logger.info("User successfully persisted in createTest.");
         User readBackFromDatabaseForAssertion = findEntity(User.class,user.getId());
@@ -27,7 +27,7 @@ public class UserJPATest extends AbstractJPATest {
     @Test
     public void readTest() {
         logger.info("Running readTest...");
-        User user = new User("Jane Doe 1", "jane.doe1@email.com", "password456", "987654321", "456 Oak St", UserRole.LIBRARIAN);
+        User user = new User("Jane Doe 1", "jane.doe1@email.com", "password456", "987654321", "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
         // Retrieve the user created in the beforeEach method
         User findUser = em.createQuery("SELECT u FROM User u WHERE u.email = 'jane.doe1@email.com'", User.class)
@@ -42,7 +42,7 @@ public class UserJPATest extends AbstractJPATest {
     public void updateTest(){
 
         logger.info("Running updateTest...");
-        User user = new User("Jane Doe 2", "jane.doe2@email.com", "password456", "987654324", "456 Oak St", UserRole.LIBRARIAN);
+        User user = new User("Jane Doe 2", "jane.doe2@email.com", "password456", "987654324", "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
         String newAddress = "420 kansas st";
         tx.begin();
@@ -57,7 +57,7 @@ public class UserJPATest extends AbstractJPATest {
     @Test
     public void deleteTest() {
         logger.info("Running deleteTest...");
-        User user = new User("Jane Doe3", "jane.doe3@email.com", "password456", "987654325", "456 Oak St", UserRole.LIBRARIAN);
+        User user = new User("Jane Doe3", "jane.doe3@email.com", "password456", "987654325", "456 Oak St", UserRole.ROLE_LIBRARIAN);
         persistEntity(user);
         User findUser = findEntity(User.class, user.getId());
         assertNotNull(findUser);
