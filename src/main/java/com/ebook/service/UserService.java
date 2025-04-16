@@ -5,6 +5,7 @@ import com.ebook.Repository.FineRepository;
 import com.ebook.Repository.ReservationRepository;
 import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
+import com.ebook.dto.ReservationDTO;
 import com.ebook.dto.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class UserService extends AbstractCRUDService<User,UserDTO,Long> implements UserDetailsService {
@@ -118,21 +121,23 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long> implemen
         if (user.getBorrowedBooks() != null) {
             List<Long> borrowedBookIds = user.getBorrowedBooks().stream()
                     .map(BorrowedBook::getId)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             dto.setBorrowedBookIds(borrowedBookIds);
         }
 
         if (user.getReservations() != null) {
             List<Long> reservationIds = user.getReservations().stream()
                     .map(Reservation::getId)
-                    .collect(Collectors.toList());
+                    .collect(toList());
+            List<ReservationDTO> reservationDetails = user.getReservations().stream().map(reservation -> new ReservationDTO(reservation.getId(), reservation.getBook().getId(),reservation.getStatus().toString(), reservation.getReservationDate())).toList();
+            dto.setReservationDetails(reservationDetails);
             dto.setReservationIds(reservationIds);
         }
 
         if (user.getFines() != null) {
             List<Long> fineIds = user.getFines().stream()
                     .map(Fine::getId)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             dto.setFineIds(fineIds);
         }
 

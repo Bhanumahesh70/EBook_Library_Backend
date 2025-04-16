@@ -71,7 +71,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         dto.setId(reservation.getId());
         dto.setReservationDate(reservation.getReservationDate());
         dto.setStatus(reservation.getStatus().toString());
-
+        dto.setNumberOfDays(reservation.getNumberOfDays());
         // Only store User ID and Book ID
         if (reservation.getUser() != null) {
            // dto.setUserId(reservation.getUser().getId());
@@ -93,7 +93,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         Reservation reservation = new Reservation();
         reservation.setReservationDate(reservationDTO.getReservationDate());
         reservation.setStatus(ReservationStatus.valueOf(reservationDTO.getStatus()));
-
+        reservation.setNumberOfDays(reservationDTO.getNumberOfDays());
         // Set User if ID is provided
         if (reservationDTO.getUserDetails().getId() != null) {
             User user = userRepository.findById(reservationDTO.getUserDetails().getId())

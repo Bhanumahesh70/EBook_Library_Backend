@@ -17,7 +17,7 @@ public class Reservation extends AbstractClass{
 
     @Column(name = "reservation_date", nullable = false)
     @NotNull(message = "Reservation date is mandatory")
-    @PastOrPresent(message = "Reservation date must be in the past or present")
+    //@PastOrPresent(message = "Reservation date must be in the past or present")
     private LocalDateTime reservationDate;
 
     @Column(name = "number_of_days", nullable = false)
@@ -97,11 +97,11 @@ public class Reservation extends AbstractClass{
         this.numberOfDays = numberOfDays;
     }
 
-    public @NotNull(message = "Reservation date is mandatory") @PastOrPresent(message = "Reservation date must be in the past or present") LocalDateTime getReservationDate() {
+    public LocalDateTime getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(@NotNull(message = "Reservation date is mandatory") @PastOrPresent(message = "Reservation date must be in the past or present") LocalDateTime reservationDate) {
+    public void setReservationDate( LocalDateTime reservationDate) {
         this.reservationDate = reservationDate;
     }
 }

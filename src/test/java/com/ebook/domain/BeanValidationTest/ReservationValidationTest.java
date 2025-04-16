@@ -10,7 +10,7 @@ public class ReservationValidationTest extends AbstractBeanValidationTest{
     @Test
     public void validateReservationDateNotNullAndPastOrPresent() {
         // Invalid Reservation (Reservation date is null)
-        Reservation reservation = new Reservation(null, ReservationStatus.ACTIVE);
+        Reservation reservation = new Reservation(null,4, ReservationStatus.ACTIVE);
 
         Set<ConstraintViolation<Reservation>> violations = validator.validate(reservation);
 
@@ -23,7 +23,7 @@ public class ReservationValidationTest extends AbstractBeanValidationTest{
         }
 
         // Invalid Reservation (Reservation date in the future)
-        reservation.setReservation_date(LocalDateTime.now().plusDays(1));
+        reservation.setReservationDate(LocalDateTime.now().plusDays(1));
 
         violations = validator.validate(reservation);
 
@@ -39,7 +39,7 @@ public class ReservationValidationTest extends AbstractBeanValidationTest{
     @Test
     public void validateReservationStatusNotNull() {
         // Invalid Reservation (Status is null)
-        Reservation reservation = new Reservation(LocalDateTime.now(), null);
+        Reservation reservation = new Reservation(LocalDateTime.now(), 7,null);
 
         Set<ConstraintViolation<Reservation>> violations = validator.validate(reservation);
 
@@ -55,7 +55,7 @@ public class ReservationValidationTest extends AbstractBeanValidationTest{
     @Test
     public void validateValidReservation() {
         // Valid Reservation
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.CANCELLED);
+        Reservation reservation = new Reservation(LocalDateTime.now(), 7,ReservationStatus.CANCELLED);
 
         Set<ConstraintViolation<Reservation>> violations = validator.validate(reservation);
 

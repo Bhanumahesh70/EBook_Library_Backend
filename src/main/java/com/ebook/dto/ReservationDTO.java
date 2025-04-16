@@ -8,7 +8,7 @@ public class ReservationDTO {
 
     private Long id;
     @NotNull(message = "Reservation date is mandatory")
-    @PastOrPresent(message = "Reservation date must be in the past or present")
+    //@PastOrPresent(message = "Reservation date must be in the past or present")
     private LocalDateTime reservationDate;
 
     @NotNull(message = "No of Reservation days is mandatory")
@@ -18,11 +18,19 @@ public class ReservationDTO {
 
     //private Long userId;
     private UserDTO userDetails;
-   // private Long bookId;
+    private Long bookId;
     private BookDTO bookDetails;
 
     public ReservationDTO() {
     }
+
+    public ReservationDTO(Long id,Long bookId,String status,LocalDateTime reservationDate ) {
+        this.bookId = bookId;
+        this.id = id;
+        this.status = status;
+        this.reservationDate = reservationDate;
+    }
+
 
     public ReservationDTO(LocalDateTime reservationDate, String status,UserDTO userDetails, BookDTO bookDetails , int numberOfDays) {
         this.reservationDate = reservationDate;
@@ -58,14 +66,14 @@ public class ReservationDTO {
 //    public void setUserId(Long userId) {
 //        this.userId = userId;
 //    }
-//
-//    public Long getBookId() {
-//        return bookId;
-//    }
-//
-//    public void setBookId(Long bookId) {
-//        this.bookId = bookId;
-//    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
 
     public UserDTO getUserDetails() {
         return userDetails;
@@ -91,11 +99,12 @@ public class ReservationDTO {
         this.id = id;
     }
 
-    public @NotNull(message = "No of Reservation days is mandatory") int getNumberOfDays() {
+    public  int getNumberOfDays() {
         return numberOfDays;
     }
 
-    public void setNumberOfDays(@NotNull(message = "No of Reservation days is mandatory") int numberOfDays) {
+    public void setNumberOfDays(int numberOfDays) {
         this.numberOfDays = numberOfDays;
     }
+
 }

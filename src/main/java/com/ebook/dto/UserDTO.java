@@ -26,6 +26,7 @@ public class UserDTO {
 
     private List<Long> borrowedBookIds; // List of borrowedBook IDs
     private List<Long> reservationIds;   // List of reservation IDs
+    private List<ReservationDTO> reservationDetails;
     private List<Long> fineIds;          // List of fine IDs
 
     public UserDTO(Long id, String name) {
@@ -128,5 +129,13 @@ public class UserDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<ReservationDTO> getReservationDetails() {
+        return reservationDetails;
+    }
+
+    public void setReservationDetails(List<ReservationDTO> reservationDetails) {
+        this.reservationDetails = reservationDetails;
     }
 }
