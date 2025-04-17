@@ -1,5 +1,6 @@
 package com.ebook.dto;
 
+import com.ebook.domain.BorrowedBook;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -24,12 +25,18 @@ public class BorrowedBookDTO {
     private Long userId; // Referring to user ID, not the full User object
     private UserDTO userDetails;
 
-    //private Long bookId; // Referring to book ID, not the full Book object
+    private Long bookId; // Referring to book ID, not the full Book object
     private BookDTO bookDetails;
 
     private Long fineId; // Referring to fine ID, not the full Fine object
 
     public BorrowedBookDTO() {
+    }
+    public BorrowedBookDTO(Long id,Long bookId,LocalDateTime borrowedDate, String status){
+        this.id = id;
+        this.status = status;
+        this.bookId = bookId;
+        this.borrowedDate = borrowedDate;
     }
 
     public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Double totalCost, Long fineId) {
@@ -91,13 +98,13 @@ public class BorrowedBookDTO {
     public void setBookDetails(BookDTO bookDetails) {
         this.bookDetails = bookDetails;
     }
-//    public Long getBookId() {
-//        return bookId;
-//    }
-//
-//    public void setBookId(Long bookId) {
-//        this.bookId = bookId;
-//    }
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
 
     public Long getFineId() {
         return fineId;

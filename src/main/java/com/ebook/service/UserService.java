@@ -5,6 +5,7 @@ import com.ebook.Repository.FineRepository;
 import com.ebook.Repository.ReservationRepository;
 import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
+import com.ebook.dto.BorrowedBookDTO;
 import com.ebook.dto.ReservationDTO;
 import com.ebook.dto.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -118,12 +119,6 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long> implemen
         dto.setRole(user.getRole().toString());
 
         // Add IDs for related entities (BorrowedBooks, Reservations, Fines)
-        if (user.getBorrowedBooks() != null) {
-            List<Long> borrowedBookIds = user.getBorrowedBooks().stream()
-                    .map(BorrowedBook::getId)
-                    .collect(toList());
-            dto.setBorrowedBookIds(borrowedBookIds);
-        }
 
         if (user.getReservations() != null) {
             List<Long> reservationIds = user.getReservations().stream()
@@ -131,7 +126,11 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long> implemen
                     .collect(toList());
             List<ReservationDTO> reservationDetails = user.getReservations().stream().map(reservation -> new ReservationDTO(reservation.getId(), reservation.getBook().getId(),reservation.getStatus().toString(), reservation.getReservationDate())).toList();
             dto.setReservationDetails(reservationDetails);
-            dto.setReservationIds(reservationIds);
+            //dto.setReservationIds(reservationIds);
+        }
+        if(user.getBorrowedBooks()!=null){
+            List<BorrowedBookDTO> borrowedBookDetails = user.getBorrowedBooks().stream().map(borrowedBook -> new BorrowedBookDTO(borrowedBook.getId(),borrowedBook.getBook().getId(),borrowedBook.getBorrowDate(),borrowedBook.getStatus().toString())).toList();
+            dto.setBorrowedBookDetails(borrowedBookDetails);
         }
 
         if (user.getFines() != null) {
@@ -159,20 +158,20 @@ public class UserService extends AbstractCRUDService<User,UserDTO,Long> implemen
         user.setRole(UserRole.valueOf(userDTO.getRole().toUpperCase()));
 
         // Set BorrowedBooks, Reservations, and Fines by IDs
-        if (userDTO.getBorrowedBookIds() != null) {
-            List<BorrowedBook> borrowedBooks = borrowedBookRepository.findAllById(userDTO.getBorrowedBookIds());
-            user.setBorrowedBooks(borrowedBooks);
-        }
-
-        if (userDTO.getReservationIds() != null) {
-            List<Reservation> reservations = reservationRepository.findAllById(userDTO.getReservationIds());
-            user.setReservations(reservations);
-        }
-
-        if (userDTO.getFineIds() != null) {
-            List<Fine> fines = fineRepository.findAllById(userDTO.getFineIds());
-            user.setFines(fines);
-        }
+//        if (userDTO.getBorrowedBookIds() != null) {
+//            List<BorrowedBook> borrowedBooks = borrowedBookRepository.findAllById(userDTO.getBorrowedBookIds());
+//            user.setBorrowedBooks(borrowedBooks);
+//        }
+//
+//        if (userDTO.getReservationIds() != null) {
+//            List<Reservation> reservations = reservationRepository.findAllById(userDTO.getReservationIds());
+//            user.setReservations(reservations);
+//        }
+//
+//        if (userDTO.getFineIds() != null) {
+//            List<Fine> fines = fineRepository.findAllById(userDTO.getFineIds());
+//            user.setFines(fines);
+//        }
 
         return user;
     }

@@ -1,5 +1,6 @@
 package com.ebook.dto;
 
+import com.ebook.domain.BorrowedBook;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,8 +25,9 @@ public class UserDTO {
 
     private String role; // UserRole as String (or you can convert to enum if needed)
 
-    private List<Long> borrowedBookIds; // List of borrowedBook IDs
-    private List<Long> reservationIds;   // List of reservation IDs
+    //private List<Long> borrowedBookIds; // List of borrowedBook IDs
+    private List<BorrowedBookDTO> borrowedBookDetails;
+   // private List<Long> reservationIds;   // List of reservation IDs
     private List<ReservationDTO> reservationDetails;
     private List<Long> fineIds;          // List of fine IDs
 
@@ -45,8 +47,8 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = role;
-        this.borrowedBookIds = borrowedBookIds;
-        this.reservationIds = reservationIds;
+      //  this.borrowedBookIds = borrowedBookIds;
+        //this.reservationIds = reservationIds;
         this.fineIds = fineIds;
     }
 
@@ -98,22 +100,22 @@ public class UserDTO {
     public void setRole(String role) {
         this.role = role;
     }
+//
+//    public List<Long> getBorrowedBookIds() {
+//        return borrowedBookIds;
+//    }
+//
+//    public void setBorrowedBookIds(List<Long> borrowedBookIds) {
+//        this.borrowedBookIds = borrowedBookIds;
+//    }
 
-    public List<Long> getBorrowedBookIds() {
-        return borrowedBookIds;
-    }
-
-    public void setBorrowedBookIds(List<Long> borrowedBookIds) {
-        this.borrowedBookIds = borrowedBookIds;
-    }
-
-    public List<Long> getReservationIds() {
-        return reservationIds;
-    }
-
-    public void setReservationIds(List<Long> reservationIds) {
-        this.reservationIds = reservationIds;
-    }
+//    public List<Long> getReservationIds() {
+//        return reservationIds;
+//    }
+//
+//    public void setReservationIds(List<Long> reservationIds) {
+//        this.reservationIds = reservationIds;
+//    }
 
     public List<Long> getFineIds() {
         return fineIds;
@@ -137,5 +139,13 @@ public class UserDTO {
 
     public void setReservationDetails(List<ReservationDTO> reservationDetails) {
         this.reservationDetails = reservationDetails;
+    }
+
+    public List<BorrowedBookDTO> getBorrowedBookDetails() {
+        return borrowedBookDetails;
+    }
+
+    public void setBorrowedBookDetails(List<BorrowedBookDTO> borrowedBookDetails) {
+        this.borrowedBookDetails = borrowedBookDetails;
     }
 }

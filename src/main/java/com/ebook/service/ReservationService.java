@@ -80,6 +80,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         }
 */
        Reservation updatedReservation= reservationRepository.save(reservation);
+       logger.info("Reservation is updated: "+updatedReservation.toString());
        createBorrowedBook(updatedReservation);
        return  updatedReservation;
     }
