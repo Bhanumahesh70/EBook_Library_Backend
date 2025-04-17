@@ -1,12 +1,11 @@
 package com.ebook.service;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.logging.Logger;
 import com.ebook.Repository.BookRepository;
 import com.ebook.Repository.ReservationRepository;
 import com.ebook.Repository.UserRepository;
-import com.ebook.domain.Book;
-import com.ebook.domain.Reservation;
-import com.ebook.domain.ReservationStatus;
-import com.ebook.domain.User;
+import com.ebook.domain.*;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.ReservationDTO;
 import com.ebook.dto.UserDTO;
@@ -22,16 +21,34 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
 
     private static final Logger logger = Logger.getLogger(ReservationService.class.getName());
     private final ReservationRepository reservationRepository;
-
-    private final UserRepository userRepository;
-    private final BookRepository bookRepository;
+    private final UserService userService;
+    private final BookService bookService;
+    private final BorrowedBookService borrowedBookService;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public ReservationService(ReservationRepository reservationRepository,UserService userService,BookService bookService, BorrowedBookService borrowedBookService) {
         super(reservationRepository);
         this.reservationRepository = reservationRepository;
-        this.userRepository = userRepository;
-        this.bookRepository = bookRepository;
+        this.userService = userService;
+        this.bookService = bookService;
+        this.borrowedBookService = borrowedBookService;
+    }
+
+    public void createBorrowedBook(Reservation reservation){
+        if(reservation.getStatus().toString().equals("APPROVED")) {
+            logger.info("Creating new Borrowed Book");
+            BorrowedBook borrowedBook = new BorrowedBook();
+            borrowedBook.setBorrowDate(reservation.getReservationDate());
+            borrowedBook.setExpectedReturnDate(borrowedBook.getBorrowDate().plusDays(reservation.getNumberOfDays()));
+            borrowedBook.setStatus(BorrowStatus.BORROWED);
+            //Free for initial 30 days. And 1$ for each day after that
+            double cost = reservation.getNumberOfDays() - 30 > 0 ? reservation.getNumberOfDays() - 30 : 0.00;
+            borrowedBook.setTotalCost(cost);
+            borrowedBook.setUser(userService.findById(reservation.getUser().getId()));
+            borrowedBook.setBook(bookService.findById(reservation.getBook().getId()));
+            borrowedBook.setReservation(this.findById(reservation.getId()));
+            borrowedBookService.create(borrowedBook);
+        }
     }
     // Partial Update (PATCH)
     @Override
@@ -40,11 +57,14 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
 
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + id));
-
-        // Update only provided fields
-        if (updatedReservationDTO.getReservationDate() != null) reservation.setReservationDate(updatedReservationDTO.getReservationDate());
+        /*
+        *Providing update only for status change for reservation:
+        */
         if (updatedReservationDTO.getStatus() != null) reservation.setStatus(ReservationStatus.valueOf(updatedReservationDTO.getStatus()));
+
 /*
+ // Update only provided fields
+        if (updatedReservationDTO.getReservationDate() != null) reservation.setReservationDate(updatedReservationDTO.getReservationDate());
         // Handle User relationship
         if (updatedReservationDTO.getUserId() != null) {
             User user = userRepository.findById(updatedReservationDTO.getUserId())
@@ -59,7 +79,9 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
             reservation.setBook(book);
         }
 */
-        return reservationRepository.save(reservation);
+       Reservation updatedReservation= reservationRepository.save(reservation);
+       createBorrowedBook(updatedReservation);
+       return  updatedReservation;
     }
 
     // Convert Reservation entity to ReservationDTO
@@ -96,15 +118,13 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         reservation.setNumberOfDays(reservationDTO.getNumberOfDays());
         // Set User if ID is provided
         if (reservationDTO.getUserDetails().getId() != null) {
-            User user = userRepository.findById(reservationDTO.getUserDetails().getId())
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + reservationDTO.getUserDetails().getId()));
+            User user = userService.findById(reservationDTO.getUserDetails().getId());
             reservation.setUser(user);
         }
 
         // Set Book if ID is provided
         if (reservationDTO.getBookDetails().getId() != null) {
-            Book book = bookRepository.findById(reservationDTO.getBookDetails().getId())
-                    .orElseThrow(() -> new RuntimeException("Book not found with id: " + reservationDTO.getBookDetails().getId()));
+            Book book = bookService.findById(reservationDTO.getBookDetails().getId());
             reservation.setBook(book);
         }
 

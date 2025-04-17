@@ -7,6 +7,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "BorrowedBook")
@@ -38,16 +39,18 @@ public class BorrowedBook extends AbstractClass {
      */
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
+    @NotNull(message = "User Id is mandatory")
     @JsonBackReference("user-borrowedBooks")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "bookId")
+    @JoinColumn(name = "bookId",nullable = false)
+    @NotNull(message = "Book Id is mandatory")
     @JsonBackReference("book-borrowedBooks")
     private Book book;
 
     @OneToOne
-    @JoinColumn(name = "fineId", nullable = false)
+    @JoinColumn(name = "fineId")
     @JsonManagedReference("borrowedBook-fine")
     private Fine fine;
 

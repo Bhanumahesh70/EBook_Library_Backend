@@ -22,6 +22,7 @@ public class BorrowedBookDTO {
     @NotNull(message = "Cost is mandatory")
     private Double totalCost;
     private Long userId; // Referring to user ID, not the full User object
+    private UserDTO userDetails;
 
     //private Long bookId; // Referring to book ID, not the full Book object
     private BookDTO bookDetails;
@@ -120,5 +121,13 @@ public class BorrowedBookDTO {
 
     public void setTotalCost(@NotNull(message = "Cost is mandatory") Double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public UserDTO getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDTO userDetails) {
+        this.userDetails = userDetails;
     }
 }

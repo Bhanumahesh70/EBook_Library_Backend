@@ -7,6 +7,7 @@ import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.BorrowedBookDTO;
+import com.ebook.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
@@ -81,10 +82,14 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
         dto.setReturnDate(borrowedBook.getExpectedReturnDate());
         dto.setReturnedOn(borrowedBook.getReturnedOn());
         dto.setStatus(borrowedBook.getStatus().name());
+        dto.setTotalCost(borrowedBook.getTotalCost());
 
         // Set only IDs for related entities
-        if (borrowedBook.getUser() != null) dto.setUserId(borrowedBook.getUser().getId());
-        if (borrowedBook.getFine() != null) dto.setFineId(borrowedBook.getFine().getId());
+        if (borrowedBook.getUser() != null){
+            dto.setUserDetails(new UserDTO(borrowedBook.getUser().getId(), borrowedBook.getUser().getName()));
+            dto.setUserId(borrowedBook.getUser().getId());
+        }
+        if (borrowedBook.getFine() != null){ dto.setFineId(borrowedBook.getFine().getId());}
         //  if (borrowedBook.getBook() != null) dto.setBookId(borrowedBook.getBook().getId());
 
           if (borrowedBook.getBook() != null) {
