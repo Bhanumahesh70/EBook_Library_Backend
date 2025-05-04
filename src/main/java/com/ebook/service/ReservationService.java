@@ -34,22 +34,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
         this.borrowedBookService = borrowedBookService;
     }
 
-    public void createBorrowedBook(Reservation reservation){
-        if(reservation.getStatus().toString().equals("APPROVED")) {
-            logger.info("Creating new Borrowed Book");
-            BorrowedBook borrowedBook = new BorrowedBook();
-            borrowedBook.setBorrowDate(reservation.getReservationDate());
-            borrowedBook.setExpectedReturnDate(borrowedBook.getBorrowDate().plusDays(reservation.getNumberOfDays()));
-            borrowedBook.setStatus(BorrowStatus.BORROWED);
-            //Free for initial 30 days. And 1$ for each day after that
-            double cost = reservation.getNumberOfDays() - 30 > 0 ? reservation.getNumberOfDays() - 30 : 0.00;
-            borrowedBook.setTotalCost(cost);
-            borrowedBook.setUser(userService.findById(reservation.getUser().getId()));
-            borrowedBook.setBook(bookService.findById(reservation.getBook().getId()));
-            borrowedBook.setReservation(this.findById(reservation.getId()));
-            borrowedBookService.create(borrowedBook);
-        }
-    }
+
     // Partial Update (PATCH)
     @Override
     public Reservation patchUpdate(Long id, ReservationDTO updatedReservationDTO) {
@@ -81,7 +66,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
 */
        Reservation updatedReservation= reservationRepository.save(reservation);
        logger.info("Reservation is updated: "+updatedReservation.toString());
-       createBorrowedBook(updatedReservation);
+       borrowedBookService.createBorrowedBook(updatedReservation);
        return  updatedReservation;
     }
 

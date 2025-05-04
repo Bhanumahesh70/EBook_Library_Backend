@@ -1,9 +1,5 @@
 package com.ebook.service;
-
-import com.ebook.Repository.BookRepository;
 import com.ebook.Repository.BorrowedBookRepository;
-import com.ebook.Repository.FineRepository;
-import com.ebook.Repository.UserRepository;
 import com.ebook.domain.*;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.BorrowedBookDTO;
@@ -17,21 +13,45 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
 
     private static final Logger logger = Logger.getLogger(BorrowedBookService.class.getName());
     private final BorrowedBookRepository borrowedBookRepository;
-    private final BookRepository bookRepository;
-    private final UserRepository userRepository;
-    private final FineRepository fineRepository;
+    private final UserService userService;
+    private final BookService bookService;
+    private final ReservationService reservationService;
     @Autowired
-    public BorrowedBookService(BorrowedBookRepository borrowedBookRepository,
-                               BookRepository bookRepository,
-                               UserRepository userRepository,
-                               FineRepository fineRepository) {
+    public BorrowedBookService(BorrowedBookRepository borrowedBookRepository
+                              ,UserService userService, BookService bookService,ReservationService reservationService) {
         super(borrowedBookRepository);
         this.borrowedBookRepository = borrowedBookRepository;
-        this.bookRepository = bookRepository;
-        this.userRepository = userRepository;
-        this.fineRepository = fineRepository;
+        this.reservationService = reservationService;
+        this.userService = userService;
+        this.bookService = bookService;
     }
 
+    public double calculateBorrowCost(User user, Book book, int daysRequested) {
+        //Free for initial 30 days. And 1$ for each day after that
+
+        boolean hasBorrowedBefore = user.getBorrowedBooks().stream()
+                .anyMatch(bb -> bb.getBook().equals(book));
+
+        if (!hasBorrowedBefore) {
+            int freeDays = 30;
+            return (daysRequested > freeDays) ? (daysRequested - freeDays) * 1.0 : 0.0;
+        }
+        return daysRequested * 1.0;
+    }
+    public void createBorrowedBook(Reservation reservation){
+        if(reservation.getStatus().toString().equals("APPROVED")) {
+            logger.info("Creating new Borrowed Book");
+            BorrowedBook borrowedBook = new BorrowedBook();
+            borrowedBook.setBorrowDate(reservation.getReservationDate());
+            borrowedBook.setExpectedReturnDate(borrowedBook.getBorrowDate().plusDays(reservation.getNumberOfDays()));
+            borrowedBook.setStatus(BorrowStatus.BORROWED);
+            borrowedBook.setTotalCost(calculateBorrowCost(reservation.getUser(),reservation.getBook(), reservation.getNumberOfDays()));
+            borrowedBook.setUser(userService.findById(reservation.getUser().getId()));
+            borrowedBook.setBook(bookService.findById(reservation.getBook().getId()));
+            borrowedBook.setReservation(reservationService.findById(reservation.getId()));
+            this.create(borrowedBook);
+        }
+    }
     @Override
     // Partial Update (Patch)
     public BorrowedBook patchUpdate(Long id, BorrowedBookDTO updatedBorrowedBookDTO) {
