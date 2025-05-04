@@ -24,7 +24,7 @@ public class AuthorController {
     private static final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     private final AuthorService authorService;
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
     public AuthorController(AuthorService authorService,BookService bookService) {

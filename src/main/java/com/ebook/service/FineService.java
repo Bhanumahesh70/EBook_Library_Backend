@@ -1,4 +1,7 @@
 package com.ebook.service;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.ebook.Repository.BorrowedBookRepository;
@@ -31,6 +34,27 @@ public class FineService extends AbstractCRUDService<Fine,FineDTO,Long>{
         this.userRepository = userRepository;
     }
 
+    //Update fines on application startup
+    public void updateFines(){
+
+        logger.info("Updating user fines");
+        List<BorrowedBook> overdueBooks = borrowedBookRepository.findAll().stream().filter(bb->bb.getReturnedOn()==null && bb.getExpectedReturnDate().isBefore(LocalDateTime.now())).toList();
+
+        for(BorrowedBook bb : overdueBooks){
+            long overDueDays = ChronoUnit.DAYS.between(bb.getExpectedReturnDate(), LocalDateTime.now());
+            Fine fine = bb.getFine();
+            if(fine==null){
+                fine = new Fine();
+                fine.setUser(bb.getUser());
+                fine.setBorrowedBook(bb);
+                fine.setStatus(FinePaidStatus.UNPAID);
+                bb.setFine(fine);
+            }
+            // fine is 3$ for each overdue day
+            fine.setAmount(overDueDays*3.0);
+            fineRepository.save(fine);
+        }
+    }
     // Partial Update (Patch)
     @Override
     public Fine patchUpdate(Long id, FineDTO updatedFineDTO) {

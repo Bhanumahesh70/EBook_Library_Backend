@@ -9,6 +9,7 @@ import com.ebook.domain.*;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.ReservationDTO;
 import com.ebook.dto.UserDTO;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ReservationService extends AbstractCRUDService<Reservation,Reservat
     private final BorrowedBookService borrowedBookService;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository,UserService userService,BookService bookService, BorrowedBookService borrowedBookService) {
+    public ReservationService(ReservationRepository reservationRepository,UserService userService,BookService bookService, @Lazy BorrowedBookService borrowedBookService) {
         super(reservationRepository);
         this.reservationRepository = reservationRepository;
         this.userService = userService;

@@ -25,10 +25,10 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
-    private BorrowedBookRepository borrowedBookRepository;
-    private CategoryService categoryService;
-    private AuthorService authorService;
-    private PublisherService publisherService;
+   // private final BorrowedBookRepository borrowedBookRepository;
+    private  final CategoryService categoryService;
+    private  final AuthorService authorService;
+    private final PublisherService publisherService;
 
     @Autowired
     public BookService(BookRepository bookRepository, CategoryService categoryService, AuthorService authorService, PublisherService publisherService){
