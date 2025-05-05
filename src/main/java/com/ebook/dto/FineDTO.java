@@ -26,6 +26,11 @@ public class FineDTO {
 
     public FineDTO() {
     }
+    public FineDTO(double amount, String status, LocalDateTime paidDate) {
+        this.amount = amount;
+        this.status = status;
+        this.paidDate = paidDate;
+    }
 
     public FineDTO(double amount, String status, LocalDateTime paidDate, Long borrowedBookId, Long userId) {
         this.amount = amount;

@@ -28,7 +28,7 @@ public class BorrowedBookDTO {
     private BookDTO bookDetails;
 
     private Long fineId;
-    private FineDTO fineDTO;
+    private FineDTO fineDetails;
 
     public BorrowedBookDTO() {
     }
@@ -143,5 +143,13 @@ public class BorrowedBookDTO {
 
     public void setUserDetails(UserDTO userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public FineDTO getFineDetails() {
+        return fineDetails;
+    }
+
+    public void setFineDetails(FineDTO fineDetails) {
+        this.fineDetails = fineDetails;
     }
 }

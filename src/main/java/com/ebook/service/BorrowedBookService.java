@@ -3,9 +3,12 @@ import com.ebook.Repository.BorrowedBookRepository;
 import com.ebook.domain.*;
 import com.ebook.dto.BookDTO;
 import com.ebook.dto.BorrowedBookDTO;
+import com.ebook.dto.FineDTO;
 import com.ebook.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 @Service
@@ -52,19 +55,30 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
             this.create(borrowedBook);
         }
     }
+    public BorrowedBook returnBook( BorrowedBookDTO borrowedBookDTO){
+        logger.info("Running BorrowedBookService.returnBook()");
+        BorrowedBook borrowedBook = this.findById(borrowedBookDTO.getId());
+        borrowedBook.setReturnedOn(LocalDateTime.now());
+        borrowedBook.setStatus(BorrowStatus.RETURNED);
+        BorrowedBook savedBorrowedBook = borrowedBookRepository.save(borrowedBook);
+        logger.info("Borrowed Book Updated: " +savedBorrowedBook);
+        return savedBorrowedBook;
+    }
+
     @Override
     // Partial Update (Patch)
     public BorrowedBook patchUpdate(Long id, BorrowedBookDTO updatedBorrowedBookDTO) {
         logger.info("Running BorrowedBookService.patchUpdate()");
 
-        BorrowedBook borrowedBook = borrowedBookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Borrowed Book not found with id: " + id));
-
+        BorrowedBook borrowedBook = this.findById(id);
         // Update only provided fields
-        if (updatedBorrowedBookDTO.getBorrowedDate() != null) borrowedBook.setBorrowDate(updatedBorrowedBookDTO.getBorrowedDate());
-        if (updatedBorrowedBookDTO.getReturnDate() != null) borrowedBook.setExpectedReturnDate(updatedBorrowedBookDTO.getReturnDate());
-        if (updatedBorrowedBookDTO.getReturnedOn() != null) borrowedBook.setReturnedOn(updatedBorrowedBookDTO.getReturnedOn());
-        if (updatedBorrowedBookDTO.getStatus() != null) borrowedBook.setStatus(BorrowStatus.valueOf(updatedBorrowedBookDTO.getStatus()));
+        if (updatedBorrowedBookDTO.getReturnedOn() != null){
+            borrowedBook.setReturnedOn(updatedBorrowedBookDTO.getReturnedOn());
+            borrowedBook.setStatus(BorrowStatus.RETURNED);
+        }
+       // if (updatedBorrowedBookDTO.getBorrowedDate() != null) borrowedBook.setBorrowDate(updatedBorrowedBookDTO.getBorrowedDate());
+       // if (updatedBorrowedBookDTO.getReturnDate() != null) borrowedBook.setExpectedReturnDate(updatedBorrowedBookDTO.getReturnDate());
+       // if (updatedBorrowedBookDTO.getStatus() != null) borrowedBook.setStatus(BorrowStatus.valueOf(updatedBorrowedBookDTO.getStatus()));
 
         /**
         // Handle book relation (if bookId is provided)
@@ -88,7 +102,9 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
             borrowedBook.setFine(fine);
         }
     **/
-        return borrowedBookRepository.save(borrowedBook);
+            BorrowedBook savedBorrowedBook = borrowedBookRepository.save(borrowedBook);
+            logger.info("Borrowed Book Updated: " +savedBorrowedBook);
+            return savedBorrowedBook;
     }
 
     @Override
@@ -109,8 +125,13 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
             dto.setUserDetails(new UserDTO(borrowedBook.getUser().getId(), borrowedBook.getUser().getName()));
             dto.setUserId(borrowedBook.getUser().getId());
         }
-        if (borrowedBook.getFine() != null){ dto.setFineId(borrowedBook.getFine().getId());}
-        //  if (borrowedBook.getBook() != null) dto.setBookId(borrowedBook.getBook().getId());
+        if (borrowedBook.getFine() != null){
+            Fine fine = borrowedBook.getFine();
+            FineDTO fineDTO = new FineDTO(fine.getAmount(),fine.getStatus().toString(), fine.getPaidDate());
+            dto.setFineDetails(fineDTO);
+            //dto.setFineId(borrowedBook.getFine().getId());}
+        }
+
 
           if (borrowedBook.getBook() != null) {
               BookDTO booDetails = new BookDTO(borrowedBook.getBook().getId(),borrowedBook.getBook().getTitle());
