@@ -21,13 +21,14 @@ public class BorrowedBookDTO {
 
     @NotNull(message = "Cost is mandatory")
     private Double bookBorrowCost;
-    private Long userId; // Referring to user ID, not the full User object
+    private Long userId;
     private UserDTO userDetails;
 
-    private Long bookId; // Referring to book ID, not the full Book object
+    private Long bookId;
     private BookDTO bookDetails;
 
-    private Long fineId; // Referring to fine ID, not the full Fine object
+    private Long fineId;
+    private FineDTO fineDTO;
 
     public BorrowedBookDTO() {
     }
@@ -36,6 +37,13 @@ public class BorrowedBookDTO {
         this.status = status;
         this.bookId = bookId;
         this.borrowedDate = borrowedDate;
+    }
+    public BorrowedBookDTO(Long id,LocalDateTime borrowedDate, String status,BookDTO bookDetails ){
+        this.id = id;
+        this.status = status;
+       this.bookDetails = bookDetails;
+        this.borrowedDate = borrowedDate;
+
     }
 
     public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Double bookBorrowCost, Long fineId) {

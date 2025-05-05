@@ -18,9 +18,11 @@ public class FineDTO {
     @PastOrPresent(message = "Paid date must be in the past or present")
     private LocalDateTime paidDate;
 
-    private Long borrowedBookId; // Referring to borrowed book ID, not the full BorrowedBook object
+    private Long borrowedBookId;
+    private BorrowedBookDTO borrowedBookDetails;
 
-    private Long userId; // Referring to user ID, not the full User object
+    private Long userId;
+    private UserDTO userDetails;
 
     public FineDTO() {
     }
@@ -81,4 +83,21 @@ public class FineDTO {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public BorrowedBookDTO getBorrowedBookDetails() {
+        return borrowedBookDetails;
+    }
+
+    public void setBorrowedBookDetails(BorrowedBookDTO borrowedBookDetails) {
+        this.borrowedBookDetails = borrowedBookDetails;
+    }
+
+    public UserDTO getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDTO userDetails) {
+        this.userDetails = userDetails;
+    }
+
 }

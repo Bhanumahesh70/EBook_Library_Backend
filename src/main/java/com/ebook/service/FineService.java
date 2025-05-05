@@ -11,7 +11,10 @@ import com.ebook.domain.BorrowedBook;
 import com.ebook.domain.Fine;
 import com.ebook.domain.FinePaidStatus;
 import com.ebook.domain.User;
+import com.ebook.dto.BookDTO;
+import com.ebook.dto.BorrowedBookDTO;
 import com.ebook.dto.FineDTO;
+import com.ebook.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,8 +97,12 @@ public class FineService extends AbstractCRUDService<Fine,FineDTO,Long>{
         dto.setAmount(fine.getAmount());
         dto.setStatus(fine.getStatus().toString());
         dto.setPaidDate(fine.getPaidDate());
-        dto.setBorrowedBookId(fine.getBorrowedBook() != null ? fine.getBorrowedBook().getId() : null);
-        dto.setUserId(fine.getUser() != null ? fine.getUser().getId() : null);
+        dto.setUserDetails(new UserDTO(fine.getUser().getId(), fine.getUser().getName()));
+        dto.setBorrowedBookDetails(new BorrowedBookDTO(fine.getBorrowedBook().getId(),
+                fine.getBorrowedBook().getBorrowDate(),fine.getBorrowedBook().getStatus().toString(),
+                new BookDTO(fine.getBorrowedBook().getBook().getId(), fine.getBorrowedBook().getBook().getTitle())));
+       // dto.setBorrowedBookId(fine.getBorrowedBook() != null ? fine.getBorrowedBook().getId() : null);
+       // dto.setUserId(fine.getUser() != null ? fine.getUser().getId() : null);
 
         return dto;
     }
