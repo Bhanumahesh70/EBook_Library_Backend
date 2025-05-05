@@ -1,6 +1,5 @@
 package com.ebook.dto;
 
-import com.ebook.domain.BorrowedBook;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ public class BorrowedBookDTO {
     private String status; // BorrowStatus enum will be converted to a String in the DTO
 
     @NotNull(message = "Cost is mandatory")
-    private Double totalCost;
+    private Double bookBorrowCost;
     private Long userId; // Referring to user ID, not the full User object
     private UserDTO userDetails;
 
@@ -39,12 +38,12 @@ public class BorrowedBookDTO {
         this.borrowedDate = borrowedDate;
     }
 
-    public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Double totalCost, Long fineId) {
+    public BorrowedBookDTO(LocalDateTime borrowedDate, LocalDateTime returnDate, LocalDateTime returnedOn, String status, Long userId, BookDTO bookDetails, Double bookBorrowCost, Long fineId) {
         this.borrowedDate = borrowedDate;
         this.returnDate = returnDate;
         this.returnedOn = returnedOn;
         this.status = status;
-        this.totalCost = totalCost;
+        this.bookBorrowCost = bookBorrowCost;
         this.userId = userId;
         this.bookDetails = bookDetails;
         this.fineId = fineId;
@@ -122,12 +121,12 @@ public class BorrowedBookDTO {
         this.id = id;
     }
 
-    public @NotNull(message = "Cost is mandatory") Double getTotalCost() {
-        return totalCost;
+    public @NotNull(message = "Cost is mandatory") Double getBookBorrowCost() {
+        return bookBorrowCost;
     }
 
-    public void setTotalCost(@NotNull(message = "Cost is mandatory") Double totalCost) {
-        this.totalCost = totalCost;
+    public void setBookBorrowCost(@NotNull(message = "Cost is mandatory") Double bookBorrowCost) {
+        this.bookBorrowCost = bookBorrowCost;
     }
 
     public UserDTO getUserDetails() {

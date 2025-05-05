@@ -45,7 +45,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
             borrowedBook.setBorrowDate(reservation.getReservationDate());
             borrowedBook.setExpectedReturnDate(borrowedBook.getBorrowDate().plusDays(reservation.getNumberOfDays()));
             borrowedBook.setStatus(BorrowStatus.BORROWED);
-            borrowedBook.setTotalCost(calculateBorrowCost(reservation.getUser(),reservation.getBook(), reservation.getNumberOfDays()));
+            borrowedBook.setBookBorrowCost(calculateBorrowCost(reservation.getUser(),reservation.getBook(), reservation.getNumberOfDays()));
             borrowedBook.setUser(userService.findById(reservation.getUser().getId()));
             borrowedBook.setBook(bookService.findById(reservation.getBook().getId()));
             borrowedBook.setReservation(reservationService.findById(reservation.getId()));
@@ -102,7 +102,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
         dto.setReturnDate(borrowedBook.getExpectedReturnDate());
         dto.setReturnedOn(borrowedBook.getReturnedOn());
         dto.setStatus(borrowedBook.getStatus().name());
-        dto.setTotalCost(borrowedBook.getTotalCost());
+        dto.setBookBorrowCost(borrowedBook.getBookBorrowCost());
 
         // Set only IDs for related entities
         if (borrowedBook.getUser() != null){

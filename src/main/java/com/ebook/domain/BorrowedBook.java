@@ -7,7 +7,6 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Entity
 @Table(name = "BorrowedBook")
@@ -33,7 +32,7 @@ public class BorrowedBook extends AbstractClass {
 
     @Column(name = "total_cost", nullable = false)
     @NotNull(message = "Cost is mandatory")
-    private Double totalCost;
+    private Double bookBorrowCost;
     /**
      * Entity RelationShips
      */
@@ -60,12 +59,12 @@ public class BorrowedBook extends AbstractClass {
     public BorrowedBook() {
     }
 
-    public BorrowedBook(LocalDateTime borrowDate, LocalDateTime expectedReturnDate, LocalDateTime returnedOn, BorrowStatus status, Double totalCost) {
+    public BorrowedBook(LocalDateTime borrowDate, LocalDateTime expectedReturnDate, LocalDateTime returnedOn, BorrowStatus status, Double bookBorrowCost) {
         this.borrowDate = borrowDate;
         this.expectedReturnDate = expectedReturnDate;
         this.returnedOn = returnedOn;
         this.status = status;
-        this.totalCost = totalCost;
+        this.bookBorrowCost = bookBorrowCost;
     }
 
     @Override
@@ -150,11 +149,11 @@ public class BorrowedBook extends AbstractClass {
         this.reservation = reservation;
     }
 
-    public @NotNull(message = "Cost is mandatory") Double getTotalCost() {
-        return totalCost;
+    public @NotNull(message = "Cost is mandatory") Double getBookBorrowCost() {
+        return bookBorrowCost;
     }
 
-    public void setTotalCost(@NotNull(message = "Cost is mandatory") Double totalCost) {
-        this.totalCost = totalCost;
+    public void setBookBorrowCost(@NotNull(message = "Cost is mandatory") Double bookBorrowCost) {
+        this.bookBorrowCost = bookBorrowCost;
     }
 }
