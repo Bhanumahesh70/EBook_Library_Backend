@@ -31,6 +31,7 @@ This document provides a deeper dive into the **backend logic, domain design, an
 | Book → Publisher    | Many to One  | Unidirectional |
 | Book → BorrowedBook | One to Many  | Bidirectional  |
 | Book → Reservation  | One to Many  | Bidirectional  |
+---
 
 ### 👨‍💼 Author Entity
 
@@ -45,8 +46,6 @@ This document provides a deeper dive into the **backend logic, domain design, an
 - **Bidirectional management**:
   - Uses helper methods `addBook()` and `removeBook()` to manage relationship with `Book` entity.
   - Maintains consistency by ensuring both `Author.books` and `Book.authors` are synchronized.
-
----
 
 ### 🔗 Relationships Summary
 
@@ -71,8 +70,6 @@ This document provides a deeper dive into the **backend logic, domain design, an
   - Represents the borrowing activity for a book by a user.
   - Tracks return status and associated fines/reservations.
 
----
-
 ### 🔗 Relationships Summary
 
 | Entity                     | Relationship | Type           |
@@ -81,6 +78,7 @@ This document provides a deeper dive into the **backend logic, domain design, an
 | BorrowedBook → Book        | Many to One  | Unidirectional |
 | BorrowedBook → Fine        | One to One   | Unidirectional |
 | BorrowedBook → Reservation | One to One   | Unidirectional |
+---
 
 ### 🗂 Category Entity
 
@@ -98,13 +96,12 @@ This document provides a deeper dive into the **backend logic, domain design, an
 - **Serialization Notes**:
   - Uses `@JsonIgnore` to avoid circular references during JSON serialization
 
----
-
 ### 🔗 Relationships Summary
 
 | Entity          | Relationship | Type          |
 |-----------------|--------------|---------------|
 | Category → Book | Many to Many | Bidirectional |
+---
 
 ### 💸 Fine Entity
 
@@ -125,7 +122,6 @@ This document provides a deeper dive into the **backend logic, domain design, an
   - Tracks the fine incurred from a borrowed book
   - Indicates whether the fine is paid and when
 
----
 
 ### 🔗 Relationships Summary
 
@@ -133,6 +129,8 @@ This document provides a deeper dive into the **backend logic, domain design, an
 |---------------------|--------------|----------------|
 | Fine → BorrowedBook | One to One   | Bidirectional  |
 | Fine → User         | Many to One  | Unidirectional |
+
+---
 
 ### 🏢 Publisher Entity
 
@@ -151,13 +149,13 @@ This document provides a deeper dive into the **backend logic, domain design, an
   - Methods `addBook()` and `removeBook()` ensure consistent link between books and their publisher
   - Also managed within `setBooks()` to reassign all books to a new publisher
 
----
-
 ### 🔗 Relationships Summary
 
 | Entity           | Relationship | Type           |
 |------------------|--------------|----------------|
 | Publisher → Book | One to Many  | Unidirectional |
+
+---
 
 ### 📅 Reservation Entity
 
@@ -174,7 +172,6 @@ This document provides a deeper dive into the **backend logic, domain design, an
   - Represents a reservation of a book by a user
   - Tracks reservation period and status (`PENDING`, `APPROVED`, etc.)
 
----
 
 ### 🔗 Relationships Summary
 
@@ -182,6 +179,8 @@ This document provides a deeper dive into the **backend logic, domain design, an
 |--------------------|--------------|----------------|
 | Reservation → User | Many to One  | Unidirectional |
 | Reservation → Book | Many to One  | Unidirectional |
+
+---
 
 ### 👤 User Entity
 
@@ -205,7 +204,6 @@ This document provides a deeper dive into the **backend logic, domain design, an
   - Methods: `addBorrowedBook()`, `addReservation()`, `addFine()` and their `remove` counterparts
   - Maintains consistent link between `User` and related entities
 
----
 
 ### 🔗 Relationships Summary
 
@@ -214,6 +212,8 @@ This document provides a deeper dive into the **backend logic, domain design, an
 | User → BorrowedBook | One to Many  | Bidirectional |
 | User → Reservation  | One to Many  | Bidirectional |
 | User → Fine         | One to Many  | Bidirectional |
+
+---
 
 ## Validation
 
