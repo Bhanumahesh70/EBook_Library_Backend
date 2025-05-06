@@ -28,7 +28,7 @@ This is the backend of an **Ebook Management System**, built using **Spring Boot
 - Startup fine update job
 - Comprehensive validation and JPA tests
 
-  🔍 For detailed design & code features, see [docs/DETAILED_CODE_OVERVIEW.md](docs/DETAILED_CODE_OVERVIEW.md)
+  🔍 For detailed design & code features, see [DETAILED_CODE_OVERVIEW.md](DETAILED_CODE_OVERVIEW.md)
 ---
 
 ##  Tech Stack
