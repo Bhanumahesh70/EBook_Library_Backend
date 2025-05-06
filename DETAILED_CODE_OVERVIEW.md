@@ -274,8 +274,6 @@ public enum ReservationStatus {
 | APPROVED    | Reservation approved                |
 | REJECTED    | Reservation rejected                |
 | CANCELED    | Reservation cancelled by user/admin |
-| ACTIVE      | Reservation is currently valid      |
-| FULLFILLED  | Book has been issued/fulfilled      |
 
 ---
 
@@ -297,13 +295,78 @@ public enum UserRole {
 | ROLE_ADMIN     | Admin access and control |
 
 ---
-## Validation
+###  Validation in Domain Entities
 
-- Applied via `jakarta.validation.constraints`
-- Commonly used:
-  - `@NotBlank` on strings
-  - `@Min` and `@Max` on numbers
-  - `@Pattern` for ISBN (13-digit check)
+The application uses `jakarta.validation.constraints` (formerly `javax.validation`) to enforce data integrity and prevent invalid data from being persisted.
+
+---
+
+#### 📌 Commonly Used Annotations
+
+| Annotation                 | Applied To         | Purpose                                             |
+|----------------------------|--------------------|-----------------------------------------------------|
+| `@NotBlank`                | String             | Ensures a string is not null and trimmed length > 0 |
+| `@NotNull`                 | All types          | Ensures field is not null                           |
+| `@Size`                    | String, Collection | Limits the min/max length of a string or collection |
+| `@Min` / `@Max`            | Numeric types      | Sets minimum and maximum acceptable values          |
+| `@Pattern`                 | String             | Enforces regex format (e.g., ISBN, phone number)    |
+| `@Email`                   | String             | Validates standard email format                     |
+| `@Positive`                | Numeric types      | Ensures value is greater than zero                  |
+| `@Past` / `@PastOrPresent` | Date/Time types    | Restricts values to the past (or including now)     |
+| `@FutureOrPresent`         | Date/Time types    | Ensures the value is today or a future date         |
+
+---
+
+####  Examples From the Project
+
+- **Author Entity**:
+  - `@NotBlank`, `@Size(max=100)`: `name`
+  - `@Past`: `birthDate`
+
+- **Book Entity**:
+  - `@Pattern(regexp = "\\d{13}")`: `isbn`
+  - `@Min(1)`, `@Min(0)`: `totalCopies`, `availableCopies`
+  - `@Max(2025)`, `@Min(1000)`: `publicationYear`
+
+- **BorrowedBook Entity**:
+  - `@NotNull`: `borrowDate`, `expectedReturnDate`, `status`, `bookBorrowCost`
+  - `@FutureOrPresent`: `expectedReturnDate`
+
+- **Category Entity**:
+  - `@NotBlank`, `@Size(max=255)`: `categoryName`
+  - `@Size(max=2000)`: `description`
+
+- **Fine Entity**:
+  - `@NotNull`, `@Positive`: `amount`
+  - `@PastOrPresent`: `paidDate`
+
+- **Publisher Entity**:
+  - `@NotBlank`, `@Email`, `@Size`: `email`
+  - `@Pattern`: `phoneNumber`
+
+- **Reservation Entity**:
+  - `@NotNull`: `reservationDate`, `status`, `numberOfDays`
+
+- **User Entity**:
+  - `@NotBlank`: `name`
+  - `@Email`: `email`
+  - `@Size(min=8)`: `password`
+  - `@NotNull`: `address`, `role`
+
+---
+
+#### Purpose
+
+Validation annotations:
+- Ensure data correctness before hitting the database
+- Provide meaningful error messages for clients
+- Reduce backend logic for sanity checks
+
+These are enforced via:
+- **Hibernate Validator** (JPA)
+- **Spring Boot’s automatic validation** with `@Valid` and exception handling
+
+
 
 ---
 
