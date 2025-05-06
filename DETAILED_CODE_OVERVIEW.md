@@ -134,6 +134,87 @@ This document provides a deeper dive into the **backend logic, domain design, an
 | Fine → BorrowedBook | One to One   | Bidirectional  |
 | Fine → User         | Many to One  | Unidirectional |
 
+### 🏢 Publisher Entity
+
+- **Fields**: `name`, `address`, `email`, `phoneNumber`
+- **Field validation**:
+  - `@NotBlank`: `name`, `email`
+  - `@Size`: `name` (max 100), `address` (max 255), `email` (max 100)
+  - `@Email`: `email` (must be a valid format)
+  - `@Pattern`: `phoneNumber` (10-15 digits, optionally starts with `+`)
+
+- **Entity relationships**:
+  - `@OneToMany`: `Book` (unidirectional from `Publisher` to `Book`)
+  - Managed using `@JsonManagedReference` to control JSON serialization and avoid infinite recursion
+
+- **Bidirectional Management**:
+  - Methods `addBook()` and `removeBook()` ensure consistent link between books and their publisher
+  - Also managed within `setBooks()` to reassign all books to a new publisher
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity           | Relationship | Type           |
+|------------------|--------------|----------------|
+| Publisher → Book | One to Many  | Unidirectional |
+
+### 📅 Reservation Entity
+
+- **Fields**: `reservationDate`, `numberOfDays`, `status`
+- **Field validation**:
+  - `@NotNull`: All fields required
+  - *(Commented)* `@PastOrPresent`: `reservationDate` can be restricted to not be in the future if enforced
+
+- **Entity relationships**:
+  - `@ManyToOne`: `User`, `Book` (bidirectional from `Reservation`)
+  - Uses `@JsonBackReference` to avoid circular references in JSON serialization
+
+- **Usage Notes**:
+  - Represents a reservation of a book by a user
+  - Tracks reservation period and status (`PENDING`, `APPROVED`, etc.)
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity             | Relationship | Type           |
+|--------------------|--------------|----------------|
+| Reservation → User | Many to One  | Unidirectional |
+| Reservation → Book | Many to One  | Unidirectional |
+
+### 👤 User Entity
+
+- **Fields**: `name`, `email`, `password`, `phoneNumber`, `address`, `role`
+- **Field validation**:
+  - `@NotBlank`: `name`
+  - `@Email`: `email`
+  - `@Size(min=8)`: `password` (minimum 8 characters)
+  - `@NotNull`: `address`, `role`
+
+- **Security Integration**:
+  - Implements `UserDetails` from Spring Security
+  - Passwords are encoded using `BCryptPasswordEncoder`
+  - `@JsonIgnore` hides password from API responses
+
+- **Entity relationships**:
+  - `@OneToMany`: `BorrowedBook`, `Reservation`, `Fine` (bidirectional via mappedBy)
+  - Uses `@JsonManagedReference` to prevent serialization loops
+
+- **Bidirectional Management**:
+  - Methods: `addBorrowedBook()`, `addReservation()`, `addFine()` and their `remove` counterparts
+  - Maintains consistent link between `User` and related entities
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity              | Relationship | Type          |
+|---------------------|--------------|---------------|
+| User → BorrowedBook | One to Many  | Bidirectional |
+| User → Reservation  | One to Many  | Bidirectional |
+| User → Fine         | One to Many  | Bidirectional |
+
 ## Validation
 
 - Applied via `jakarta.validation.constraints`
