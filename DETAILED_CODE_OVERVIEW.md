@@ -54,6 +54,85 @@ This document provides a deeper dive into the **backend logic, domain design, an
 |---------------|--------------|---------------|
 | Author → Book | Many to Many | Bidirectional |
 ---
+### 📘 BorrowedBook Entity
+
+- **Fields**: `borrowDate`, `expectedReturnDate`, `returnedOn`, `status`, `bookBorrowCost`
+- **Field validation**:
+  - `@NotNull`: all fields except `returnedOn`
+  - `@FutureOrPresent`: `expectedReturnDate`
+- **Entity relationships**:
+  - `@ManyToOne`: `User`, `Book`
+  - `@OneToOne`: `Fine`, `Reservation`
+
+- **Serialization Management**:
+  - Uses `@JsonBackReference` and `@JsonManagedReference` to handle serialization and prevent infinite recursion.
+
+- **Usage Notes**:
+  - Represents the borrowing activity for a book by a user.
+  - Tracks return status and associated fines/reservations.
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity                     | Relationship | Type           |
+|----------------------------|--------------|----------------|
+| BorrowedBook → User        | Many to One  | Unidirectional |
+| BorrowedBook → Book        | Many to One  | Unidirectional |
+| BorrowedBook → Fine        | One to One   | Unidirectional |
+| BorrowedBook → Reservation | One to One   | Unidirectional |
+
+### 🗂 Category Entity
+
+- **Fields**: `categoryName`, `description`
+- **Field validation**:
+  - `@NotBlank`: `categoryName` (required and unique)
+  - `@Size`: `categoryName` (max 255), `description` (max 2000)
+- **Entity relationships**:
+  - `@ManyToMany`: Books (bidirectional)
+
+- **Bidirectional management**:
+  - Managed using helper methods `addBook()` and `removeBook()`
+  - Maintains consistency between `Category.books` and `Book.categories`
+
+- **Serialization Notes**:
+  - Uses `@JsonIgnore` to avoid circular references during JSON serialization
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity          | Relationship | Type          |
+|-----------------|--------------|---------------|
+| Category → Book | Many to Many | Bidirectional |
+
+### 💸 Fine Entity
+
+- **Fields**: `amount`, `status`, `paidDate`
+- **Field validation**:
+  - `@NotNull`: `amount`, `status`
+  - `@Positive`: `amount`
+  - `@PastOrPresent`: `paidDate` (ensures payment isn't in the future)
+
+- **Entity relationships**:
+  - `@OneToOne`: `BorrowedBook` (bidirectional)
+  - `@ManyToOne`: `User` (unidirectional)
+
+- **Serialization Notes**:
+  - Uses `@JsonBackReference` to prevent circular references when serializing related entities
+
+- **Usage Notes**:
+  - Tracks the fine incurred from a borrowed book
+  - Indicates whether the fine is paid and when
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity              | Relationship | Type           |
+|---------------------|--------------|----------------|
+| Fine → BorrowedBook | One to One   | Bidirectional  |
+| Fine → User         | Many to One  | Unidirectional |
 
 ## Validation
 
