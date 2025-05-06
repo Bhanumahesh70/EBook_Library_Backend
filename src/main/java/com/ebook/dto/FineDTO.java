@@ -26,18 +26,23 @@ public class FineDTO {
 
     public FineDTO() {
     }
-    public FineDTO(double amount, String status, LocalDateTime paidDate) {
+    public FineDTO(Long id, double amount, String status, LocalDateTime paidDate) {
+        this.id = id;
         this.amount = amount;
         this.status = status;
         this.paidDate = paidDate;
     }
 
-    public FineDTO(double amount, String status, LocalDateTime paidDate, Long borrowedBookId, Long userId) {
+    public FineDTO(Long id){
+        this.id = id;
+    }
+    public FineDTO(Long id ,double amount, String status, LocalDateTime paidDate, Long borrowedBookId, Long userId) {
         this.amount = amount;
         this.status = status;
         this.paidDate = paidDate;
         this.borrowedBookId = borrowedBookId;
         this.userId = userId;
+        this.id = id;
     }
 
     // Getters and setters

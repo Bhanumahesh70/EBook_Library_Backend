@@ -37,6 +37,15 @@ public class FineService extends AbstractCRUDService<Fine,FineDTO,Long>{
         this.userRepository = userRepository;
     }
 
+    public Fine payFine(FineDTO fineId){
+        logger.info("Paying fine");
+        Fine fine = this.findById(fineId.getId());
+        fine.setPaidDate(LocalDateTime.now());
+        fine.setStatus(FinePaidStatus.PAID);
+       Fine finePaid = fineRepository.save(fine);
+       logger.info("Fine is paid:"+ finePaid);
+       return finePaid;
+    }
     //Update fines on application startup
     public void updateFines(){
 

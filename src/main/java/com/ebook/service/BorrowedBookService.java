@@ -127,7 +127,7 @@ public class BorrowedBookService extends AbstractCRUDService<BorrowedBook,Borrow
         }
         if (borrowedBook.getFine() != null){
             Fine fine = borrowedBook.getFine();
-            FineDTO fineDTO = new FineDTO(fine.getAmount(),fine.getStatus().toString(), fine.getPaidDate());
+            FineDTO fineDTO = new FineDTO(fine.getId(),fine.getAmount(),fine.getStatus().toString(), fine.getPaidDate());
             dto.setFineDetails(fineDTO);
             //dto.setFineId(borrowedBook.getFine().getId());}
         }

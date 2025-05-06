@@ -67,7 +67,7 @@ public ResponseEntity<Entity> createEntity(@RequestBody EntityDTO entityDTO) {
         return new ResponseEntity<>(abstractService.update(id,entity), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')" )
+   // @PreAuthorize("hasRole('ROLE_ADMIN')" )
     @PatchMapping(value="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityDTO> patchUpdateBook(@PathVariable IdType id, @RequestBody EntityDTO entityDTO) {
         logger.info("Patch Updating {} with id: {}",getEntityName(),id);
