@@ -11,7 +11,7 @@ This document provides a deeper dive into the **backend logic, domain design, an
 - Fields: `id`, `createdAt`, `modifiedAt`
 - Uses `@MappedSuperclass` and JPA lifecycle hooks
 
-###  Book Entity
+### 📘 Book Entity
 
 - Fields: title, isbn, language, totalCopies, availableCopies, publicationYear
 - Field validation with:
@@ -214,7 +214,89 @@ This document provides a deeper dive into the **backend logic, domain design, an
 | User → Fine         | One to Many  | Bidirectional |
 
 ---
+### 🧾 Enum Definitions
 
+This section outlines the enums used throughout the domain model for type-safe field values.
+
+---
+
+####  `BorrowStatus`
+Represents the status of a borrowed book.
+
+```java
+public enum BorrowStatus {
+    BORROWED,
+    RETURNED,
+    LATE
+}
+```
+
+| Value     | Description                     |
+|-----------|---------------------------------|
+| BORROWED  | Book is currently borrowed      |
+| RETURNED  | Book has been returned          |
+| LATE      | Book return is overdue          |
+
+---
+
+####  `FinePaidStatus`
+Represents the payment status of a fine.
+
+```java
+public enum FinePaidStatus {
+    PAID,
+    UNPAID
+}
+```
+
+| Value   | Description           |
+|---------|-----------------------|
+| PAID    | Fine has been paid    |
+| UNPAID  | Fine is still due     |
+
+---
+
+####  `ReservationStatus`
+Represents the current status of a reservation.
+
+```java
+public enum ReservationStatus {
+    REQUESTED,
+    APPROVED,
+    REJECTED,
+    CANCELED,
+}
+```
+
+| Value       | Description                         |
+|-------------|-------------------------------------|
+| REQUESTED   | User has requested reservation      |
+| APPROVED    | Reservation approved                |
+| REJECTED    | Reservation rejected                |
+| CANCELED    | Reservation cancelled by user/admin |
+| ACTIVE      | Reservation is currently valid      |
+| FULLFILLED  | Book has been issued/fulfilled      |
+
+---
+
+####  `UserRole`
+Defines user access roles in the system.
+
+```java
+public enum UserRole {
+    ROLE_LIBRARIAN,
+    ROLE_USER,
+    ROLE_ADMIN
+}
+```
+
+| Value          | Description              |
+|----------------|--------------------------|
+| ROLE_LIBRARIAN | Librarian privileges     |
+| ROLE_USER      | Regular user access      |
+| ROLE_ADMIN     | Admin access and control |
+
+---
 ## Validation
 
 - Applied via `jakarta.validation.constraints`
