@@ -24,14 +24,35 @@ This document provides a deeper dive into the **backend logic, domain design, an
 
 ###  Relationships Summary
 
-| Entity        | Relationship           | Type         |
-|---------------|------------------------|--------------|
-| Book → Author | Many to Many           | Bidirectional |
-| Book → Category | Many to Many         | Bidirectional |
-| Book → Publisher | Many to One         | Unidirectional |
-| Book → BorrowedBook | One to Many     | Bidirectional |
-| Book → Reservation | One to Many       | Bidirectional |
+| Entity              | Relationship | Type           |
+|---------------------|--------------|----------------|
+| Book → Author       | Many to Many | Bidirectional  |
+| Book → Category     | Many to Many | Bidirectional  |
+| Book → Publisher    | Many to One  | Unidirectional |
+| Book → BorrowedBook | One to Many  | Bidirectional  |
+| Book → Reservation  | One to Many  | Bidirectional  |
 
+### 👨‍💼 Author Entity
+
+- **Fields**: `name`, `bio`, `nationality`, `birthDate`
+- **Field validation**:
+  - `@NotBlank`: name
+  - `@Size`: bio (max 1000), nationality (max 50), name (max 100)
+  - `@Past`: birthDate (must be in the past)
+- **Entity relationships**:
+  - `@ManyToMany`: Books (bidirectional)
+
+- **Bidirectional management**:
+  - Uses helper methods `addBook()` and `removeBook()` to manage relationship with `Book` entity.
+  - Maintains consistency by ensuring both `Author.books` and `Book.authors` are synchronized.
+
+---
+
+### 🔗 Relationships Summary
+
+| Entity        | Relationship | Type          |
+|---------------|--------------|---------------|
+| Author → Book | Many to Many | Bidirectional |
 ---
 
 ## Validation
