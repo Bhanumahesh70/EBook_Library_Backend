@@ -29,6 +29,7 @@
   - [Purpose](#purpose)
 4. [Notes](#notes)
 
+---
 ## Domain Model
 
 This document outlines the domain entities used in the Ebook Management Backend, their fields, validation rules, and inter-entity relationships. It also includes the enum types and common validation annotations.
