@@ -5,6 +5,7 @@ This is the backend of an **Ebook Management System**, built using **Spring Boot
 ---
 
 ##  Table of Contents
+- [Detailed Code OverView](#-detailed-code-overview) 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -15,6 +16,21 @@ This is the backend of an **Ebook Management System**, built using **Spring Boot
 
 ---
 
+
+## 📖 Detailed Code Overview
+
+For deeper insights into each backend layer, refer to the following documents in the [`docs/`](docs) folder:
+
+- [`DOMAIN.md`](docs/DOMAIN.md) – Entity definitions, relationships, and validation
+- [`SECURITY.md`](docs/SECURITY.md) – JWT security configuration and roles
+- [`DTO.md`](docs/DTO.md) – Data Transfer Objects and mappings
+- [`CONTROLLER.md`](docs/CONTROLLER.md) – REST API structure and controller logic
+- [`SERVICE.md`](docs/SERVICE.md) – Business logic and service patterns
+- [`REPOSITORIES.md`](docs/REPOSITORIES.md) – JPA repositories and custom query examples
+- [`SECURITY.md`](docs/SECURITY.md) – JWT security configuration and roles
+- [`TESTING.md`](docs/TESTING.md) – Unit and integration testing breakdown
+- [`API Endpoints`](docs/API_OVERVIEW.md) - Detailed API Endpoints
+---
 ## Features
 
 - User Authentication using JWT
@@ -28,7 +44,7 @@ This is the backend of an **Ebook Management System**, built using **Spring Boot
 - Startup fine update job
 - Comprehensive validation and JPA tests
 
-  🔍 For detailed design & code features, see [DETAILED_CODE_OVERVIEW.md](DETAILED_CODE_OVERVIEW.md)
+
 ---
 
 ##  Tech Stack
@@ -76,10 +92,11 @@ com.ebook
 
 2. Configure your `application.properties` or `application.yml`:
    ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/ebook_db
-   spring.datasource.username=your_username
-   spring.datasource.password=your_password
-   spring.jpa.hibernate.ddl-auto=update
+    spring.datasource.url=jdbc:mysql://localhost:3306/ebook?createDatabaseIfNotExist=true
+    spring.datasource.username=ebookAdmin
+    spring.datasource.password=ebookAdmin
+    spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+    spring.jpa.hibernate.ddl-auto=create
    ```
 
 3. Build and run:
@@ -91,13 +108,14 @@ com.ebook
 ---
 
 ##  API Overview
+For a complete list of API endpoints, see the [API_OVERVIEW.md](docs/API_OVERVIEW.md) file.
 
-- `/api/auth/login` – Authenticate user
-- `/api/users` – Manage users
-- `/api/books` – Manage books
-- `/api/borrowed-books` – Borrowing logic
-- `/api/reservations` – Handle book reservations
-- `/api/fines` – Fine tracking
+- `/ebook/authorization/login` – Authenticate user
+- `/ebook/users` – Manage users
+- `/ebook/books` – Manage books
+- `/ebook/borrowedBooks` – Borrowing logic
+- `/ebook/reservations` – Handle book reservations
+- `/ebook/fines` – Fine tracking
 ---
 
 ##  Testing
