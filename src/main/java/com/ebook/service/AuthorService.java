@@ -7,15 +7,26 @@ import com.ebook.dto.AuthorDTO;
 import com.ebook.dto.BookDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AuthorService{
 
     private final AuthorRepository authorRepository;
     private static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
+    @Value("${server.url:http://localhost:8080}")
+    private String serverUrl;
+
     public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
@@ -94,6 +105,7 @@ public class AuthorService{
         dto.setBookDetails(author.getBooks().stream().map(book -> new BookDTO(book.getId(), book.getTitle())).toList());
         // If needed, set the list of book IDs
         // dto.setBookIds(author.getBooks() != null ? author.getBooks().stream().map(Book::getId).collect(Collectors.toList()) : null);
+        dto.setCoverImageUrl(serverUrl + "/ebook/books/cover/" + author.getCoverImagePath());
         return dto;
     }
 
@@ -109,6 +121,34 @@ public class AuthorService{
         // You may use the list of book IDs to set the books if needed
         // author.setBooks(bookRepository.findAllById(authorDTO.getBookIds()));
         return author;
+    }
+
+    public Author addAuthorImage(Long id, MultipartFile file) {
+        try {
+            Author author = this.findById(id);
+
+            String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
+            Path filePath = Paths.get("uploads", filename);
+
+            // Ensure the directory exists
+            Files.createDirectories(filePath.getParent());
+
+            // Copy file to the target location
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Set the path and save the author
+            author.setCoverImagePath(filename);
+            logger.info("Book Image Path: {}", author.getCoverImagePath());
+
+            return authorRepository.save(author);
+
+        } catch (IOException e) {
+            logger.error("Failed to store file for author ID {}: {}", id, e.getMessage(), e);
+            throw new RuntimeException("Failed to upload cover image for author ID " + id, e);
+        } catch (Exception e) {
+            logger.error("Unexpected error while uploading author image for ID {}: {}", id, e.getMessage(), e);
+            throw new RuntimeException("Unexpected error during author image upload", e);
+        }
     }
 }
 

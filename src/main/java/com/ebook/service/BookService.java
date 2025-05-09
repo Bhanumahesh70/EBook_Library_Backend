@@ -15,10 +15,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
@@ -67,6 +78,33 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
             if (!currentList.contains(updated)) {
                 addFn.accept(updated);
             }
+        }
+    }
+    public Book addBookImage(Long id, MultipartFile file) {
+        try {
+            Book book = this.findById(id);
+
+            String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
+            Path filePath = Paths.get("uploads", filename);
+
+            // Ensure the directory exists
+            Files.createDirectories(filePath.getParent());
+
+            // Copy file to the target location
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Set the path and save the book
+            book.setCoverImagePath(filename);
+            logger.info("Book Image Path: {}", book.getCoverImagePath());
+
+            return bookRepository.save(book);
+
+        } catch (IOException e) {
+            logger.error("Failed to store file for book ID {}: {}", id, e.getMessage(), e);
+            throw new RuntimeException("Failed to upload cover image for book ID " + id, e);
+        } catch (Exception e) {
+            logger.error("Unexpected error while uploading book image for ID {}: {}", id, e.getMessage(), e);
+            throw new RuntimeException("Unexpected error during book image upload", e);
         }
     }
     @Override
@@ -154,8 +192,6 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
         // Retrieve the existing book from the repository
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Cannot find Book with id:" + id));
-
-        // Update the fields of the existing book
         book.setTitle(updatedBook.getTitle());
        // book.setAuthor(updatedBook.getAuthor());
         book.setIsbn(updatedBook.getIsbn());

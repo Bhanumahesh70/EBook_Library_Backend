@@ -38,19 +38,8 @@ public class BookController extends AbstractController<Book,BookDTO,Long> {
 
     @PostMapping(value = "/{id}/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> uploadBookImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException, java.io.IOException {
-        Book book = bookService.findById(id);
-        String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
-        Path filePath = Paths.get("uploads", filename);
-
-        Files.createDirectories(filePath.getParent());
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        book.setCoverImagePath(filename);
-        bookService.update(id, book);
-        logger.info("Book Image Path: {}", book.getCoverImagePath());
-
-        return ResponseEntity.ok("Image uploaded successfully");
+    public ResponseEntity<Book> uploadBookImage(@PathVariable Long id, @RequestParam("file") MultipartFile file)  {
+        return ResponseEntity.ok(bookService.addBookImage(id,file));
     }
 
     @GetMapping("/cover/{filename}")

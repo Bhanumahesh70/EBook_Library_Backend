@@ -25,6 +25,7 @@ public class PublisherDTO {
     private String phoneNumber;
 
     private List<Long> bookIds; // Referring to list of book IDs related to the publisher
+    private String coverImageUrl;
 
     public PublisherDTO() {
     }
@@ -88,5 +89,11 @@ public class PublisherDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setCoverImageUrl(String coverImageUrl){
+        this.coverImageUrl = coverImageUrl;
+    }
+    public String getCoverImageUrl(){
+        return this.coverImageUrl = coverImageUrl;
     }
 }

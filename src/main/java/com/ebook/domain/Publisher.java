@@ -42,6 +42,9 @@ public class Publisher extends AbstractClass {
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits and can optionally start with a '+'")
     private String phoneNumber;
 
+    @Column(name = "cover_image_path")
+    private String coverImagePath;
+
     /**
      * Entity RelationShips
      */
@@ -148,5 +151,11 @@ public class Publisher extends AbstractClass {
         }
 
         this.books = books;
+    }
+    public void setCoverImagePath(String coverImagePath){
+        this.coverImagePath = coverImagePath;
+    }
+    public String getCoverImagePath(){
+        return this.coverImagePath = coverImagePath;
     }
 }

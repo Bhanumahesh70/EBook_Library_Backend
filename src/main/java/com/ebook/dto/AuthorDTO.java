@@ -24,6 +24,7 @@ public class AuthorDTO {
 
    // private List<Long> bookIds; // List of book IDs authored by the author
     private List<BookDTO> bookDetails;
+    private String coverImageUrl;
 
     public AuthorDTO() {
     }
@@ -94,5 +95,11 @@ public AuthorDTO(Long id, String name){
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setCoverImageUrl(String coverImageUrl){
+        this.coverImageUrl = coverImageUrl;
+    }
+    public String getCoverImageUrl(){
+        return this.coverImageUrl = coverImageUrl;
     }
 }

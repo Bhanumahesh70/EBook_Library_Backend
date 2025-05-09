@@ -43,6 +43,9 @@ public class Author extends AbstractClass{
     @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
+    @Column(name = "cover_image_path")
+    private String coverImagePath;
+
     /**
      * Entity RelationShips
      */
@@ -179,5 +182,10 @@ public class Author extends AbstractClass{
         this.books = books;
         logger.info("set Method-Author.Books()",this.books.stream().map(Book::getId).toList().toString());
     }
-
+    public void setCoverImagePath(String coverImagePath){
+        this.coverImagePath = coverImagePath;
+    }
+    public String getCoverImagePath(){
+        return this.coverImagePath = coverImagePath;
+    }
 }
