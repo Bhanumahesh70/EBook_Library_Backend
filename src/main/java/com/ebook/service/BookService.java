@@ -13,6 +13,7 @@ import com.ebook.dto.PublisherDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
     private  final CategoryService categoryService;
     private  final AuthorService authorService;
     private final PublisherService publisherService;
+
+    @Value("${server.url:http://localhost:8080}")
+    private String serverUrl;
 
     @Autowired
     public BookService(BookRepository bookRepository, CategoryService categoryService, AuthorService authorService, PublisherService publisherService){
@@ -119,6 +123,11 @@ public class BookService extends AbstractCRUDService<Book,BookDTO,Long>{
        // dto.setPublisherId(book.getPublisher().getId());
        //dto.setCategoryIds(book.getCategories().stream().map(Category::getId).toList());
        //dto.setCategoriesDTO(book.getCategories().stream().map(category -> categoryService.convertToDTO(category)).toList());
+
+
+        dto.setCoverImageUrl(serverUrl + "/ebook/books/cover/" + book.getCoverImagePath());
+
+
         return dto;
     }
 

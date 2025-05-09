@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/ebook/authorization/login").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 ).addFilterBefore(new JWTAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();

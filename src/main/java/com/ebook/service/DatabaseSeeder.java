@@ -169,6 +169,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         book1.addCategory(dystopian);
         book1.addCategory(romance);
         book1.setPublisher(publisher1);
+        book1.setCoverImagePath("ToKillaMockingBird.jpeg");
         bookRepository.save(book1);
         logger.info("Book1 is created");
         logger.info("Book1:{}",book1);

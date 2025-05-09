@@ -33,6 +33,8 @@ public class BookDTO {
     @Max(value = 2025, message = "Publication year must be a valid year")
     private int publicationYear;
 
+    private String coverImageUrl;
+
 
     //private List<Long> authorIds;  // List of author IDs for the book
     private List<AuthorDTO> authorsDetails;
@@ -192,5 +194,12 @@ public List<AuthorDTO> getAuthorsDetails() {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl){
+        this.coverImageUrl = coverImageUrl;
+    }
+    public String getCoverImageUrl(){
+        return this.coverImageUrl = coverImageUrl;
     }
 }

@@ -57,6 +57,9 @@ public class Book extends AbstractClass{
     @Max(value = 2025, message = "Publication year must be a valid year")
     private int publicationYear;
 
+    @Column(name = "cover_image_path")
+    private String coverImagePath;
+
     /**
      * Entity RelationShips
      */
@@ -381,4 +384,12 @@ public class Book extends AbstractClass{
     public void setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
     }
+
+    public void setCoverImagePath(String coverImagePath){
+        this.coverImagePath = coverImagePath;
+    }
+    public String getCoverImagePath(){
+       return this.coverImagePath = coverImagePath;
+    }
+
 }
