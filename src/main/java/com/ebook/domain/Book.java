@@ -109,11 +109,11 @@ public class Book extends AbstractClass{
      * Entity RelationShips methods
      */
     public void addAuthor(Author author2){
-        logger.info("Inside Book.addAuthor()");
+       // logger.info("Inside Book.addAuthor()");
        //ensure bidirectional methods
         //so we can either use book.addAuthor() or author.book()
         if(author2==null){
-            logger.info("author is null. Returning null");
+           // logger.info("author is null. Returning null");
             return;
         }
         if(this.authors==null){
@@ -122,13 +122,13 @@ public class Book extends AbstractClass{
         }
 
         //check if contians author or not
-        logger.info("Checking if the the author is present in list");
+       // logger.info("Checking if the the author is present in list");
         if(!this.authors.contains(author2)){
-            logger.info("No");
-            logger.info("book.authors.add({})",author2.getId());
+           // logger.info("No");
+           // logger.info("book.authors.add({})",author2.getId());
             this.authors.add(author2);
-            logger.info("Now book.authors:{}",this.authors.stream().map(Author::getId).toList());
-            logger.info("->>Go To Authors to add book");
+           // logger.info("Now book.authors:{}",this.authors.stream().map(Author::getId).toList());
+           // logger.info("->>Go To Authors to add book");
             author2.addBook(this);
 //            if (!author2.getBooks().contains(this)) {
 //                logger.info("author doesnt contain this book. so adding author to book. author.addBook()");
@@ -296,7 +296,7 @@ public class Book extends AbstractClass{
     }
 
     public void setAuthors(List<Author> authors) {
-        logger.info("Inside book.setAuthors()");
+       // logger.info("Inside book.setAuthors()");
         if(this.authors==authors){
             logger.info("Already authors exits");
             return;
@@ -314,7 +314,7 @@ public class Book extends AbstractClass{
             }
         }
         this.authors = authors;
-        logger.info("Authors is set:",this.authors.stream().map(Author::getId).toList().toString());
+       logger.info("Authors is set:",this.authors.stream().map(Author::getId).toList().toString());
     }
 
     public Publisher getPublisher() {

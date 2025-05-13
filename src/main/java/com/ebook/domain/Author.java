@@ -73,7 +73,7 @@ public class Author extends AbstractClass{
      * Entity RelationShips methods
      */
     public void addBook(Book book){
-        logger.info("Inside Author.addBook():");
+        //logger.info("Inside Author.addBook():");
         if(book==null){
             logger.info("Book is null so returning");
             return;
@@ -83,21 +83,21 @@ public class Author extends AbstractClass{
             this.books = new ArrayList<Book>();
         }
 
-        logger.info("Checking if book {} is present in list",book.getId());
-        logger.info("Book:{}",book);
+        //logger.info("Checking if book {} is present in list",book.getId());
+       // logger.info("Book:{}",book);
         if(!this.books.contains(book)){
-            logger.info("No");
-            logger.info("Author.books.add({})",book.getId());
+           // logger.info("No");
+           // logger.info("Author.books.add({})",book.getId());
             this.books.add(book);
-            logger.info("now author.books:{}",this.books.stream().map(Book::getId).toList());
+            //logger.info("now author.books:{}",this.books.stream().map(Book::getId).toList());
             book.addAuthor(this);
 //            if (!book.getAuthors().contains(this)) {
 //                logger.info("Book doesnt contain this author. book.addAuthor() ");
 //                book.addAuthor(this); // Ensure bidirectional consistency
 //            }
         }
-        logger.info("Books Present in the Author.getBook():{}",this.getBooks().stream().map(Book::getId).toList());
-        logger.info("Books: {}",this.getBooks());
+        //logger.info("Books Present in the Author.getBook():{}",this.getBooks().stream().map(Book::getId).toList());
+       // logger.info("Books: {}",this.getBooks());
 
     }
     public void removeBook(Book book) {
@@ -162,7 +162,7 @@ public class Author extends AbstractClass{
     }
 
     public void setBooks(List<Book> books) {
-        logger.info("author.setBooks()");
+       // logger.info("author.setBooks()");
         if(this.books == books){
             logger.info("Books list are already existing. So returning");
             return;

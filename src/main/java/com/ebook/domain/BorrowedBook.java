@@ -19,7 +19,7 @@ public class BorrowedBook extends AbstractClass {
 
     @Column(name = "return_date", nullable = false)
     @NotNull(message = "Return date is mandatory")
-    @FutureOrPresent(message = "Return date must be today or in the future")
+   // @FutureOrPresent(message = "Return date must be today or in the future")
     private LocalDateTime expectedReturnDate;
 
     @Column(name = "returned_on")
@@ -113,15 +113,15 @@ public class BorrowedBook extends AbstractClass {
         return borrowDate;
     }
 
-    public void setBorrowDate(@NotNull(message = "Borrow date is mandatory") LocalDateTime borrowDate) {
+    public void setBorrowDate(LocalDateTime borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public @NotNull(message = "Return date is mandatory") @FutureOrPresent(message = "Return date must be today or in the future") LocalDateTime getExpectedReturnDate() {
+    public  LocalDateTime getExpectedReturnDate() {
         return expectedReturnDate;
     }
 
-    public void setExpectedReturnDate(@NotNull(message = "Return date is mandatory") @FutureOrPresent(message = "Return date must be today or in the future") LocalDateTime expectedReturnDate) {
+    public void setExpectedReturnDate(  LocalDateTime expectedReturnDate) {
         this.expectedReturnDate = expectedReturnDate;
     }
 

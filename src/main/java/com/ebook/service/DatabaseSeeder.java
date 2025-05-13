@@ -46,57 +46,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         System.out.println("Database Seeder in run");
-/**
 
-        // Create Publisher
-        Publisher publisher = new Publisher("O'Reilly Media", "1005 Gravenstein Highway", "contact@oreilly.com", "+14155552671");
-        System.out.println("creted publisher");
-        publisherRepository.save(publisher);
-        System.out.println("saved publisher");
-        // Create Author
-        Author author = new Author("Jane Austen1", "Classic Novelist", "British", LocalDate.of(1775, 12, 16));
-        authorRepository.save(author);
-        logger.info("Database Seeder->Author is saved with id: {}",author.getId());
-
-        // Create Category
-        Category category = new Category("Fiction1", "A category for fictional books");
-        categoryRepository.save(category);
-        // Create Book
-        Book book = new Book(1999, 2, 100, "English", "Jungle Book", "Harry", "2000000000000");
-        logger.info("Database Seeder->newbook created.");
-        book.addAuthor(author);
-        book.addCategory(category);
-        //book.setPublisher has bidirectional method to add a book to publisher
-        book.setPublisher(publisher);
-        //publisher.addBook(book);
-
-        // persisting book will also persist author, category as cascadeType.persist and merge were enabled
-        bookRepository.save(book);
-
-        // Create User
-        User user = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.LIBRARIAN);
-        userRepository.save(user);
-
-        // Create Fine
-        Fine fine = new Fine(20.0, FinePaidStatus.UNPAID, null);
-        fine.setUser(user);
-        fineRepository.save(fine);
-
-        // Create Borrowed Book
-        BorrowedBook borrowedBook = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED);
-        borrowedBook.setUser(user);
-        borrowedBook.setBook(book);
-        borrowedBook.setFine(fine);
-        borrowedBookRepository.save(borrowedBook);
-
-        // Create Reservation
-        Reservation reservation = new Reservation(LocalDateTime.now(), ReservationStatus.ACTIVE);
-        reservation.setUser(user);
-        reservation.setBook(book);
-        reservationRepository.save(reservation);
-
-        System.out.println("Sample data inserted into the database.");
-**/
         //Inserting another sample of data
         // Create Publisher
         Publisher publisher1 = new Publisher("J.B. Lippincott & Co.", "Philadelphia, PA", "contact@lippincott.com", "+12125551234");
@@ -108,6 +58,17 @@ public class DatabaseSeeder implements CommandLineRunner {
         Publisher publisher7 = new Publisher("George Allen & Unwin", "London, UK", "contact@georgeallen.com", "+441632960963");
         Publisher publisher8 = new Publisher("HarperCollins", "New York, NY", "contact@harpercollins.com", "+12125551238");
         Publisher publisher9 = new Publisher("Chatto & Windus", "London, UK", "contact@chatto.com", "+441632960964");
+
+        publisher1.setCoverImagePath("j_b_lippincott_and_co.jpeg");
+        publisher2.setCoverImagePath("secker_and_warburg.png");
+        publisher3.setCoverImagePath("t_egerton_whitehall.jpeg");
+        publisher4.setCoverImagePath("charles_scribners_sons.jpeg");
+        publisher5.setCoverImagePath("harper_and_brothers.jpeg");
+        publisher6.setCoverImagePath("little_brown_and_company.jpeg");
+        publisher7.setCoverImagePath("george_allen_and_unwin.jpeg");
+        publisher8.setCoverImagePath("harpercollins.png");
+        publisher9.setCoverImagePath("chatto_and_windus.jpeg");
+
 
         publisherRepository.save(publisher1);
         publisherRepository.save(publisher2);
@@ -129,6 +90,17 @@ public class DatabaseSeeder implements CommandLineRunner {
         Author author7 = new Author("J.R.R. Tolkien", "English Novelist", "British", LocalDate.of(1892, 1, 3));
         Author author8 = new Author("Paulo Coelho", "Brazilian Novelist", "Brazilian", LocalDate.of(1947, 8, 24));
         Author author9 = new Author("Aldous Huxley", "English Novelist", "British", LocalDate.of(1894, 7, 26));
+
+        author1.setCoverImagePath("harper_lee.jpeg");
+        author2.setCoverImagePath("george_orwell.jpeg");
+        author3.setCoverImagePath("jane_austen.jpeg");
+        author4.setCoverImagePath("f_scott_fitzgerald.jpeg");
+        author5.setCoverImagePath("herman_melville.jpeg");
+        author6.setCoverImagePath("j_d_salinger.jpeg");
+        author7.setCoverImagePath("j_r_r_tolkien.jpeg");
+        author8.setCoverImagePath("paulo_coelho.jpeg");
+        author9.setCoverImagePath("aldous_huxley.jpeg");
+
 
         authorRepository.save(author1);
         authorRepository.save(author2);
@@ -153,143 +125,84 @@ public class DatabaseSeeder implements CommandLineRunner {
         categoryRepository.save(classic);
 
         // Create Books
-        logger.info("creating Book1");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        Book book1 = new Book(1960, 1, 281, "English", "To Kill a Mockingbird", "9780061120084");
-        Author authorb11 = authorRepository.findById(Long.valueOf(1)).orElseThrow(() -> new RuntimeException("Entity not found with id: 2"));
-        Author authorb12 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 3"));
-        Author authorb13 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
 
-        book1.addAuthor(authorb11);
-        book1.addAuthor(authorb12);
-        book1.addAuthor(authorb13);
+        Book book1 = new Book(1960, 1, 281, "English", "To Kill a Mockingbird", "9780061120084");
+        book1.addAuthor(author1);
         book1.addCategory(fiction);
         book1.addCategory(dystopian);
         book1.addCategory(romance);
         book1.setPublisher(publisher1);
-        book1.setCoverImagePath("ToKillaMockingBird.jpeg");
+        book1.setCoverImagePath("to_kill_a_mockingbird.jpeg");;
         bookRepository.save(book1);
-        logger.info("Book1 is created");
-        logger.info("Book1:{}",book1);
-        logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book2");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
+
+
         Book book2 = new Book(1949, 1, 328, "English", "1984", "9780451524935");
-        Author authorb21 = authorRepository.findById(Long.valueOf(1)).orElseThrow(() -> new RuntimeException("Entity not found with id: 2"));
-        Author authorb22 = authorRepository.findById(Long.valueOf(2)).orElseThrow(() -> new RuntimeException("Entity not found with id: 3"));
-        Author authorb23 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
-        book2.addAuthor(authorb22);
+        book2.addAuthor(author2);
         book2.addCategory(dystopian);
         book2.setPublisher(publisher2);
+        book2.setCoverImagePath("1984.jpeg");
         bookRepository.save(book2);
-        logger.info("Book2 is created");
-        logger.info("Book2:{}",book2);
-        logger.info("Book1:{}",book1);
-        logger.info("book2.getAuthors()={} ", book2.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book3");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
+
+
         Book book3 = new Book(1813, 1, 279, "English", "Pride and Prejudice", "9781503290563");
-        Author authorb33 = authorRepository.findById(Long.valueOf(3)).orElseThrow(() -> new RuntimeException("Entity not found with id: 4"));
-        book3.addAuthor(authorb33);
+        book3.addAuthor(author3);
         book3.addCategory(romance);
         book3.setPublisher(publisher3);
+        book3.setCoverImagePath("pride_and_prejudice.jpeg");
         bookRepository.save(book3);
-        logger.info("Book3 is created");
-        logger.info("Book3:{}",book3);
-        logger.info("book3.getAuthors()= {}", book3.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book4");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book4 = new Book(1925, 1, 180, "English", "The Great Gatsby",  "9780743273565");
         book4.addAuthor(author4);
         book4.addCategory(classic);
         book4.setPublisher(publisher4);
+        book4.setCoverImagePath("the_great_gatsby.jpeg");
         bookRepository.save(book4);
-        logger.info("Book4 is created");
-        logger.info("Book4:{}",book4);
-        logger.info("book4.getAuthors()= {}", book4.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book5");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book5 = new Book(1851, 1, 635, "English", "Moby Dick","9781503280786");
         book5.addAuthor(author5);
         book5.addCategory(fiction);
         book5.setPublisher(publisher5);
+        book5.setCoverImagePath("moby_dick.jpeg");
         bookRepository.save(book5);
-        logger.info("Book5 is created");
-        logger.info("book5.getAuthors()= {}", book5.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book6");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book6 = new Book(1951, 1, 277, "English", "The Catcher in the Rye",  "9780316769488");
         book6.addAuthor(author6);
         book6.addCategory(classic);
         book6.setPublisher(publisher6);
+        book6.setCoverImagePath("the_catcher_in_the_rye.jpeg");
         bookRepository.save(book6);
-        logger.info("Book6 is created");
-        logger.info("book6.getAuthors()= {}", book6.getAuthors().stream().map(Author::getId).toList());
 
-        logger.info("creating Book7");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book7 = new Book(1937, 1, 310, "English", "The Hobbit",  "9780618968633");
         book7.addAuthor(author7);
         book7.addCategory(fantasy);
         book7.setPublisher(publisher7);
+        book7.setCoverImagePath("the_hobbit.png");
         bookRepository.save(book7);
-        logger.info("Book1 is created");
-        logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
-        logger.info("creating Book8");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book8 = new Book(1954, 1, 423, "English", "The Fellowship of the Ring",  "9780618574940");
         book8.addAuthor(author7);
         book8.addCategory(fantasy);
         book8.setPublisher(publisher7);
+        book8.setCoverImagePath("the_fellowship_of_the_ring.jpeg");
         bookRepository.save(book8);
-        logger.info("Book1 is created");
-        logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
-        logger.info("creating Book9");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book9 = new Book(1988, 1, 208, "English", "The Alchemist",  "9780061122415");
         book9.addAuthor(author8);
         book9.addCategory(fiction);
         book9.setPublisher(publisher8);
+        book9.setCoverImagePath("the_alchemist.jpeg");
         bookRepository.save(book9);
-        logger.info("Book1 is created");
-        logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
-        logger.info("creating Book10");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
-        logger.info("/////////////////////////////////////////////////////////////////////////////////////");
         Book book10 = new Book(1932, 1, 268, "English", "Brave New World", "9780060850524");
         book10.addAuthor(author9);
         book10.addCategory(dystopian);
         book10.setPublisher(publisher9);
+        book10.setCoverImagePath("brave_new_world.jpeg");
         bookRepository.save(book10);
-        logger.info("Book1 is created");
-        logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
+        //logger.info("Book1 is created");
+       // logger.info("book1.getAuthors()= {}", book1.getAuthors().stream().map(Author::getId));
 
         // Creating users
         User user1 = new User("Jane Doe", "jane.doe@email.com", "password456", "987654320", "456 Oak St", UserRole.ROLE_USER);
@@ -332,7 +245,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         borrowedBook1.setFine(fine1);
         borrowedBookRepository.save(borrowedBook1);
 
-        BorrowedBook borrowedBook2 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), null, BorrowStatus.BORROWED,0.0);
+        BorrowedBook borrowedBook2 = new BorrowedBook(LocalDateTime.now(), LocalDateTime.now().plusDays(7), LocalDateTime.now(), BorrowStatus.RETURNED,0.0);
         borrowedBook2.setUser(user2);
         borrowedBook2.setBook(book2); // book2
         borrowedBook2.setFine(fine2);
@@ -344,43 +257,98 @@ public class DatabaseSeeder implements CommandLineRunner {
         borrowedBook3.setFine(fine3);
         borrowedBookRepository.save(borrowedBook3);
 
+        //more borrowedBooks, fines
+        BorrowedBook borrowedBook4 = new BorrowedBook(
+                LocalDateTime.now().minusDays(9),  // Borrowed 9 days ago
+                LocalDateTime.now().minusDays(2),  // Expected return was 2 days ago
+                null, BorrowStatus.BORROWED, 6.0   // 6 days prepaid after 7 free
+        );
+        borrowedBook4.setUser(user4);
+        borrowedBook4.setBook(book4);
+        Fine fine4 = new Fine(6.0, FinePaidStatus.UNPAID, null); // 2 days overdue → 2*3 = $6
+        fine4.setUser(user4);
+        borrowedBook4.setFine(fine4);
+        fineRepository.save(fine4);
+        borrowedBookRepository.save(borrowedBook4);
+
+        BorrowedBook borrowedBook5 = new BorrowedBook(
+                LocalDateTime.now().minusDays(7),  // Borrowed 7 days ago
+                LocalDateTime.now(),               // Due today
+                null, BorrowStatus.BORROWED, 0.0
+        );
+        borrowedBook5.setUser(user5);
+        borrowedBook5.setBook(book5);
+        Fine fine5 = new Fine(1.0, FinePaidStatus.UNPAID, null); // No fine yet
+        fine5.setUser(user5);
+        borrowedBook5.setFine(fine5);
+        fineRepository.save(fine5);
+        borrowedBookRepository.save(borrowedBook5);
+
+        BorrowedBook borrowedBook6 = new BorrowedBook(
+                LocalDateTime.now().minusDays(15), // Borrowed 15 days ago
+                LocalDateTime.now().minusDays(8),  // Due 8 days ago
+                null, BorrowStatus.BORROWED, 8.0   // 8 days after free period
+        );
+        borrowedBook6.setUser(user6);
+        borrowedBook6.setBook(book6);
+        Fine fine6 = new Fine(24.0, FinePaidStatus.UNPAID, null); // 8 days overdue → 8*3 = $24
+        fine6.setUser(user6);
+        borrowedBook6.setFine(fine6);
+        fineRepository.save(fine6);
+        borrowedBookRepository.save(borrowedBook6);
 
 
         // Creating reservations
-        Reservation reservation1 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
+        Reservation reservation1 = new Reservation(LocalDateTime.now(),40, ReservationStatus.REQUESTED);
         reservation1.setUser(user1);
         reservation1.setBook(book4); // book4
         reservationRepository.save(reservation1);
 
-        Reservation reservation2 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
+        Reservation reservation2 = new Reservation(LocalDateTime.now(), 50,ReservationStatus.APPROVED);
         reservation2.setUser(user1);
         reservation2.setBook(book5); // book5
         reservationRepository.save(reservation2);
 
-        Reservation reservation3 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
+        Reservation reservation3 = new Reservation(LocalDateTime.now().minusDays(30), 100,ReservationStatus.CANCELED);
         reservation3.setUser(user2);
         reservation3.setBook(book6); // book6
         reservationRepository.save(reservation3);
 
-        Reservation reservation4 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
+        Reservation reservation4 = new Reservation(LocalDateTime.now(), 6,ReservationStatus.REQUESTED);
         reservation4.setUser(user3);
         reservation4.setBook(book7); // book7
         reservationRepository.save(reservation4);
 
-        Reservation reservation5 = new Reservation(LocalDateTime.now(), 7,ReservationStatus.ACTIVE);
+        Reservation reservation5 = new Reservation(LocalDateTime.now(), 27,ReservationStatus.REQUESTED);
         reservation5.setUser(user3);
         reservation5.setBook(book8); // book8
         reservationRepository.save(reservation5);
 
-        Reservation reservation6 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
+        Reservation reservation6 = new Reservation(LocalDateTime.now(),150, ReservationStatus.REQUESTED);
         reservation6.setUser(user4);
         reservation6.setBook(book9); // book9
         reservationRepository.save(reservation6);
 
-        Reservation reservation7 = new Reservation(LocalDateTime.now(),7, ReservationStatus.ACTIVE);
+        Reservation reservation7 = new Reservation(LocalDateTime.now(),45, ReservationStatus.APPROVED);
         reservation7.setUser(user5);
         reservation7.setBook(book10); // book10
         reservationRepository.save(reservation7);
+
+        Reservation reservation8 = new Reservation(LocalDateTime.now(), 20, ReservationStatus.APPROVED);
+        reservation8.setUser(user6);
+        reservation8.setBook(book1);
+        reservationRepository.save(reservation8);
+
+        Reservation reservation9 = new Reservation(LocalDateTime.now(), 7, ReservationStatus.CANCELED);
+        reservation9.setUser(user2);
+        reservation9.setBook(book9);
+        reservationRepository.save(reservation9);
+
+        Reservation reservation10 = new Reservation(LocalDateTime.now(), 7, ReservationStatus.ACTIVE);
+        reservation10.setUser(user5);
+        reservation10.setBook(book2);
+        reservationRepository.save(reservation10);
+
 
         System.out.println("Sample second data for books and other data inserted into the database.");
 

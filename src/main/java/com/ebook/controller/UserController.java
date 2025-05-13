@@ -1,18 +1,9 @@
 package com.ebook.controller;
 
 import com.ebook.Repository.UserRepository;
-import com.ebook.domain.Book;
-import com.ebook.domain.BorrowedBook;
-import com.ebook.domain.Reservation;
-import com.ebook.domain.User;
-import com.ebook.dto.BookDTO;
-import com.ebook.dto.BorrowedBookDTO;
-import com.ebook.dto.ReservationDTO;
-import com.ebook.dto.UserDTO;
-import com.ebook.service.BookService;
-import com.ebook.service.BorrowedBookService;
-import com.ebook.service.ReservationService;
-import com.ebook.service.UserService;
+import com.ebook.domain.*;
+import com.ebook.dto.*;
+import com.ebook.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +19,20 @@ import java.util.List;
 @RequestMapping("/ebook/users")
 public class UserController extends AbstractController<User, UserDTO,Long> {
 
-    private BorrowedBookService borrowedBookService;
-    private UserService userService;
-    private UserRepository userRepository;
-    private ReservationService reservationService;
+    private final BorrowedBookService borrowedBookService;
+    private final UserService userService;
+    private  final UserRepository userRepository;
+    private final ReservationService reservationService;
+    private final FineService fineService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    public UserController(UserService userService, BorrowedBookService borrowedBookService, UserRepository userRepository,ReservationService reservationService) {
+    public UserController(UserService userService, BorrowedBookService borrowedBookService, UserRepository userRepository,ReservationService reservationService,FineService fineService) {
         super(userService, User.class);
         this.borrowedBookService = borrowedBookService;
         this.userService = userService;
         this.userRepository = userRepository;
         this.reservationService = reservationService;
+        this.fineService = fineService;
     }
 
     @GetMapping(value = "/{id}/borrowedBooks", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,9 +48,18 @@ public class UserController extends AbstractController<User, UserDTO,Long> {
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     public ResponseEntity<List<ReservationDTO>> getReservations(@PathVariable("id") Long id) {
         List<Reservation> reservations = userService.findById(id).getReservations();
-        List<ReservationDTO> reservationDTOS = reservations.stream().map((reservation) -> reservationService.convertToDTO(reservation)).toList();
+        List<ReservationDTO> reservationDTOS = reservations.stream().map(reservationService::convertToDTO).toList();
         logger.info("Fetched reseravtions: {}",reservationDTOS.toString());
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/fines", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+    public ResponseEntity<List<FineDTO>> getFines(@PathVariable("id") Long id) {
+        List<Fine> fines = userService.findById(id).getFines();
+        List<FineDTO> fineDTOS = fines.stream().map(fineService::convertToDTO).toList();
+        logger.info("Fetched fines: {}",fineDTOS.toString());
+        return new ResponseEntity<>(fineDTOS, HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/borrowedBooks", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

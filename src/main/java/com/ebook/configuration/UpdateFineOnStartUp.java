@@ -19,9 +19,12 @@ public class UpdateFineOnStartUp {
         this.fineService = fineService;
     }
 
+    /*
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady(){
         logger.info("Updating fines on application startUp");
         fineService.updateFines();
     }
+
+     */
 }
